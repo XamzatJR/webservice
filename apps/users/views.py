@@ -1,7 +1,6 @@
-from django.shortcuts import render
-from .serializer import *
-from rest_framework import *
-from rest_framework.permissions import AllowAny, IsAdminUser
+from .serializer import CustomUser, UserSerializer
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
 
 
 class UserCreate(generics.CreateAPIView):

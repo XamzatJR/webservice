@@ -8,6 +8,8 @@ django = "*"
 djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
+drf-yasg = {extras = ["validation"], version = "*"}
+djangorestframework-jwt = "*"
 
 [dev-packages]
 black = "==19.10b0"
