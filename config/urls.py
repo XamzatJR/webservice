@@ -28,6 +28,7 @@ urlpatterns = [
     ),
     path("api/", include("rest_framework.urls")),
     path("api-auth/", include("apps.users.urls")),
+    path("projects/", include("apps.projects.urls")),
 ]
 
 if settings.DEBUG:
