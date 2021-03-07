@@ -32,3 +32,6 @@ class Project(models.Model):
     project_note = CharField(_("Примечание к проекту"), max_length=150, db_index=True)
 
     project_responsible = CharField(_("Ответственный"), max_length=150, db_index=True)
+
+    def __str__(self):
+        return self.project_name
