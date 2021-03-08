@@ -13,7 +13,7 @@ class ProjectView(APIView):
         return Response({"projects": serializer.data})
 
     def post(self, request):
-        project = request.data.get("article")
+        project = request.data.get("project")
         serializer = ProjectSerializer(data=project)
         if serializer.is_valid(raise_exception=True):
             project_saved = serializer.save()
@@ -34,7 +34,6 @@ class ProjectView(APIView):
         )
 
     def delete(self, request, pk):
-        # Get object with this pk
         project = get_object_or_404(Project.objects.all(), pk=pk)
         project.delete()
         return Response(
