@@ -22,4 +22,4 @@ class Project(models.Model):
     data_create = DateTimeField(_("Время создания"), auto_now_add=True)
 
     def __str__(self):
-        return self.project_name
+        return self.name
