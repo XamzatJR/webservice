@@ -1,4 +1,4 @@
-from .views import ProjectView, ProjectDetail
+from .views import ProjectDetail, ProjectView
 from django.urls import path
 
 
