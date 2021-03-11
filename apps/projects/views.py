@@ -1,14 +1,9 @@
-from rest_framework import generics
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Project
 from .serializer import ProjectSerializer
 
 
-class ProjectView(generics.ListCreateAPIView):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
-
-
-class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
+class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
