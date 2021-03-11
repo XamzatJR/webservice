@@ -13,7 +13,9 @@ class CustomUser(AbstractUser):
         unique=True,
         error_messages={"unique": _("Такой email уже зарегистрирован")},
     )
+
     is_expert = BooleanField(_("Is expert"), default=False)
+
     middle_name = CharField(_("Middle name"), max_length=150, blank=True)
 
     objects = CustomUserManager()
