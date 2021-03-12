@@ -4,12 +4,16 @@ from django.conf import settings
 
 from django.db.models.fields import (
     CharField,
+    BooleanField,
     DateTimeField,
     TextField,
     URLField,
 )
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Project(models.Model):
@@ -23,3 +27,20 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Criteria(models.Model):
+    app = ForeignKey(Project, on_delete=CASCADE, default=None)
+    science = BooleanField(_("Есть наука"), default=False)
+    interesting = BooleanField(_("Интересный"), default=False)
+    difficult = BooleanField(_("Сложный"), default=False)
+    unclear = BooleanField(_("Непонятный"), default=False)
+    repeat = BooleanField(_("Повтор"), default=False)
+
+    @receiver(post_save, sender=Project)
+    def create_criteria(sender, instance, created, **kwargs):
+        Criteria.objects.create(app=instance)
+
+    @receiver(post_save, sender=Project)
+    def save_criteria(sender, instance, **kwargs):
+        instance.Criteria.save()
