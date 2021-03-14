@@ -20,10 +20,7 @@ class CustomUserManager(BaseUserManager):
         """Создание суперпользователя"""
 
         extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_expert", True)
         extra_fields.setdefault("is_superuser", True)
 
-        if extra_fields.get("is_staff") is not True:
-            raise ValueError(_("Суперпользователь должен иметь is_staff=True."))
-        if extra_fields.get("is_superuser") is not True:
-            raise ValueError(_("Суперпользователь должен иметь is_superuser=True."))
         return self.create_user(username, email, password, **extra_fields)

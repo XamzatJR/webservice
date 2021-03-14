@@ -10,4 +10,4 @@ class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["user", "name", "description", "responsible", "site", "note"]
+    filterset_fields = ["user", "name", "responsible"]
