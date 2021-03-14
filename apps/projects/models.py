@@ -52,9 +52,4 @@ class Criteria(models.Model):
 
 @receiver(post_save, sender=Project)
 def create_criteria(sender, instance, created, **kwargs):
-    Criteria.objects.create(app=instance)
-
-
-@receiver(post_save, sender=Project)
-def save_criteria(sender, instance, **kwargs):
-    instance.Criteria.save()
+    Criteria.objects.create(app=instance).save()
