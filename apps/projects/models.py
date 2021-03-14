@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.deletion import CASCADE
 from django.conf import settings
 
+from django.core.validators import MaxValueValidator
+
 from django.db.models.fields import (
     PositiveIntegerField,
     CharField,
@@ -39,11 +41,21 @@ class Project(models.Model):
 class Criteria(models.Model):
 
     app = ForeignKey(Project, on_delete=CASCADE)
-    science = PositiveIntegerField(_("Есть наука"), default=0)
-    interesting = PositiveIntegerField(_("Интересный"), default=0)
-    difficult = PositiveIntegerField(_("Сложный"), default=0)
-    unclear = PositiveIntegerField(_("Непонятный"), default=0)
-    repeat = PositiveIntegerField(_("Повтор"), default=0)
+    science = PositiveIntegerField(
+        _("Есть наука"), default=0, validators=[MaxValueValidator(1)]
+    )
+    interesting = PositiveIntegerField(
+        _("Интересный"), default=0, validators=[MaxValueValidator(1)]
+    )
+    difficult = PositiveIntegerField(
+        _("Сложный"), default=0, validators=[MaxValueValidator(1)]
+    )
+    unclear = PositiveIntegerField(
+        _("Непонятный"), default=0, validators=[MaxValueValidator(1)]
+    )
+    repeat = PositiveIntegerField(
+        _("Повтор"), default=0, validators=[MaxValueValidator(1)]
+    )
 
     def __str__(self):
         return self.app.name
