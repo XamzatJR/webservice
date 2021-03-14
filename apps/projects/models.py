@@ -3,6 +3,7 @@ from django.db.models.deletion import CASCADE
 from django.conf import settings
 
 from django.db.models.fields import (
+    PositiveIntegerField,
     CharField,
     BooleanField,
     DateTimeField,
@@ -27,7 +28,6 @@ class Project(models.Model):
         on_delete=CASCADE,
         related_name="responsible",
         verbose_name=_("Ответственный"),
-        limit_choices_to={"is_expert": True, "is_active": True},
         db_index=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
@@ -39,12 +39,11 @@ class Project(models.Model):
 class Criteria(models.Model):
 
     app = ForeignKey(Project, on_delete=CASCADE)
-    science = BooleanField(_("Есть наука"), default=False)
-    interesting = BooleanField(_("Интересный"), default=False)
-    difficult = BooleanField(_("Сложный"), default=False)
-    unclear = BooleanField(_("Непонятный"), default=False)
-    repeat = BooleanField(_("Повтор"), default=False)
-
+    science = PositiveIntegerField(_("Есть наука"), default=0)
+    interesting = PositiveIntegerField(_("Интересный"), default=0)
+    difficult = PositiveIntegerField(_("Сложный"), default=0)
+    unclear = PositiveIntegerField(_("Непонятный"), default=0)
+    repeat = PositiveIntegerField(_("Повтор"), default=0)
 
     def __str__(self):
         return self.app.name

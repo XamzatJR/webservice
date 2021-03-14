@@ -11,4 +11,3 @@ class ProjectViewSet(ModelViewSet):
     serializer_class = ProjectSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["user", "name", "responsible"]
-
