@@ -1,9 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
-
-from rest_framework.generics import UpdateAPIView
-
 from django_filters.rest_framework import DjangoFilterBackend
-
 from .models import Project, Criteria
 from .serializer import ProjectSerializer, CriteriaSerializer
 
@@ -15,6 +11,6 @@ class ProjectViewSet(ModelViewSet):
     filterset_fields = ["user", "name", "responsible"]
 
 
-class ProjectCriteriaView(UpdateAPIView):
+class CriteriaViewSet(ModelViewSet):
     queryset = Criteria.objects.all()
     serializer_class = CriteriaSerializer

@@ -1,12 +1,9 @@
-from .views import ProjectViewSet, ProjectCriteriaView
-from django.urls import re_path, include, path
+from .views import ProjectViewSet, CriteriaViewSet
 
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register("projects", ProjectViewSet)
+router.register(r"projects", ProjectViewSet)
+router.register(r"criteria", CriteriaViewSet)
 
-urlpatterns = [
-    re_path("^", include(router.urls)),
-    path("criteria/<int:pk>", ProjectCriteriaView.as_view()),
-]
+urlpatterns = router.urls
