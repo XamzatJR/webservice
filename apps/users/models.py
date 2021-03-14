@@ -6,18 +6,13 @@ from .managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):
-    """Кастомная модель пользователей"""
-
     email = EmailField(
         ("email address"),
         unique=True,
         error_messages={"unique": _("Такой email уже зарегистрирован")},
     )
-
     is_expert = BooleanField(_("Is expert"), default=False)
-
     middle_name = CharField(_("Middle name"), max_length=150, blank=True)
-
     objects = CustomUserManager()
 
     def __str__(self):
