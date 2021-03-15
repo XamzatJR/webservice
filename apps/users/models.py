@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models.fields import BooleanField, CharField, EmailField
+from django.db.models.fields import BooleanField, EmailField
 from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager

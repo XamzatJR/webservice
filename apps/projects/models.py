@@ -1,22 +1,10 @@
+from django.conf import settings
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.conf import settings
-
-from django.core.validators import MaxValueValidator
-
-from django.db.models.fields import (
-    PositiveIntegerField,
-    CharField,
-    BooleanField,
-    DateTimeField,
-    TextField,
-    URLField,
-)
+from django.db.models.fields import (BooleanField, CharField, DateTimeField,
+                                     TextField, URLField)
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
-
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 
 class Project(models.Model):
@@ -39,28 +27,13 @@ class Project(models.Model):
 
 
 class Criteria(models.Model):
-
-    app = ForeignKey(Project, on_delete=CASCADE)
-    science = PositiveIntegerField(
-        _("Есть наука"), default=0, validators=[MaxValueValidator(1)]
-    )
-    interesting = PositiveIntegerField(
-        _("Интересный"), default=0, validators=[MaxValueValidator(1)]
-    )
-    difficult = PositiveIntegerField(
-        _("Сложный"), default=0, validators=[MaxValueValidator(1)]
-    )
-    unclear = PositiveIntegerField(
-        _("Непонятный"), default=0, validators=[MaxValueValidator(1)]
-    )
-    repeat = PositiveIntegerField(
-        _("Повтор"), default=0, validators=[MaxValueValidator(1)]
-    )
+    app = ForeignKey(Project, on_delete=CASCADE, db_index=True)
+    expert = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
+    science = BooleanField(_("Есть наука"), default=False)
+    interesting = BooleanField(_("Интересный"), default=False)
+    difficult = BooleanField(_("Сложный"), default=False)
+    unclear = BooleanField(_("Непонятный"), default=False)
+    repeat = BooleanField(_("Повтор"), default=False)
 
     def __str__(self):
         return self.app.name
-
-
-@receiver(post_save, sender=Project)
-def create_criteria(sender, instance, created, **kwargs):
-    Criteria.objects.create(app=instance).save()
