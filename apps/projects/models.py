@@ -1,8 +1,13 @@
 from django.conf import settings
 from django.db import models
 from django.db.models.deletion import CASCADE
-from django.db.models.fields import (BooleanField, CharField, DateTimeField,
-                                     TextField, URLField)
+from django.db.models.fields import (
+    BooleanField,
+    CharField,
+    DateTimeField,
+    TextField,
+    URLField,
+)
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
 

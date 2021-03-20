@@ -12,4 +12,12 @@ class ProjectSerializer(serializers.ModelSerializer):
 class CriteriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Criteria
-        fields = ("app", "expert", "science", "interesting", "difficult", "unclear", "repeat")
+        fields = (
+            "app",
+            "expert",
+            "science",
+            "interesting",
+            "difficult",
+            "unclear",
+            "repeat",
+        )

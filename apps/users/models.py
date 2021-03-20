@@ -7,11 +7,11 @@ from .managers import CustomUserManager
 
 class CustomUser(AbstractUser):
     email = EmailField(
-        ("email address"),
+        ("E-mail"),
         unique=True,
         error_messages={"unique": _("Такой email уже зарегистрирован")},
     )
-    is_expert = BooleanField(_("Is expert"), default=False)
+    is_expert = BooleanField(_("Отметьте, если являетесь экспертом"), default=False)
 
     objects = CustomUserManager()
 

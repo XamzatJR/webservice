@@ -4,6 +4,7 @@ from .models import Project, Criteria
 from .serializer import ProjectSerializer, CriteriaSerializer
 from django.shortcuts import render
 
+
 def index(request):
     return render(request, "projects/index.html")
 
