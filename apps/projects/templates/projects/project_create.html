@@ -1,0 +1,17 @@
+{% extends 'base_projects.html' %}
+
+
+{% block title %}
+    Добавление проекта
+{% endblock title %}
+
+
+{% block content %}
+<div class="col-8 mt-5">
+    <form id="add_form" method="post">
+        {% csrf_token %}
+        {{form}}
+        <button form="add_form" type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Добавить проект</button>
+    </form>
+</div>
+{% endblock content %}
