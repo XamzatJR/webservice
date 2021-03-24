@@ -8,11 +8,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <title>
-
     {% block title %}
         Soviet of Wednesday
     {% endblock title %}
-
   </title>
 </head>
 
@@ -20,7 +18,6 @@
 
 
   <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: #AAB2FF;">
-    <a class="navbar-brand" href="#"><img src="{% static 'images/highp.png' %}" alt="" class="logo" width="70" height="110"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -28,7 +25,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-          <h1>База проектов</h1>
+          <h3>База проектов</h3>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if request.user.is_authenticated %}
@@ -47,22 +44,47 @@
       </ul>
     </div>
   </nav>
+{% if request.user.is_authenticated %}
+  <div id="fixed" class = 'ml-5 pl-5 mt-5'>
+  <ul>   
+    <a href="#"> Мои проекты </a>
+
+    <a href="{% url 'projects_output_url' %}" >Все проекты</a>
+
+    <a href="{% url 'project_create_url' %}"> Добавить проект </a>
+  </ul>
+
+  </div>
+{% endif %}
 
   {% block tabs %}
 
   {% endblock tabs %}
   <div class="container">
   {% block content %}
-  
+
   {% endblock content %}
   </div>
+  {% block script %}
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+  integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
   </script>
-  {% block script %}
+<script type="text/javascript">
+  $(document).ready(function () {
+   var offset = $('#fixed').offset();
+   var topPadding = 0;
+   $(window).scroll(function() {
+   if ($(window).scrollTop() > offset.top) {
+   $('#fixed').stop().animate({marginTop: $(window).scrollTop() - offset.top + topPadding});
+   }
+   else {
+   $('#fixed').stop().animate({marginTop: 0});
+   }
+   });
+  });
+  </script>
   {% endblock script %}
-
 </html>

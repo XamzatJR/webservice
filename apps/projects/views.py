@@ -32,9 +32,7 @@ class ProjectsOutputView(LoginRequiredMixin, View):
         project = None
         project = Project.objects.all()
         return render(
-            request,
-            "projects/projects_output.html",
-            context={"project": project},
+            request, "projects/projects_output.html", context={"project": project},
         )
 
 
