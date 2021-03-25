@@ -47,7 +47,7 @@
 {% if request.user.is_authenticated %}
   <div id="fixed" class = 'ml-5 pl-5 mt-5'>
   <ul>   
-    <a href="#"> Мои проекты </a>
+    <a href="{% url 'user_projects_output_url' %}"> Мои проекты </a>
 
     <a href="{% url 'projects_output_url' %}" >Все проекты</a>
 
@@ -72,7 +72,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
   </script>
-<script type="text/javascript">
+  <script type="text/javascript">
   $(document).ready(function () {
    var offset = $('#fixed').offset();
    var topPadding = 0;

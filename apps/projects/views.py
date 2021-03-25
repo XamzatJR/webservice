@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from . import forms
 from django.views.generic import CreateView, View
+from . import utils
 
 
 def index(request):
@@ -26,13 +27,24 @@ class CriteriaViewSet(ModelViewSet):
 
 
 class ProjectsOutputView(LoginRequiredMixin, View):
-    """cписок заявок"""
+    """cписок всех проектов"""
 
     def get(self, request, pk=None):
         project = None
         project = Project.objects.all()
         return render(
             request, "projects/projects_output.html", context={"project": project},
+        )
+
+
+class UserProjectsOutputView(LoginRequiredMixin, View):
+    """cписок своих проектов """
+
+    def get(self, request, pk=None):
+        project = None
+        project = Project.objects.filter(user=request.user)
+        return render(
+            request, "projects/user_projects_output.html", context={"project": project},
         )
 
 
@@ -49,3 +61,11 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+
+class ProjectDetailView(LoginRequiredMixin, utils.ObjectDetailMixin, View):
+    """обзор заявки"""
+
+    model = Project
+    template_name = "projects/project_detail.html"
+    success_url = reverse_lazy("project_detail_url")
