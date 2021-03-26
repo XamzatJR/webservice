@@ -22,6 +22,12 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
 
+    def get(self, request):
+        project = Project.objects.all()
+        return render(
+            request, "projects/projects_output.html", context={"project": project},
+        )
+
 
 class UserProjectsOutputView(LoginRequiredMixin, View):
     """cписок своих проектов """

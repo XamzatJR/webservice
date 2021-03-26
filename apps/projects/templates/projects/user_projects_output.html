@@ -18,6 +18,18 @@
         <th scope="col">Ответственный</th>
       </tr>
     </thead>
+    <tbody>
+      {%for item in project%}
+        <tr>
+          <th scope="row">{{item.id}}</th>
+          <th scope="row">{{item.name}}</th>
+          <td><a href="{{ item.site }}">{{ item.site }}</a></td>
+          <th scope="row">{{item.description}}</th>
+          <th scope="row">{{item.note}}</th>
+          <th scope="row">{{item.responsible}}</th>
+        </tr>
+      {%endfor%}
+    </tbody>
   </table>
 </div>
 {% endblock tabs %}
