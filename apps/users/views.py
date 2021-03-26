@@ -23,15 +23,15 @@ class LoginView(UserAuthenticatedMixin, views.LoginView):
         return self.success_url
 
 
-class LogoutView(views.LogoutView):
-    next_page = reverse_lazy("login_url")
-
-
 class RegistrationView(CreateView):
     model = CustomUser
     template_name = "users/registration.html"
     form_class = CustomUserRegistrationForm
     success_url = reverse_lazy("login_url")
+
+
+class LogoutView(views.LogoutView):
+    next_page = reverse_lazy("login_url")
 
 
 class PasswordResetView(views.PasswordResetView):
