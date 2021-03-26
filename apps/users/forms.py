@@ -39,7 +39,8 @@ class CustomUserRegistrationForm(user_forms.UserCreationForm):
             "last_name",
             "first_name",
             "email",
-            "password",
+            "password1",
+            "password2",
             "is_expert",
         )
 

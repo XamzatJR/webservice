@@ -47,9 +47,9 @@
 {% if request.user.is_authenticated %}
   <div id="fixed" class = 'ml-5 pl-5 mt-5'>
   <ul>   
-    <a href="{% url 'user_projects_output_url' %}"> Мои проекты </a>
+    <a href="{% url 'user_projects_list_url' %}"> Мои проекты </a>
 
-    <a href="{% url 'projects_output_url' %}" >Все проекты</a>
+    <a href="{% url 'projects_list_url' %}" >Все проекты</a>
 
     <a href="{% url 'project_create_url' %}"> Добавить проект </a>
   </ul>

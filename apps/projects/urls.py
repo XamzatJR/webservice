@@ -9,8 +9,8 @@ router.register(r"criteria", CriteriaViewSet)
 
 urlpatterns = [
     path("", views.index, name="index_url"),
-    path("project_create/", views.ProjectCreateView.as_view(), name="project_create_url"),
-    path("projects_list/", views.ProjectsOutputView.as_view(), name="projects_output_url"),
-    path("my_projects/", views.UserProjectsOutputView.as_view(), name="user_projects_output_url"),
-    path("project/<int:id>", views.ProjectDetailView.as_view(), name="project_detail_url"),
+    path("projects/", views.ProjectsOutputView.as_view(), name="projects_list_url"),
+    path("projects/<int:id>/", views.ProjectDetailView.as_view(), name="project_detail_url"),
+    path("projects/create/", views.ProjectCreateView.as_view(), name="project_create_url"),
+    path("my_projects/", views.UserProjectsOutputView.as_view(), name="user_projects_list_url"),
 ]

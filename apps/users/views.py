@@ -1,20 +1,10 @@
-from rest_framework import generics
-
-from .serializer import CustomUser, UserSerializer
-
-from rest_framework import permissions
-
-
 from django.contrib.auth import views
-
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+from rest_framework import generics, permissions
 
-from .forms import (
-    CustomUserLoginForm,
-    CustomUserRegistrationForm,
-)
-
+from .forms import CustomUserLoginForm, CustomUserRegistrationForm
+from .serializer import CustomUser, UserSerializer
 from .utils import UserAuthenticatedMixin
 
 

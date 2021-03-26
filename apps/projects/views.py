@@ -1,47 +1,32 @@
-from rest_framework.viewsets import ModelViewSet
-from django_filters.rest_framework import DjangoFilterBackend
-from .models import Project, Criteria
-from .serializer import ProjectSerializer, CriteriaSerializer
-from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from . import forms
 from django.views.generic import CreateView, View
-from . import utils
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.viewsets import ModelViewSet
+
+from . import forms
+from .models import Criteria, Project
+from .serializer import CriteriaSerializer, ProjectSerializer
 
 
 def index(request):
     return render(request, "projects/index.html")
 
 
-class ProjectViewSet(ModelViewSet):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["user", "name", "responsible"]
-
-
-class CriteriaViewSet(ModelViewSet):
-    queryset = Criteria.objects.all()
-    serializer_class = CriteriaSerializer
-
-
-class ProjectsOutputView(LoginRequiredMixin, View):
+class ProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок всех проектов"""
 
-    def get(self, request, pk=None):
-        project = None
-        project = Project.objects.all()
-        return render(
-            request, "projects/projects_output.html", context={"project": project},
-        )
+    model = Project
+    template_name = "projects/projects_output.html"
 
 
 class UserProjectsOutputView(LoginRequiredMixin, View):
     """cписок своих проектов """
 
-    def get(self, request, pk=None):
-        project = None
+    def get(self, request):
         project = Project.objects.filter(user=request.user)
         return render(
             request, "projects/user_projects_output.html", context={"project": project},
@@ -54,7 +39,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     template_name = "projects/project_create.html"
     form_class = forms.ProjectCreateForm
-    success_url = reverse_lazy("projects_output_url")
+    success_url = reverse_lazy("projects_list_url")
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -63,9 +48,23 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ProjectDetailView(LoginRequiredMixin, utils.ObjectDetailMixin, View):
+class ProjectDetailView(LoginRequiredMixin, DetailView):
     """обзор заявки"""
 
     model = Project
     template_name = "projects/project_detail.html"
     success_url = reverse_lazy("project_detail_url")
+
+
+# API Controllers
+
+class ProjectViewSet(ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["user", "name", "responsible"]
+
+
+class CriteriaViewSet(ModelViewSet):
+    queryset = Criteria.objects.all()
+    serializer_class = CriteriaSerializer
