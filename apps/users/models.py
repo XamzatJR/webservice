@@ -1,22 +1,17 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models.fields import BooleanField, CharField, EmailField
+from django.db.models.fields import BooleanField, EmailField
 from django.utils.translation import gettext_lazy as _
 
 from .managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):
-    """Кастомная модель пользователей"""
-
     email = EmailField(
-        ("email address"),
+        ("E-mail"),
         unique=True,
         error_messages={"unique": _("Такой email уже зарегистрирован")},
     )
-
-    is_expert = BooleanField(_("Is expert"), default=False)
-
-    middle_name = CharField(_("Middle name"), max_length=150, blank=True)
+    is_expert = BooleanField(_("Отметьте, если являетесь экспертом"), default=False)
 
     objects = CustomUserManager()
 

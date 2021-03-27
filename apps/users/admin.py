@@ -6,8 +6,8 @@ from .models import CustomUser
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
-    list_display = ("email", "username", "is_staff", "is_active")
-    list_filter = ("is_staff", "is_active")
+    list_display = ("email", "username", "is_expert", "is_active")
+    list_filter = ("is_expert", "is_active")
     fieldsets = (
         (
             None,
@@ -17,12 +17,14 @@ class CustomUserAdmin(UserAdmin):
                     "username",
                     "last_name",
                     "first_name",
-                    "middle_name",
                     "password",
                 )
             },
         ),
-        ("Права доступа", {"fields": ("is_superuser", "is_staff", "is_active")},),
+        (
+            "Права доступа",
+            {"fields": ("is_superuser", "is_staff", "is_expert", "is_active")},
+        ),
         ("Важные даты", {"fields": ("last_login",)}),
     )
     add_fieldsets = (
@@ -35,7 +37,6 @@ class CustomUserAdmin(UserAdmin):
                     "username",
                     "last_name",
                     "first_name",
-                    "middle_name",
                     "password1",
                     "password2",
                     "is_superuser",

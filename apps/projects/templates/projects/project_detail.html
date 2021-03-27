@@ -1,0 +1,12 @@
+{% extends 'base_projects.html' %}
+{% load static %}
+
+{% block title %}
+    {{ project.name }}
+{% endblock title %}
+
+{% block content %}
+    <h1 class="mt-5">
+        {{ project.name }}
+    </h1>
+{% endblock content %}
