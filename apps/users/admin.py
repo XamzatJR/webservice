@@ -17,7 +17,6 @@ class CustomUserAdmin(UserAdmin):
                     "username",
                     "last_name",
                     "first_name",
-                    "middle_name",
                     "password",
                 )
             },
@@ -38,7 +37,6 @@ class CustomUserAdmin(UserAdmin):
                     "username",
                     "last_name",
                     "first_name",
-                    "middle_name",
                     "password1",
                     "password2",
                     "is_superuser",

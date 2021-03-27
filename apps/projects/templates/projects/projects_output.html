@@ -27,7 +27,12 @@
           <td><a href="{{ item.site }}">{{ item.site }}</a></td>
           <th scope="row">{{item.description}}</th>
           <th scope="row">{{item.note}}</th>
-          <th scope="row">{{item.responsible}}</th>
+          <td>
+            <small>{{ item.responsible }}</small>
+            {% if request.user.is_staff %}
+              <a class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);" href="#">Назначить ответственного</a>
+            {% endif %}
+          </td>
         </tr>
       {%endfor%}
     </tbody>
