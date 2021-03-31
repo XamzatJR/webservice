@@ -11,6 +11,14 @@ body.dark button:hover {
     box-shadow: 0 0 10px #1d2225;
 }
 
+body.dark th {
+    color: #fff;
+}
+
+body.dark small {
+    color: #fff;
+}
+
 .content {
     width: 55%;
     margin: auto;
