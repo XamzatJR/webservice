@@ -18,25 +18,19 @@ def index(request):
 
 class ProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок всех проектов"""
-
     model = Project
     template_name = "projects/projects_output.html"
-
-    def get(self, request):
-        project = Project.objects.all()
-        return render(
-            request, "projects/projects_output.html", context={"project": project},
-        )
+    context_object_name = "project"
 
 
-class UserProjectsOutputView(LoginRequiredMixin, View):
+class UserProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок своих проектов """
+    model = Project
+    template_name = "projects/projects_output.html"
+    context_object_name = "project"
 
-    def get(self, request):
-        project = Project.objects.filter(user=request.user)
-        return render(
-            request, "projects/user_projects_output.html", context={"project": project},
-        )
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):

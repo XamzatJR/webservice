@@ -47,12 +47,9 @@
   </nav>
 {% if request.user.is_authenticated %}
   <div class="sidenav">
-    <a href="{% url 'user_projects_list_url' %}"> Мои проекты </a>
-
     <a href="{% url 'projects_list_url' %}" >Все проекты</a>
-
+    <a href="{% url 'user_projects_list_url' %}"> Мои проекты </a>
     <a href="{% url 'project_create_url' %}"> Добавить проект </a>
-
     <button id="toggleThemeBtn">Сменить тему на тёмную</button>
 
     <script src="/static/js/darklight.js"></script>

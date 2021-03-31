@@ -13,7 +13,7 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">Название проекта</th>
-        <th scope="col">Дата оформления</th>
+        <th scope="col">Сайт</th>
         <th scope="col">Описание</th>
         <th scope="col">Примечание</th>
         <th scope="col">Ответственный</th>
@@ -23,28 +23,12 @@
       {%for item in project%}
         <tr>
           <th scope="row">{{item.id}}</th>
-          <th scope="row">{{item.name}}</th>
-          <td><a href="{{ item.site }}">{{ item.site }}</a></td>
+          <th scope="row"><a href="{% url 'project_detail_url' item.id %}">{{item.name}}</a></th>
+          <td><a href="{{ item.site }}">Ссылка</a></td>
           <th scope="row">{{item.description}}</th>
           <th scope="row">{{item.note}}</th>
           <td>
-            <small>{{ item.responsible }}</small>
-            {% if request.user.is_staff %}
-            <button class="btn btn-info" data-toggle="modal" data-target="#myModal">Назначить ответственного</button>
-            <div id="myModal" class="modal fade" tabindex="-1">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title">Проект: {{ item }}</h4>
-                  </div>
-                  <div class="modal-body">Выберите пользователя</div>
-                  <div class="modal-footer">
-                    <button class="btn btn-danger" data-dismiss="modal">Закрыть</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {% endif %}
+            <small>{% if item.responsible %}{{ item.responsible }}{% else %}Ответственный не указан{% endif %}</small>
           </td>
         </tr>
       {%endfor%}
