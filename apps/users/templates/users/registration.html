@@ -12,7 +12,7 @@
   <h3 class="text-center">Регистрация</h3>
   <form id="add_form" method="post">
     {% csrf_token %}
-    {{form.as_p}}
+    {{ form.as_p }}
     <br>
     <button form="add_form" type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Регистрация</button>
   </form>
