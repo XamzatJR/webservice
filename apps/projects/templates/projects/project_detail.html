@@ -9,4 +9,23 @@
     <h1 class="mt-5">
         {{ project.name }}
     </h1>
+    <h4>
+        <p>{{ project.user }}</p>
+    </h4>
+    <h3>
+        <a href='{{ item.project_site }}' >{{ project.site }}</a>
+    </h3>
+    <h4>
+        <p>{{ project.description }}</p>
+    </h4>
+    <h4>
+        <p>{{ project.note }}</p>
+    </h4>
+    <h4>
+        {% if project.responsible %}
+            <p> Ответственный: {{ project.responsible }}</p>
+        {% else %}
+            <a href = #> Назначить ответственного </a>
+        {% endif %}
+    </h4>
 {% endblock content %}
