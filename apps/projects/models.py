@@ -25,7 +25,7 @@ class Project(models.Model):
         verbose_name=_("Ответственный"),
         db_index=True,
         blank=True,
-        null=True
+        null=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
 

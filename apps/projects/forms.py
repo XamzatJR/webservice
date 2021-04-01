@@ -12,3 +12,14 @@ class ProjectCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
+
+
+class ProjectAddResponsibleForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ("responsible",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs["class"] = "form-control"

@@ -6,6 +6,7 @@
 {% endblock title %}
 
 {% block content %}
+
     <h1 class="mt-5">
         {{ project.name }}
     </h1>
@@ -26,10 +27,13 @@
             <p> Ответственный: {{ project.responsible }}</p>
         {% else %}
             {% if request.user.is_staff %}
-                <a href ="#" class="btn mt-3" style="background-color: rgb(170, 170, 255);"> Назначить ответственного </a>
+
+                <a href ="{% url 'project_add_responsible_url' project.id %}" class="btn mt-3" style="background-color: rgb(170, 170, 255);"> Назначить ответственного </a>
+
             {% else %}
                 <p> Ответственный не указан </p>   
             {% endif %}
         {% endif %}
     </h4>
+
 {% endblock content %}
