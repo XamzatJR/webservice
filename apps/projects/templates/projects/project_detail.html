@@ -25,7 +25,11 @@
         {% if project.responsible %}
             <p> Ответственный: {{ project.responsible }}</p>
         {% else %}
-            <a href = #> Назначить ответственного </a>
+            {% if request.user.is_staff %}
+                <a href ="{% url 'project_add_responsible_url' item.pk %}"> Назначить ответственного </a>
+            {% else %}
+                <p> Ответственный не указан </p>   
+            {% endif %}
         {% endif %}
     </h4>
 {% endblock content %}
