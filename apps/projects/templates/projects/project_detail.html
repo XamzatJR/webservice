@@ -26,7 +26,7 @@
             <p> Ответственный: {{ project.responsible }}</p>
         {% else %}
             {% if request.user.is_staff %}
-                <a href ="{% url 'project_add_responsible_url' item.pk %}"> Назначить ответственного </a>
+                <a href ="#" class="btn mt-3" style="background-color: rgb(170, 170, 255);"> Назначить ответственного </a>
             {% else %}
                 <p> Ответственный не указан </p>   
             {% endif %}
