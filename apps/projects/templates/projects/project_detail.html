@@ -34,11 +34,18 @@
                 <p> Ответственный не указан </p>   
             {% endif %}
         {% endif %}
-        {% if request.user.is_admin %}
+        {% if request.user.is_staff %}
             {{ criteria_form.as_p }}
         {% endif %}
     </h4>
-{% if request.user.is_admin %}
+    <h4>
+       <p>Есть наука: {{project.science}}</p>
+       <p>Интересный:  {{project.interesting}}</p>
+       <p>Сложный: {{project.difficult}}</p>
+       <p>Непонятный: {{project.unclear}}</p>
+       <p>Повтор: {{project.repeat}}</p>
+    </h4>
+{% if request.user.is_staff %}
     <script>
         $(document).ready(function () {
             $('#id_science').change(function () {
