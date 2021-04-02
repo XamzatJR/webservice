@@ -1,6 +1,7 @@
 from django import forms
+from django.db.models import fields
 
-from .models import Project
+from .models import Criteria, Project
 
 
 class ProjectCreateForm(forms.ModelForm):
@@ -23,3 +24,9 @@ class ProjectAddResponsibleForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
+
+
+class CriteriaForm(forms.ModelForm):
+    class Meta:
+        model = Criteria
+        fields = ("science", "interesting", "difficult", "unclear", "repeat")

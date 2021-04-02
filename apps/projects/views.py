@@ -1,4 +1,6 @@
+from apps.users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
@@ -57,6 +59,15 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
     template_name = "projects/project_detail.html"
     success_url = reverse_lazy("project_detail_url")
 
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_expert:
+            criteria = Criteria.objects.get_or_create(app=kwargs["object"], expert=self.request.user)
+        kwargs["criteria_form"] = forms.CriteriaForm(instance=criteria[0])
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
 
 class ProjectAddResponsible(LoginRequiredMixin, UpdateView):
     model = Project
@@ -81,3 +92,15 @@ class ProjectViewSet(ModelViewSet):
 class CriteriaViewSet(ModelViewSet):
     queryset = Criteria.objects.all()
     serializer_class = CriteriaSerializer
+
+
+def change_criteria(request):
+    if request.is_ajax():
+        field = request.GET.get("field")
+
+        user = CustomUser.objects.get(pk=request.GET.get("user"))
+        project = Project.objects.get(pk=request.GET.get("project"))
+        criteria = Criteria.objects.get(app=project, expert=user)
+        criteria.__dict__[field] = not criteria.__dict__[field]
+        criteria.save()
+    return JsonResponse({"code": 200})

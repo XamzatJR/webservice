@@ -34,6 +34,17 @@
                 <p> Ответственный не указан </p>   
             {% endif %}
         {% endif %}
+        {{ criteria_form.as_p }}
     </h4>
-
+    <script>
+        $(document).ready(function () {
+            $('#id_science').change(function () {
+                $.ajax({
+                    data: {field: "science", user: {{ request.user.pk }}, project: {{ project.pk }}},
+                    url: "{% url 'change_criteria' %}",
+                    success: function (response) {}
+                });
+            });
+        })
+    </script>
 {% endblock content %}
