@@ -7,6 +7,7 @@ from django.db.models.fields import (
     DateTimeField,
     TextField,
     URLField,
+    IntegerField
 )
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
@@ -28,6 +29,11 @@ class Project(models.Model):
         null=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
+    science = IntegerField(_("Есть наука"), default=0)
+    interesting = IntegerField(_("Интересный"), default=0)
+    difficult = IntegerField(_("Сложный"), default=0)
+    unclear = IntegerField(_("Непонятный"), default=0)
+    repeat = IntegerField(_("Повтор"), default=0)
 
     def __str__(self):
         return self.name
