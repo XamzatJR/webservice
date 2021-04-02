@@ -45,6 +45,34 @@
                     success: function (response) {}
                 });
             });
+            $('#id_interesting').change(function () {
+                $.ajax({
+                    data: {field: "interesting", user: {{ request.user.pk }}, project: {{ project.pk }}},
+                    url: "{% url 'change_criteria' %}",
+                    success: function (response) {}
+                });
+            });
+            $('#id_difficult').change(function () {
+                $.ajax({
+                    data: {field: "difficult", user: {{ request.user.pk }}, project: {{ project.pk }}},
+                    url: "{% url 'change_criteria' %}",
+                    success: function (response) {}
+                });
+            });
+            $('#id_unclear').change(function () {
+                $.ajax({
+                    data: {field: "unclear", user: {{ request.user.pk }}, project: {{ project.pk }}},
+                    url: "{% url 'change_criteria' %}",
+                    success: function (response) {}
+                });
+            });
+            $('#id_repeat').change(function () {
+                $.ajax({
+                    data: {field: "repeat", user: {{ request.user.pk }}, project: {{ project.pk }}},
+                    url: "{% url 'change_criteria' %}",
+                    success: function (response) {}
+                });
+            });
         })
     </script>
 {% endblock content %}

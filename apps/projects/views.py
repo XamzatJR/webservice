@@ -62,7 +62,11 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         if self.request.user.is_expert:
             criteria = Criteria.objects.get_or_create(app=kwargs["object"], expert=self.request.user)
-        kwargs["criteria_form"] = forms.CriteriaForm(instance=criteria[0])
+        try:
+            kwargs["criteria_form"] = forms.CriteriaForm(instance=criteria[0])
+        except UnboundLocalError:
+            forms.CriteriaForm
+
         return super().get_context_data(**kwargs)
 
     def get_queryset(self):
