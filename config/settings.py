@@ -122,4 +122,5 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR.joinpath("static")]
 STATIC_ROOT = BASE_DIR.joinpath("staticfiles")
 
+LOGIN_URL = "login_url"
 AUTH_USER_MODEL = "users.CustomUser"

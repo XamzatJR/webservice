@@ -7,7 +7,7 @@ from django.db.models.fields import (
     DateTimeField,
     TextField,
     URLField,
-    IntegerField
+    IntegerField,
 )
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
@@ -29,7 +29,7 @@ class Project(models.Model):
         null=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
-    science = IntegerField(_("Есть наука"), default=0)
+    science = IntegerField(_("Наука"), default=0)
     interesting = IntegerField(_("Интересный"), default=0)
     difficult = IntegerField(_("Сложный"), default=0)
     unclear = IntegerField(_("Непонятный"), default=0)
@@ -50,3 +50,18 @@ class Criteria(models.Model):
 
     def __str__(self):
         return self.app.name
+
+    def save(
+        self, force_insert=None, force_update=None, using=None, update_fields=None
+    ) -> None:
+        if update_fields:
+            self.app.__dict__[update_fields[0]] += (
+                1 if self.__dict__[update_fields[0]] else -1
+            )
+            self.app.save()
+        return super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )

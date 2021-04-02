@@ -34,8 +34,11 @@
                 <p> Ответственный не указан </p>   
             {% endif %}
         {% endif %}
-        {{ criteria_form.as_p }}
+        {% if request.user.is_admin %}
+            {{ criteria_form.as_p }}
+        {% endif %}
     </h4>
+{% if request.user.is_admin %}
     <script>
         $(document).ready(function () {
             $('#id_science').change(function () {
@@ -75,4 +78,5 @@
             });
         })
     </script>
+{% endif %}
 {% endblock content %}

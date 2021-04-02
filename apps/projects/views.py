@@ -61,7 +61,9 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         if self.request.user.is_expert:
-            criteria = Criteria.objects.get_or_create(app=kwargs["object"], expert=self.request.user)
+            criteria = Criteria.objects.get_or_create(
+                app=kwargs["object"], expert=self.request.user
+            )
         try:
             kwargs["criteria_form"] = forms.CriteriaForm(instance=criteria[0])
         except UnboundLocalError:
@@ -106,5 +108,5 @@ def change_criteria(request):
         project = Project.objects.get(pk=request.GET.get("project"))
         criteria = Criteria.objects.get(app=project, expert=user)
         criteria.__dict__[field] = not criteria.__dict__[field]
-        criteria.save()
+        criteria.save(update_fields=[field])
     return JsonResponse({"code": 200})
