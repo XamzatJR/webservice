@@ -50,6 +50,12 @@
     <a href="{% url 'projects_list_url' %}" >Все проекты</a>
     <a href="{% url 'user_projects_list_url' %}"> Мои проекты </a>
     <a href="{% url 'project_create_url' %}"> Добавить проект </a>
+    {% if request.user.is_staff %}
+      <a class = '{% if request.resolver_match.url_name == "experts" %} active {% endif %}' href="{% url 'experts' %}"> Заявки экспертов </a>
+      {% if experts_len > 0 %}
+      <span class="badge badge-info">{{ experts_len }}</span>
+      {% endif %}
+    {% endif %}
     <button id="toggleThemeBtn">Сменить тему на тёмную</button>
 
     <script src="/static/js/darklight.js"></script>
