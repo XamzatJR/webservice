@@ -7,11 +7,11 @@
 
 {% block content %}
 <div class="card card-custom bg-white border-white border-0">
-  <div class="card-custom-img" style="background-color: {{ project.hex_color }}"></div>
+  <div class="card-custom-img" style="{% if project.cover %}background-image: url(/media/{{project.cover}}){% else %}background-color: {{ project.hex_color }}{% endif %}"></div>
   <div class="card-custom-avatar">
     <img
       class="img-fluid"
-      src="http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg"
+      src="{% if project.photo %}/media/{{project.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
       alt="Avatar"
     />
   </div>

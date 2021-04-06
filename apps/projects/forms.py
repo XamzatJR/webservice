@@ -1,5 +1,4 @@
 from django import forms
-from django.db.models import fields
 
 from .models import Criteria, Project
 
@@ -7,7 +6,7 @@ from .models import Criteria, Project
 class ProjectCreateForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ("name", "photo", "site", "description", "note")
+        fields = ("name", "site", "description", "note", "photo", "cover")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

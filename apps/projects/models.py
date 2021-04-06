@@ -11,7 +11,6 @@ from django.db.models.fields import (
 )
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
-from PIL import Image
 
 from random import randint
 
@@ -25,6 +24,9 @@ class Project(models.Model):
     name = CharField(_("Название проекта"), max_length=150, db_index=True)
     photo = models.ImageField(
         _("Фото"), upload_to="project_photos/", null=True, blank=True
+    )
+    cover = models.ImageField(
+        _("Обложка"), upload_to="project_photos/", null=True, blank=True
     )
     site = URLField(_("Ссылка на сайт проекта"), max_length=200)
     description = TextField(_("Описание продукта/сервиса"))

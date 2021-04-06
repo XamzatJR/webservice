@@ -16,12 +16,12 @@
         >
           <div
             class="card-custom-img"
-            style="background-color: {{ item.hex_color }}"
+            style="{% if item.cover %}background-image: url(/media/{{item.cover}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
           ></div>
           <div class="card-custom-avatar">
             <img
               class="img-fluid"
-              src="/media/{{item.photo}}"
+              src="{% if item.photo %}/media/{{item.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
             />
           </div>
           <div class="card-body" style="overflow-y: auto">
