@@ -104,4 +104,6 @@ def change_criteria(request):
             criteria.__dict__[field] = not criteria.__dict__[field]
             criteria.save(update_fields=[field])
             project = Project.objects.get(pk=request.GET.get("project"))
-            return JsonResponse({"count": project.__dict__[field], "rating": project.rating})
+            return JsonResponse(
+                {"count": project.__dict__[field], "rating": project.rating}
+            )

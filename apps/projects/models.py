@@ -11,6 +11,7 @@ from django.db.models.fields import (
 )
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
+from PIL import Image
 
 from random import randint
 
@@ -22,6 +23,9 @@ def random_hex() -> str:
 class Project(models.Model):
     user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     name = CharField(_("Название проекта"), max_length=150, db_index=True)
+    photo = models.ImageField(
+        _("Фото"), upload_to="project_photos/", null=True, blank=True
+    )
     site = URLField(_("Ссылка на сайт проекта"), max_length=200)
     description = TextField(_("Описание продукта/сервиса"))
     note = CharField(_("Примечание к проекту"), max_length=150)
