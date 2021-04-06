@@ -1,80 +1,133 @@
-body.dark {
-    background: #303133;
-    color: #fff;
+a {
+  text-decoration: none;
 }
 
-body.dark .content {
-    box-shadow: 0 0 5px #1d2225;
+.sidebar-container {
+  position: fixed;
+  width: 240px;
+  height: 100%;
+  left: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #1a1a1a;
+  color: #fff;
 }
 
-body.dark button:hover {
-    box-shadow: 0 0 10px #1d2225;
+.content-container {
+  padding-top: 20px;
 }
 
-body.dark th {
-    color: #fff;
+.sidebar-logo {
+  padding: 10px 15px 10px 30px;
+  font-size: 20px;
+  background-color: #2574a9;
 }
 
-body.dark small {
-    color: #fff;
+.sidebar-navigation {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  position: relative;
 }
 
-.content {
-    width: 55%;
-    margin: auto;
-    box-shadow: 0 0 3px silver;
-    padding: 20px;
-    height: calc(100vh - 100px - 40px);
+.sidebar-navigation li {
+  background-color: transparent;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  line-height: 20px;
 }
 
-section:not(:first-child) {
-    margin-top: 30px;
+.sidebar-navigation li a {
+  padding: 10px 15px 10px 30px;
+  display: block;
+  color: #fff;
+  text-decoration: none;
 }
 
-.desc {
-    margin: 10px 0;
-    opacity: .7;
+.sidebar-navigation li .fa {
+  margin-right: 10px;
 }
 
-#toggleThemeBtn {
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    outline: none;
+.sidebar-navigation li a:active,
+.sidebar-navigation li a:hover,
+.sidebar-navigation li a:focus {
+  text-decoration: none;
+  outline: none;
 }
 
-body {
-    font-family: "Lato", sans-serif;
+.sidebar-navigation li::before {
+  background-color: #2574a9;
+  position: absolute;
+  content: "";
+  height: 100%;
+  left: 0;
+  top: 0;
+  -webkit-transition: width 0.2s ease-in;
+  transition: width 0.2s ease-in;
+  width: 3px;
+  z-index: -1;
 }
 
-.sidenav {
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    background-color: #111;
+.sidebar-navigation li:hover::before {
+  width: 100%;
 }
 
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
+.sidebar-navigation .header {
+  font-size: 12px;
+  text-transform: uppercase;
+  background-color: #151515;
+  padding: 10px 15px 10px 30px;
 }
 
-.sidenav a:hover {
-    color: #f1f1f1;
+.sidebar-navigation .header::before {
+  background-color: transparent;
 }
 
-.main {
-    margin-left: 160px; /* Same as the width of the sidenav */
-    font-size: 28px; /* Increased text to enable scrolling */
-    padding: 0px 10px;
+.card-custom {
+  overflow: hidden;
+  min-height: 450px;
+  box-shadow: 0 0 15px rgba(10, 10, 10, 0.3);
 }
 
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+.card-custom-img {
+  height: 200px;
+  min-height: 200px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-color: inherit;
+}
+
+.card-custom-img::after {
+  position: absolute;
+  content: "";
+  top: 161px;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-top-width: 40px;
+  border-right-width: 0;
+  border-bottom-width: 0;
+  border-left-width: 545px;
+  border-left-width: calc(575px - 5vw);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: inherit;
+}
+
+.card-custom-avatar img {
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(10, 10, 10, 0.3);
+  position: absolute;
+  top: 100px;
+  left: 1.25rem;
+  width: 100px;
+  height: 100px;
+}
+
+.checked {
+  color: orange;
 }

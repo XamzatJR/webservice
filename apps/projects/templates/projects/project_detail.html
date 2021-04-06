@@ -6,84 +6,70 @@
 {% endblock title %}
 
 {% block content %}
-
-    <h1 class="mt-5">
-        {{ project.name }}
-    </h1>
-    <h4>
-        <p>{{ project.user }}</p>
-    </h4>
-    <h3>
-        <a href='{{ item.project_site }}' >{{ project.site }}</a>
-    </h3>
-    <h4>
-        <p>{{ project.description }}</p>
-    </h4>
-    <h4>
-        <p>{{ project.note }}</p>
-    </h4>
-    <h4>
-        {% if project.responsible %}
-            <p> Ответственный: {{ project.responsible }}</p>
-        {% else %}
-            {% if request.user.is_staff %}
-
-                <a href ="{% url 'project_add_responsible_url' project.id %}" class="btn mt-3" style="background-color: rgb(170, 170, 255);"> Назначить ответственного </a>
-
-            {% else %}
-                <p> Ответственный не указан </p>   
-            {% endif %}
-        {% endif %}
-        {% if request.user.is_staff %}
-            {{ criteria_form.as_p }}
-        {% endif %}
-    </h4>
-    <h4>
-       <p>Есть наука: {{project.science}}</p>
-       <p>Интересный:  {{project.interesting}}</p>
-       <p>Сложный: {{project.difficult}}</p>
-       <p>Непонятный: {{project.unclear}}</p>
-       <p>Повтор: {{project.repeat}}</p>
-    </h4>
+<div class="card card-custom bg-white border-white border-0">
+  <div class="card-custom-img" style="background-color: {{ project.hex_color }}"></div>
+  <div class="card-custom-avatar">
+    <img
+      class="img-fluid"
+      src="http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg"
+      alt="Avatar"
+    />
+  </div>
+  <div class="card-body" style="overflow-y: auto">
+    <h2 class="card-title">{{ project.name }}</h2>
+    <small>{{ project.note }}</small><br />
+    <div class="d-flex bd-highlight">
+      <div class="p-2 w-75">
+        <p class="card-text">{{ project.description }}</p>
+      </div>
+      <div class="p-2 w-25 bd-highlight">
+        <h3>Информация проекта</h3>
+        <ul class="list-group mb-4">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Автор </small>
+            <a href="#">{{ project.user.username }}</a>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Ответственный </small
+            >{% if project.responsible %}<a href="#">{{ project.responsible.username }}</a>{% else %}Не указан{% endif %}
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Сайт </small
+            ><a href="{{ project.site }}">Сайт проекта</a>
+          </li>
+        </ul>
+        <h3>Рейтинг проекта</h3>
+        <ul class="list-group mb-4">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Наука</small><div><span class="fa fa-star"></span> {{ project.science }}</div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Интересный</small><div><span class="fa fa-star"></span> {{ project.interesting }}</div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Сложный</small><div><span class="fa fa-star"></span> {{ project.difficult }}</div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Непонятный</small><div><span class="fa fa-star"></span> {{ project.unclear }}</div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Повтор</small><div><span class="fa fa-star"></span> {{ project.repeat }}</div>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Рейтинг</small><div><span class="fa fa-star"></span> {{ project.rating }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 {% if request.user.is_staff %}
-    <script>
-        $(document).ready(function () {
-            $('#id_science').change(function () {
-                $.ajax({
-                    data: {field: "science", user: {{ request.user.pk }}, project: {{ project.pk }}},
-                    url: "{% url 'change_criteria' %}",
-                    success: function (response) {}
-                });
-            });
-            $('#id_interesting').change(function () {
-                $.ajax({
-                    data: {field: "interesting", user: {{ request.user.pk }}, project: {{ project.pk }}},
-                    url: "{% url 'change_criteria' %}",
-                    success: function (response) {}
-                });
-            });
-            $('#id_difficult').change(function () {
-                $.ajax({
-                    data: {field: "difficult", user: {{ request.user.pk }}, project: {{ project.pk }}},
-                    url: "{% url 'change_criteria' %}",
-                    success: function (response) {}
-                });
-            });
-            $('#id_unclear').change(function () {
-                $.ajax({
-                    data: {field: "unclear", user: {{ request.user.pk }}, project: {{ project.pk }}},
-                    url: "{% url 'change_criteria' %}",
-                    success: function (response) {}
-                });
-            });
-            $('#id_repeat').change(function () {
-                $.ajax({
-                    data: {field: "repeat", user: {{ request.user.pk }}, project: {{ project.pk }}},
-                    url: "{% url 'change_criteria' %}",
-                    success: function (response) {}
-                });
-            });
-        })
-    </script>
+
 {% endif %}
 {% endblock content %}

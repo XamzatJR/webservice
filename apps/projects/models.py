@@ -12,6 +12,12 @@ from django.db.models.fields import (
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
 
+from random import randint
+
+
+def random_hex() -> str:
+    return "#" + str(hex(randint(0, 16777215)))[2:]
+
 
 class Project(models.Model):
     user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
@@ -29,11 +35,13 @@ class Project(models.Model):
         null=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
+    hex_color = CharField(_("Hex цвет"), max_length=20, default=random_hex())
     science = IntegerField(_("Наука"), default=0)
     interesting = IntegerField(_("Интересный"), default=0)
     difficult = IntegerField(_("Сложный"), default=0)
     unclear = IntegerField(_("Непонятный"), default=0)
     repeat = IntegerField(_("Повтор"), default=0)
+    rating = IntegerField(_("Рейтинг"), default=0)
 
     def __str__(self):
         return self.name
@@ -58,7 +66,11 @@ class Criteria(models.Model):
             self.app.__dict__[update_fields[0]] += (
                 1 if self.__dict__[update_fields[0]] else -1
             )
-            self.app.save()
+        if update_fields[0] in ["science", "interesting"]:
+            self.app.rating += 1
+        else:
+            self.app.rating -= 1
+        self.app.save()
         return super().save(
             force_insert=force_insert,
             force_update=force_update,
