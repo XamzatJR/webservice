@@ -1,17 +1,10 @@
 from pathlib import Path
-from random import choices
 from datetime import timedelta
-from string import digits, ascii_letters, punctuation
 from os import environ
-
-
-def generate_key(length=64) -> str:
-    return "".join(choices(digits + ascii_letters + punctuation, k=length))
-
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = environ.get("SECRET_KEY", generate_key())
+SECRET_KEY = environ.get("SECRET_KEY", "superuser")
 
 DEBUG = environ.get("DEBUG", True)
 
@@ -58,7 +51,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "apps.users.context_processors.experts"
+                "apps.users.context_processors.experts",
             ],
         },
     },

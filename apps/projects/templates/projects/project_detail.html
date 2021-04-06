@@ -46,30 +46,96 @@
         </ul>
         <h3>Рейтинг проекта</h3>
         <ul class="list-group mb-4">
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <small class="text-muted">Наука</small><div><span class="fa fa-star"></span> {{ project.science }}</div>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Наука</small><span id="science" class="fa fa-star {% if criteria.science %}checked{% endif %}"></span><span id="science-t">{{ project.science }}</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <small class="text-muted">Интересный</small><div><span class="fa fa-star"></span> {{ project.interesting }}</div>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Интересный</small><span id="interesting" class="fa fa-star {% if criteria.interesting %}checked{% endif %}"></span><span id="interesting-t">{{ project.interesting }}</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <small class="text-muted">Сложный</small><div><span class="fa fa-star"></span> {{ project.difficult }}</div>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Сложный</small><span id="difficult" class="fa fa-star {% if criteria.difficult %}checked{% endif %}"></span><span id="difficult-t">{{ project.difficult }}</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <small class="text-muted">Непонятный</small><div><span class="fa fa-star"></span> {{ project.unclear }}</div>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Непонятный</small><span id="unclear" class="fa fa-star {% if criteria.unclear %}checked{% endif %}"></span><span id="unclear-t">{{ project.unclear }}</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <small class="text-muted">Повтор</small><div><span class="fa fa-star"></span> {{ project.repeat }}</div>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Повтор</small><span id="repeat" class="fa fa-star {% if criteria.repeat %}checked{% endif %}"></span><span id="repeat-t">{{ project.repeat }}</span>
           </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <small class="text-muted">Рейтинг</small><div><span class="fa fa-star"></span> {{ project.rating }}</div>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Рейтинг</small><span class="fa fa-star checked"></span><span id="rating-t">{{ project.rating }}</span>
           </li>
         </ul>
       </div>
     </div>
   </div>
 </div>
-{% if request.user.is_staff %}
-
-{% endif %}
 {% endblock content %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+  {% if request.user.is_staff %}
+    <script>
+    var url = "{% url 'change_criteria' %}";
+    $('#science').click(function () {
+        var field = "science";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function(response){
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#interesting').click(function () {
+        var field = "interesting";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function(response){
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#difficult').click(function () {
+        var field = "difficult";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#unclear').click(function () {
+        var field = "unclear";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#repeat').click(function () {
+        var field = "repeat";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    </script>
+  {% endif %}
+{% endblock js %}

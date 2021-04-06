@@ -66,11 +66,11 @@ class Criteria(models.Model):
             self.app.__dict__[update_fields[0]] += (
                 1 if self.__dict__[update_fields[0]] else -1
             )
-        if update_fields[0] in ["science", "interesting"]:
-            self.app.rating += 1
-        else:
-            self.app.rating -= 1
-        self.app.save()
+            if update_fields[0] in ["science", "interesting"]:
+                self.app.rating += 1 if self.__dict__[update_fields[0]] else -1
+            else:
+                self.app.rating += -1 if self.__dict__[update_fields[0]] else 1
+            self.app.save()
         return super().save(
             force_insert=force_insert,
             force_update=force_update,

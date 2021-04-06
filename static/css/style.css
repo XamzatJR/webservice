@@ -128,6 +128,11 @@ a {
   height: 100px;
 }
 
+.fa-star:hover {
+  color: orange;
+  cursor: pointer;
+}
+
 .checked {
   color: orange;
 }

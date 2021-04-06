@@ -8,7 +8,7 @@ router.register(r"projects", ProjectViewSet)
 router.register(r"criteria", CriteriaViewSet)
 
 urlpatterns = [
-    path("", views.index, name="index_url"),
+    path("", views.ProjectsOutputView.as_view(), name="index_url"),
     path("projects/", views.ProjectsOutputView.as_view(), name="projects_list_url"),
     path(
         "projects/<int:pk>/",

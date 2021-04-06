@@ -1,7 +1,6 @@
 from apps.users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from django.views.generic.detail import DetailView
@@ -12,10 +11,6 @@ from rest_framework.viewsets import ModelViewSet
 from . import forms
 from .models import Criteria, Project
 from .serializer import CriteriaSerializer, ProjectSerializer
-
-
-def index(request):
-    return render(request, "projects/index.html")
 
 
 class ProjectsOutputView(LoginRequiredMixin, ListView):
@@ -65,7 +60,7 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
                 app=kwargs["object"], expert=self.request.user
             )
         try:
-            kwargs["criteria_form"] = forms.CriteriaForm(instance=criteria[0])
+            kwargs["criteria"] = criteria[0]
         except UnboundLocalError:
             forms.CriteriaForm
 
@@ -103,10 +98,10 @@ class CriteriaViewSet(ModelViewSet):
 def change_criteria(request):
     if request.is_ajax():
         field = request.GET.get("field")
-
         user = CustomUser.objects.get(pk=request.GET.get("user"))
-        project = Project.objects.get(pk=request.GET.get("project"))
-        criteria = Criteria.objects.get(app=project, expert=user)
-        criteria.__dict__[field] = not criteria.__dict__[field]
-        criteria.save(update_fields=[field])
-    return JsonResponse({"code": 200})
+        if user.is_expert:
+            criteria = Criteria.objects.get(app=request.GET.get("project"), expert=user)
+            criteria.__dict__[field] = not criteria.__dict__[field]
+            criteria.save(update_fields=[field])
+            project = Project.objects.get(pk=request.GET.get("project"))
+            return JsonResponse({"count": project.__dict__[field], "rating": project.rating})
