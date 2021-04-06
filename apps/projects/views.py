@@ -1,7 +1,8 @@
+from apps.users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.http.response import JsonResponse
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, View
+from django.views.generic import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
@@ -12,31 +13,23 @@ from .models import Criteria, Project
 from .serializer import CriteriaSerializer, ProjectSerializer
 
 
-def index(request):
-    return render(request, "projects/index.html")
-
-
 class ProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок всех проектов"""
 
     model = Project
     template_name = "projects/projects_output.html"
-
-    def get(self, request):
-        project = Project.objects.all()
-        return render(
-            request, "projects/projects_output.html", context={"project": project},
-        )
+    context_object_name = "project"
 
 
-class UserProjectsOutputView(LoginRequiredMixin, View):
+class UserProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок своих проектов """
 
-    def get(self, request):
-        project = Project.objects.filter(user=request.user)
-        return render(
-            request, "projects/user_projects_output.html", context={"project": project},
-        )
+    model = Project
+    template_name = "projects/projects_output.html"
+    context_object_name = "project"
+
+    def get_queryset(self):
+        return Project.objects.filter(user=self.request.user)
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -55,14 +48,40 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
 
 class ProjectDetailView(LoginRequiredMixin, DetailView):
-    """обзор заявки"""
+    """обзор проекта"""
 
     model = Project
     template_name = "projects/project_detail.html"
     success_url = reverse_lazy("project_detail_url")
 
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_expert:
+            criteria = Criteria.objects.get_or_create(
+                app=kwargs["object"], expert=self.request.user
+            )
+        try:
+            kwargs["criteria"] = criteria[0]
+        except UnboundLocalError:
+            forms.CriteriaForm
+
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
+
+class ProjectAddResponsible(LoginRequiredMixin, UpdateView):
+    model = Project
+    form_class = forms.ProjectAddResponsibleForm
+    template_name = "projects/project_add_responsible.html"
+    success_url = reverse_lazy("projects_list_url")
+
+    def get_success_url(self):
+        return self.success_url
+
 
 # API Controllers
+
 
 class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
@@ -74,3 +93,17 @@ class ProjectViewSet(ModelViewSet):
 class CriteriaViewSet(ModelViewSet):
     queryset = Criteria.objects.all()
     serializer_class = CriteriaSerializer
+
+
+def change_criteria(request):
+    if request.is_ajax():
+        field = request.GET.get("field")
+        user = CustomUser.objects.get(pk=request.GET.get("user"))
+        if user.is_expert:
+            criteria = Criteria.objects.get(app=request.GET.get("project"), expert=user)
+            criteria.__dict__[field] = not criteria.__dict__[field]
+            criteria.save(update_fields=[field])
+            project = Project.objects.get(pk=request.GET.get("project"))
+            return JsonResponse(
+                {"count": project.__dict__[field], "rating": project.rating}
+            )

@@ -1,0 +1,30 @@
+{% extends 'base_projects.html' %}
+
+
+{% block title %}
+  Заявки экспертов
+{% endblock title %}
+
+
+{% block content %}
+<div class="pt-5">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Фамилия Имя</th>
+        <th scope="col">Почта</th>
+        <th scope="col">Действие</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for expert in experts  %}
+      <tr>
+        <th>{{ expert.last_name }} {{ expert.first_name }}</th>
+        <th>{{ expert.email }}</th>
+        <th><a href="{% url 'active_expert' expert.pk %}" class="btn btn-info">Активировать</a></th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

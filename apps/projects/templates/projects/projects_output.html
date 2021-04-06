@@ -6,36 +6,41 @@
 {% endblock title %}
 
 
-{% block tabs %}
-<div class="container" style="margin-top: 5; ">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Название проекта</th>
-        <th scope="col">Дата оформления</th>
-        <th scope="col">Описание</th>
-        <th scope="col">Примечание</th>
-        <th scope="col">Ответственный</th>
-      </tr>
-    </thead>
-    <tbody>
-      {%for item in project%}
-        <tr>
-          <th scope="row">{{item.id}}</th>
-          <th scope="row">{{item.name}}</th>
-          <td><a href="{{ item.site }}">{{ item.site }}</a></td>
-          <th scope="row">{{item.description}}</th>
-          <th scope="row">{{item.note}}</th>
-          <td>
-            <small>{{ item.responsible }}</small>
-            {% if request.user.is_staff %}
-              <a class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);" href="#">Назначить ответственного</a>
-            {% endif %}
-          </td>
-        </tr>
-      {%endfor%}
-    </tbody>
-  </table>
-</div>
-{% endblock tabs %}
+{% block content %}
+  <div class="row pt-5 m-auto">
+    {% for item in project %}
+      <div class="col-md-6 col-lg-4 pb-3">
+        <div
+          class="card card-custom bg-white border-white border-0"
+          style="height: 450px"
+        >
+          <div
+            class="card-custom-img"
+            style="{% if item.cover %}background-image: url(/media/{{item.cover}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
+          ></div>
+          <div class="card-custom-avatar">
+            <img
+              class="img-fluid"
+              src="{% if item.photo %}/media/{{item.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
+            />
+          </div>
+          <div class="card-body" style="overflow-y: auto">
+            <h4 class="card-title">{{ item.name }}</h4>
+            <small>от <a href="#">{{ item.user.username}}</a></small>
+            <p class="card-text">{{ item.note }}</p>
+          </div>
+          <div
+            class="card-footer"
+            style="background: inherit; border-color: inherit"
+          >
+            <div class="d-flex justify-content-between mb-2">
+              <div class="p-2 flex-grow-1"><span class="fa fa-star checked"></span> {{ item.rating }}</div>
+              <div class="p-2"><a href="{% url 'project_detail_url' item.id %}" class="btn btn-outline-dark">Подробнее</a></div>
+              <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт проекта</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock content %}

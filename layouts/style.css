@@ -101,7 +101,7 @@ a {
 
 .card-custom-img::after {
   position: absolute;
-  content: "";
+  content: '';
   top: 161px;
   left: 0;
   width: 0;
@@ -126,11 +126,6 @@ a {
   left: 1.25rem;
   width: 100px;
   height: 100px;
-}
-
-.fa-star:hover {
-  color: orange;
-  cursor: pointer;
 }
 
 .checked {

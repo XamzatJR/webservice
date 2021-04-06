@@ -6,7 +6,136 @@
 {% endblock title %}
 
 {% block content %}
-    <h1 class="mt-5">
-        {{ project.name }}
-    </h1>
+<div class="card card-custom bg-white border-white border-0">
+  <div class="card-custom-img" style="{% if project.cover %}background-image: url(/media/{{project.cover}}){% else %}background-color: {{ project.hex_color }}{% endif %}"></div>
+  <div class="card-custom-avatar">
+    <img
+      class="img-fluid"
+      src="{% if project.photo %}/media/{{project.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
+      alt="Avatar"
+    />
+  </div>
+  <div class="card-body" style="overflow-y: auto">
+    <h2 class="card-title">{{ project.name }}</h2>
+    <small>{{ project.note }}</small><br />
+    <div class="d-flex bd-highlight">
+      <div class="p-2 w-75">
+        <p class="card-text">{{ project.description }}</p>
+      </div>
+      <div class="p-2 w-25 bd-highlight">
+        <h3>Информация проекта</h3>
+        <ul class="list-group mb-4">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Автор </small>
+            <a href="#">{{ project.user.username }}</a>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Ответственный </small
+            >{% if project.responsible %}<a href="#">{{ project.responsible.username }}</a>{% else %}Не указан{% endif %}
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Сайт </small
+            ><a href="{{ project.site }}">Сайт проекта</a>
+          </li>
+        </ul>
+        <h3>Рейтинг проекта</h3>
+        <ul class="list-group mb-4">
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Наука</small><span id="science" class="fa fa-star {% if criteria.science %}checked{% endif %}"></span><span id="science-t">{{ project.science }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Интересный</small><span id="interesting" class="fa fa-star {% if criteria.interesting %}checked{% endif %}"></span><span id="interesting-t">{{ project.interesting }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Сложный</small><span id="difficult" class="fa fa-star {% if criteria.difficult %}checked{% endif %}"></span><span id="difficult-t">{{ project.difficult }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Непонятный</small><span id="unclear" class="fa fa-star {% if criteria.unclear %}checked{% endif %}"></span><span id="unclear-t">{{ project.unclear }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Повтор</small><span id="repeat" class="fa fa-star {% if criteria.repeat %}checked{% endif %}"></span><span id="repeat-t">{{ project.repeat }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Рейтинг</small><span class="fa fa-star checked"></span><span id="rating-t">{{ project.rating }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+  {% if request.user.is_staff %}
+    <script>
+    var url = "{% url 'change_criteria' %}";
+    $('#science').click(function () {
+        var field = "science";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function(response){
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#interesting').click(function () {
+        var field = "interesting";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function(response){
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#difficult').click(function () {
+        var field = "difficult";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#unclear').click(function () {
+        var field = "unclear";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#repeat').click(function () {
+        var field = "repeat";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    </script>
+  {% endif %}
+{% endblock js %}
