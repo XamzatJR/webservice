@@ -9,6 +9,7 @@ from django.db.models.fields import (
     URLField,
     IntegerField,
 )
+from django.shortcuts import reverse
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
 
@@ -51,7 +52,7 @@ class Project(models.Model):
     rating = IntegerField(_("Рейтинг"), default=0)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.name
@@ -67,6 +68,9 @@ class Project(models.Model):
             using=using,
             update_fields=update_fields,
         )
+
+    def get_delete_url(self):
+        return reverse("project_delete_url", kwargs={"pk": self.pk})
 
 
 class Criteria(models.Model):

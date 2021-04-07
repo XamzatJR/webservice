@@ -1,0 +1,14 @@
+{% extends 'base_projects.html' %}
+
+{% block title %}
+	Удалить заявку  '{{project.name}}' - {{block.super}}
+{% endblock %}
+
+{% block content %}
+	<form action = '{{ project.get_delete_url }}' method="post">
+		{% csrf_token %}
+			<h3>Точно удалить «{{project.name}}‎»?</h3>
+			<a  class="btn btn-info" href="{% url 'projects_list_url' %}"> Нет </a>
+			<button type="submit" name = 'button' class="btn btn-danger"> Да </button>
+	</form>
+{% endblock %}

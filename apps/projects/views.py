@@ -11,6 +11,7 @@ from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import ModelViewSet
+from django.views.generic.edit import DeleteView, UpdateView
 
 from apps.users.models import CustomUser
 
@@ -124,3 +125,11 @@ def change_criteria(request):
             return JsonResponse(
                 {"count": project.__dict__[field], "rating": project.rating}
             )
+
+
+class ProjectDelete(DeleteView, LoginRequiredMixin):
+    """ удаление проекта """
+
+    model = Project
+    success_url = reverse_lazy("projects_list_url")
+    template_name = "projects/project_delete.html"

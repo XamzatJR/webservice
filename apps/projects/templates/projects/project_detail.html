@@ -22,6 +22,9 @@
       <div class="p-2 w-75">
         <p class="card-text">{{ project.description }}</p>
       </div>
+      <div class="p-2 w-100 bd-highlight" > 
+            <a class="btn btn-danger" href="{% url 'project_delete_url' project.pk %}">Удалить</a>
+      </div>
       <div class="p-2 w-25 bd-highlight">
         <h3>Информация проекта</h3>
         <ul class="list-group mb-4">
