@@ -7,11 +7,10 @@
 
 
 {% block content %}
-<div class="col-8 mt-5">
-    <form id="add_form" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{form}}
-        <button form="add_form" type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Добавить проект</button>
-    </form>
-</div>
+<form class="pt-5" method="post" enctype="multipart/form-data">
+    <h1>Добавить проект</h1>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Добавить проект</button>
+</form>
 {% endblock content %}

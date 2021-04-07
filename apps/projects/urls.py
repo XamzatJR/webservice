@@ -1,10 +1,13 @@
-from .views import ProjectViewSet, CriteriaViewSet, change_criteria
+from django.conf.urls import include
 from django.urls import path
-from . import views
+from django.urls.conf import re_path
 from rest_framework.routers import DefaultRouter
 
+from . import views
+from .views import CriteriaViewSet, ProjectViewSet, change_criteria
+
 router = DefaultRouter()
-router.register(r"projects", ProjectViewSet)
+router.register(r"api/projects", ProjectViewSet)
 router.register(r"criteria", CriteriaViewSet)
 
 urlpatterns = [
@@ -34,4 +37,5 @@ urlpatterns = [
         name="project_add_responsible_url",
     ),
     path("change_criteria/", change_criteria, name="change_criteria"),
+    re_path("^", include(router.urls)),
 ]

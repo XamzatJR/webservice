@@ -49,7 +49,7 @@
         </li>
         {% if request.user.is_staff %}
           <li>
-            <a href="#">
+            <a href="{% url 'experts' %}">
               <i class="fa fa-flask" aria-hidden="true"></i> Заявки экспертов
               {% if experts_len > 0 %}
                 <span class="badge bg-primary">{{ experts_len }}</span>

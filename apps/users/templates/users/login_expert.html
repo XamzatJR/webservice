@@ -10,6 +10,14 @@
     <div class="alert alert-primary" role="alert">
       Подождите, пока ваш аккаунт активируют.
     </div>
+    <form method="post" class="pt-5" style="width: 50%; margin: 0 auto;">
+      <h3 class="text-center mb-4">Вход</h3>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="hidden" name="next" value="{{next}}" />
+      <button type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255); color: white;">Войти</button>
+      <p style="text-align: center;"><a href="/password_reset/">Забыли пароль?</a></p>
+    </form>
 {% endblock content %}
     
     

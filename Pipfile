@@ -11,6 +11,7 @@ django-filter = "*"
 drf-yasg = {extras = ["validation"], version = "*"}
 djangorestframework-simplejwt = "*"
 django-cors-headers = "*"
+pillow = "*"
 
 [dev-packages]
 black = "==19.10b0"
