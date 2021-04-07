@@ -50,6 +50,9 @@ class Project(models.Model):
     repeat = IntegerField(_("Повтор"), default=0)
     rating = IntegerField(_("Рейтинг"), default=0)
 
+    class Meta:
+        ordering = ['-created_at']
+
     def __str__(self):
         return self.name
 

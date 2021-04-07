@@ -1,20 +1,19 @@
 from django.contrib.auth import views
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, View
-from rest_framework import generics, permissions
 from django.shortcuts import render
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import CustomUserLoginForm, CustomUserRegistrationForm
-from .serializer import CustomUser, UserSerializer
+from .serializer import CustomUser
 from .utils import UserAuthenticatedMixin
 
 
-class UserCreate(generics.CreateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
-    permission_classes = (permissions.AllowAny,)
+# class UserCreate(generics.CreateAPIView):
+#     queryset = CustomUser.objects.all()
+#     serializer_class = UserSerializer
+#     permission_classes = (permissions.AllowAny,)
 
 
 class LoginView(UserAuthenticatedMixin, views.LoginView):
@@ -34,12 +33,12 @@ class RegistrationView(CreateView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
+        user.is_active = False
         if user.is_expert is True:
-            user.is_active = False
             user.save()
             return HttpResponseRedirect(reverse_lazy("login_expert_url"))
         user.save()
-        return HttpResponseRedirect(reverse_lazy("login_url"))
+        return HttpResponseRedirect(reverse_lazy("login_expert_url"))
 
 
 class LogoutView(views.LogoutView):
@@ -65,11 +64,13 @@ class PasswordResetCompleteView(views.PasswordResetCompleteView):
     template_name = "users/password_reset_complete.html"
 
 
-class ExpertLoginView(View):
+class ExpertLoginView(UserAuthenticatedMixin, views.LoginView):
     template_name = "users/login_expert.html"
+    form_class = CustomUserLoginForm
+    success_url = reverse_lazy("index_url")
 
-    def get(self, request):
-        return render(request, self.template_name)
+    def get_success_url(self):
+        return self.success_url
 
 
 class Experts(LoginRequiredMixin, View):

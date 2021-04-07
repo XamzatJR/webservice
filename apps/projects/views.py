@@ -1,10 +1,15 @@
+from itertools import groupby
+from operator import attrgetter
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.functions import TruncDate
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import ModelViewSet
 
 from apps.users.models import CustomUser
@@ -25,7 +30,11 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
         users = CustomUser.objects.filter()
         kwargs["users"] = users
         kwargs["experts"] = users.filter(is_expert=True)
+        # self.object_list = groupby(self.object_list, attrgetter('created_at_date'))
         return super().get_context_data(**kwargs)
+
+    # def get_queryset(self):
+    #     return self.model.objects.annotate(created_at_date=TruncDate('created_at'))
 
 
 class UserProjectsOutputView(LoginRequiredMixin, ListView):
@@ -93,8 +102,9 @@ class ProjectAddResponsible(LoginRequiredMixin, UpdateView):
 class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["name", "user", "responsible"]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ["user", "responsible"]
+    search_fields = ["name"]
 
 
 class CriteriaViewSet(ModelViewSet):

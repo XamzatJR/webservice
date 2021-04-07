@@ -34,8 +34,7 @@ function getQuery() {
     const name = $("#name").val();
     const user = $("#user").val();
     const responsible = $("#responsible").val();
-    console.log(name, user, responsible)
-    axios.get(url, { params: { name: name, user: user, responsible: responsible } })
+    axios.get(url, { params: { search: name, user: user, responsible: responsible } })
         .then(function (response) {
             $(".row.pt-5.m-auto").html("")
             response.data.forEach(el => {
@@ -52,7 +51,7 @@ function getQuery() {
             });
         })
         .catch(function (error) {
-            console.log(1);
+            console.log(error);
         })
 }
 $('#name').keyup(function () {
