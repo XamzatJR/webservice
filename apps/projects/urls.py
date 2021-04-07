@@ -4,7 +4,7 @@ from django.urls.conf import re_path
 from rest_framework.routers import DefaultRouter
 
 from . import views
-from .views import CriteriaViewSet, ProjectViewSet, change_criteria, ProjectDelete
+from .views import CriteriaViewSet, ProjectViewSet, change_criteria, ProjectDeleteView, ProjectUpdateView
 
 router = DefaultRouter()
 router.register(r"api/projects", ProjectViewSet)
@@ -20,8 +20,13 @@ urlpatterns = [
     ),
     path(
         "project_delete/<int:pk>/",
-        views.ProjectDelete.as_view(),
+        views.ProjectDeleteView.as_view(),
         name="project_delete_url",
+    ),
+    path(
+        "project_update/<int:pk>",
+        views.ProjectUpdateView.as_view(),
+        name="project_update_url",
     ),
     path(
         "projects/create/", views.ProjectCreateView.as_view(), name="project_create_url"

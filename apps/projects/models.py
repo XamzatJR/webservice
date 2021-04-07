@@ -72,6 +72,9 @@ class Project(models.Model):
     def get_delete_url(self):
         return reverse("project_delete_url", kwargs={"pk": self.pk})
 
+    def get_update_url(self):
+        return reverse("project_update_url", kwargs={"pk": self.pk})
+
 
 class Criteria(models.Model):
     id = models.AutoField(primary_key=True)

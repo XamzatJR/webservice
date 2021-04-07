@@ -63,6 +63,21 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
+class ProjectDeleteView(DeleteView, LoginRequiredMixin):
+    """ удаление проекта """
+
+    model = Project
+    success_url = reverse_lazy("projects_list_url")
+    template_name = "projects/project_delete.html"
+
+class ProjectUpdateView(LoginRequiredMixin, UpdateView):
+    """редактирование проекта"""
+
+    model = Project
+    form_class = forms.ProjectUpdateForm
+    template_name = "projects/project_update.html"
+    success_url = reverse_lazy("projects_list_url")
+
 
 class ProjectDetailView(LoginRequiredMixin, DetailView):
     """обзор проекта"""
@@ -127,9 +142,4 @@ def change_criteria(request):
             )
 
 
-class ProjectDelete(DeleteView, LoginRequiredMixin):
-    """ удаление проекта """
 
-    model = Project
-    success_url = reverse_lazy("projects_list_url")
-    template_name = "projects/project_delete.html"
