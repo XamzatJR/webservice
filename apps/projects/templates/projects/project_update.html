@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<form actions="{{project.get_update_url}}" method='post' enctype="multipart/form-data">
+<form actions="{{project.get_update_url}}" method='post' enctype="multipart/form-data" class="pt-5">
 	{% csrf_token %}
 
 	{% for field in form %}
@@ -22,6 +22,6 @@
 		{{ field }}
 	</div>
 	{% endfor %}
-	<button type='submit' class='btn btn-primary'> Изменить</button>
+	<button type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Изменить</button>
 </form>
 {% endblock %}
