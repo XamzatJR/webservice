@@ -1,4 +1,3 @@
-from apps.users.models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
@@ -7,6 +6,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
+
+from apps.users.models import CustomUser
 
 from . import forms
 from .models import Criteria, Project
@@ -19,6 +20,12 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
     context_object_name = "project"
+
+    def get_context_data(self, **kwargs):
+        users = CustomUser.objects.filter()
+        kwargs["users"] = users
+        kwargs["experts"] = users.filter(is_expert=True)
+        return super().get_context_data(**kwargs)
 
 
 class UserProjectsOutputView(LoginRequiredMixin, ListView):
@@ -87,7 +94,7 @@ class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["user", "name", "responsible"]
+    filterset_fields = ["name", "user", "responsible"]
 
 
 class CriteriaViewSet(ModelViewSet):

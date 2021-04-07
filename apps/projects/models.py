@@ -20,6 +20,7 @@ def random_hex() -> str:
 
 
 class Project(models.Model):
+    id = models.AutoField(primary_key=True)
     user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     name = CharField(_("Название проекта"), max_length=150, db_index=True)
     photo = models.ImageField(
@@ -41,7 +42,7 @@ class Project(models.Model):
         null=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
-    hex_color = CharField(_("Hex цвет"), max_length=20, default=random_hex())
+    hex_color = CharField(_("Hex цвет"), max_length=20, blank=True, default="")
     science = IntegerField(_("Наука"), default=0)
     interesting = IntegerField(_("Интересный"), default=0)
     difficult = IntegerField(_("Сложный"), default=0)
@@ -52,8 +53,21 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+    def save(
+        self, force_insert=None, force_update=None, using=None, update_fields=None
+    ) -> None:
+        if not self.hex_color:
+            self.hex_color = random_hex()
+        return super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
+
 
 class Criteria(models.Model):
+    id = models.AutoField(primary_key=True)
     app = ForeignKey(Project, on_delete=CASCADE, db_index=True)
     expert = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     science = BooleanField(_("Есть наука"), default=False)
