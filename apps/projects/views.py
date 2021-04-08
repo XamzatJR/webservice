@@ -105,7 +105,6 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 class ProjectAddResponsible(LoginRequiredMixin, UpdateView):
     model = Project
     form_class = forms.ProjectAddResponsibleForm
-    template_name = "projects/project_add_responsible.html"
     success_url = reverse_lazy("projects_list_url")
 
     def get_success_url(self):
@@ -141,5 +140,8 @@ def change_criteria(request):
                 {"count": project.__dict__[field], "rating": project.rating}
             )
 
-
-
+def add_responsible(request):
+    if request.is_ajax():
+        user = request.GET.get("user")
+        responsible = CustomUser.objects.get(pk=request.GET.get("responsible"))
+        project = Project.objects.get(pk=request.GET.get("project"), responsible=user)

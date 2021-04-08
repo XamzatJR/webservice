@@ -66,8 +66,18 @@
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
           >
-            <small class="text-muted">Ответственный </small
-            >{% if project.responsible %}<a href="#">{{ project.responsible.username }}</a>{% else %}Не указан{% endif %}
+            <small class="text-muted">Ответственный </small>
+            {% if project.responsible %}
+            <a href="#">{{ project.responsible.username }}</a>
+            {% else %}
+                {% if request.user.is_staff %}
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Назначить ответственного
+                    </button>
+                  {% else %}
+                    Не указан
+                  {% endif %}
+            {% endif %}
           </li>
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
