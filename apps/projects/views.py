@@ -1,17 +1,13 @@
-from itertools import groupby
-from operator import attrgetter
-
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models.functions import TruncDate
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.viewsets import ModelViewSet
-from django.views.generic.edit import DeleteView, UpdateView
 
 from apps.users.models import CustomUser
 
@@ -28,14 +24,8 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
     context_object_name = "project"
 
     def get_context_data(self, **kwargs):
-        users = CustomUser.objects.filter()
-        kwargs["users"] = users
-        kwargs["experts"] = users.filter(is_expert=True)
-        # self.object_list = groupby(self.object_list, attrgetter('created_at_date'))
+        kwargs["users"] = CustomUser.objects.filter()
         return super().get_context_data(**kwargs)
-
-    # def get_queryset(self):
-    #     return self.model.objects.annotate(created_at_date=TruncDate('created_at'))
 
 
 class UserProjectsOutputView(LoginRequiredMixin, ListView):
@@ -63,12 +53,14 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
+
 class ProjectDeleteView(DeleteView, LoginRequiredMixin):
     """ удаление проекта """
 
     model = Project
     success_url = reverse_lazy("projects_list_url")
     template_name = "projects/project_delete.html"
+
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     """редактирование проекта"""
@@ -95,20 +87,12 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
             kwargs["criteria"] = criteria[0]
         except UnboundLocalError:
             forms.CriteriaForm
+        kwargs["users"] = CustomUser.objects.filter()
 
         return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         return super().get_queryset()
-
-
-class ProjectAddResponsible(LoginRequiredMixin, UpdateView):
-    model = Project
-    form_class = forms.ProjectAddResponsibleForm
-    success_url = reverse_lazy("projects_list_url")
-
-    def get_success_url(self):
-        return self.success_url
 
 
 # API Controllers
@@ -140,8 +124,10 @@ def change_criteria(request):
                 {"count": project.__dict__[field], "rating": project.rating}
             )
 
+
 def add_responsible(request):
     if request.is_ajax():
-        user = request.GET.get("user")
-        responsible = CustomUser.objects.get(pk=request.GET.get("responsible"))
-        project = Project.objects.get(pk=request.GET.get("project"), responsible=user)
+        # responsible = CustomUser.objects.get(pk=request.GET.get("responsible"))
+        project = Project.objects.get(pk=request.GET.get("project"))
+        project.responsible = request.GET.get("responsible")
+        project.save()

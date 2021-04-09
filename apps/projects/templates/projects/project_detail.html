@@ -29,18 +29,12 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="staticBackdropLabel"> Точно удалить «{{project.name}}‎»? </h5>
+                  <h5 class="modal-title" id="staticBackdropLabel"> Удаление «{{project.name}}‎» </h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
                 <div class="modal-body">
                   <form action = '{{ project.get_delete_url }}' method="post">
-                    {% csrf_token %}
-                    <p>Название проекта: {{project.name}}</p>
-                    <p>Сайт проекта: <a href="{{project.site}}"> {{project.site}}</a></p>
-                    <p>Описание проекта: {{project.description}}</p>
-                    <p>Примечание к проекту: {{project.note}}</p>
-                    <p>Ответственный проекта: {% if project.responsible %}<a href="#">{{ project.responsible.username }}</a>{% else %}Не указан{% endif %}</p>
-                    <p>Рейтинг проекта: {{project.rating}}</p>
+                    <p>Уверены, что хотите удалить «{{project.name}}‎»?</p>
                   </div>
                 <div class="modal-footer">
                   <button type="submit" name = 'button' class="btn btn-danger"> Да </button>
@@ -51,8 +45,8 @@
             </div>
           </div>
         <a class="btn btn-primary" href="{% url 'project_update_url' project.pk %}">Изменить</a>
-  </div>
       </div>
+    </div>
 
       <div class="p-2 w-25 bd-highlight">
         <h3>Информация проекта</h3>
@@ -70,20 +64,21 @@
             {% if project.responsible %}
             <a href="#">{{ project.responsible.username }}</a>
             {% else %}
-                {% if request.user.is_staff %}
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                      Назначить ответственного
-                    </button>
-                  {% else %}
-                    Не указан
-                  {% endif %}
+              {% if request.user.is_staff %}
+                <select class="form-control" id="responsible">
+                  <option value="0" selected>Ответственный</option>
+                  {% for u in users %}
+                    <option value="{{ u.pk }}">{{ u.username }}</option>
+                  {% endfor %}
+                </select>
+              {% else %}
+                <span>Не указан</span>
+              {% endif %}
             {% endif %}
           </li>
-          <li
-            class="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <small class="text-muted">Сайт </small
-            ><a href="{{ project.site }}">Сайт проекта</a>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Сайт </small>
+            <a href="{{ project.site }}">Сайт проекта</a>
           </li>
         </ul>
         <h3>Рейтинг проекта</h3>

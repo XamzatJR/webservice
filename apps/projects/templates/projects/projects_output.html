@@ -18,8 +18,8 @@
       </select>
       <select class="form-select" id="responsible">
         <option value="" selected>Выберите ответственного</option>
-        {% for e in experts %}
-          <option value="{{ e.pk }}">{{ e.username }}</option>
+        {% for u in users %}
+          <option value="{{ u.pk }}">{{ u.username }}</option>
         {% endfor %}
       </select>
     </div>
