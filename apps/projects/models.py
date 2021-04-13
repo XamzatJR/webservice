@@ -21,7 +21,6 @@ def random_hex() -> str:
 
 
 class Project(models.Model):
-    id = models.AutoField(primary_key=True)
     user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     name = CharField(_("Название проекта"), max_length=150, db_index=True)
     photo = models.ImageField(
@@ -77,7 +76,6 @@ class Project(models.Model):
 
 
 class Criteria(models.Model):
-    id = models.AutoField(primary_key=True)
     app = ForeignKey(Project, on_delete=CASCADE, db_index=True)
     expert = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     science = BooleanField(_("Есть наука"), default=False)

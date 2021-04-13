@@ -121,3 +121,5 @@ MEDIA_URL = "/media/"
 
 LOGIN_URL = "login_url"
 AUTH_USER_MODEL = "users.CustomUser"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
