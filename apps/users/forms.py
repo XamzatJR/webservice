@@ -50,6 +50,9 @@ class CustomUserRegistrationForm(user_forms.UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
+            if field == "is_expert":
+                self.fields[field].widget.attrs["class"] = "form-check-input"
+                continue
             self.fields[field].widget.attrs["class"] = "form-control"
             self.fields[field].help_text = None
             self.fields[field].label = ""

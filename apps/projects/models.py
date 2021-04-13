@@ -9,6 +9,7 @@ from django.db.models.fields import (
     URLField,
     IntegerField,
 )
+from django.shortcuts import reverse
 from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
 
@@ -41,7 +42,7 @@ class Project(models.Model):
         null=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
-    hex_color = CharField(_("Hex цвет"), max_length=20, default=random_hex())
+    hex_color = CharField(_("Hex цвет"), max_length=20, blank=True, default="")
     science = IntegerField(_("Наука"), default=0)
     interesting = IntegerField(_("Интересный"), default=0)
     difficult = IntegerField(_("Сложный"), default=0)
@@ -49,8 +50,29 @@ class Project(models.Model):
     repeat = IntegerField(_("Повтор"), default=0)
     rating = IntegerField(_("Рейтинг"), default=0)
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
         return self.name
+
+    def save(
+        self, force_insert=None, force_update=None, using=None, update_fields=None
+    ) -> None:
+        if not self.hex_color:
+            self.hex_color = random_hex()
+        return super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
+
+    def get_delete_url(self):
+        return reverse("project_delete_url", kwargs={"pk": self.pk})
+
+    def get_update_url(self):
+        return reverse("project_update_url", kwargs={"pk": self.pk})
 
 
 class Criteria(models.Model):

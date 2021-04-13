@@ -1,0 +1,38 @@
+{% extends 'base_users.html' %}
+
+
+{% block title %}
+  Создать код
+{% endblock title %}
+
+
+{% block content %}
+  <fieldset disabled>
+    <div class="pt-4 mb-3">
+      <label for="codeOutput" class="form-label">Ссылка на регистрацию</label>
+      <input type="text" class="form-control" id="codeOutput">
+    </div>
+  </fieldset>
+  <button class="btn btn-primary" id="createCode">Создать код</button>
+  {% for i in codes %}
+    <p>{{ request.META.HTTP_HOST }}/registration?code={{ i.code }}</p>
+  {% endfor %}
+{% endblock content %}
+    
+{% block js %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+      const url = "{% url 'create_code_ajax' %}";
+      $('#createCode').click(function () {
+          $.ajax({
+              data: {},
+              url: url,
+              success: function (response) {
+                $("#codeOutput").val(response.link)
+              }
+          });
+      });
+  </script>
+{% endblock js %}

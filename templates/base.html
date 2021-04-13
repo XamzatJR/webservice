@@ -56,6 +56,11 @@
               {% endif %}
             </a>
           </li>
+          <li>
+            <a href="{% url 'create_code' %}">
+              <i class="fa fa-code" aria-hidden="true"></i> Создать ссылку
+            </a>
+          </li>
         {% endif %}
         <li class="header">Авторизация</li>
         {% if request.user.is_authenticated %}

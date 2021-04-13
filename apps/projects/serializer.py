@@ -4,9 +4,23 @@ from .models import Project, Criteria
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    user = serializers.SlugRelatedField(read_only=True, slug_field="username")
+
     class Meta:
         model = Project
-        fields = ("user", "name", "site", "description", "note", "responsible")
+        fields = (
+            "pk",
+            "name",
+            "user",
+            "site",
+            "description",
+            "note",
+            "responsible",
+            "hex_color",
+            "rating",
+            "photo",
+            "cover",
+        )
 
 
 class CriteriaSerializer(serializers.ModelSerializer):

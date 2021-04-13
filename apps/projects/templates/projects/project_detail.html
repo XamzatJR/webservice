@@ -21,7 +21,33 @@
     <div class="d-flex bd-highlight">
       <div class="p-2 w-75">
         <p class="card-text">{{ project.description }}</p>
+        <div class="p-2 w-100 bd-highlight" > 
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Удалить
+          </button>
+          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel"> Удаление «{{project.name}}‎» </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                  <form action = '{{ project.get_delete_url }}' method="post">
+                    <p>Уверены, что хотите удалить «{{project.name}}‎»?</p>
+                  </div>
+                <div class="modal-footer">
+                  <button type="submit" name = 'button' class="btn btn-danger"> Да </button>
+                  <a  class="btn btn-primary" data-bs-dismiss="modal"> Нет </a>
+                </div>
+              </form>
+              </div>
+            </div>
+          </div>
+        <a class="btn btn-primary" href="{% url 'project_update_url' project.pk %}">Изменить</a>
       </div>
+    </div>
+
       <div class="p-2 w-25 bd-highlight">
         <h3>Информация проекта</h3>
         <ul class="list-group mb-4">
@@ -34,14 +60,36 @@
           <li
             class="list-group-item d-flex justify-content-between align-items-center"
           >
-            <small class="text-muted">Ответственный </small
-            >{% if project.responsible %}<a href="#">{{ project.responsible.username }}</a>{% else %}Не указан{% endif %}
+            <small class="text-muted">Ответственный </small>
+            {% if project.responsible %}
+              {% if request.user.is_staff %}
+                <select class="form-control" id="responsible">
+                  <option value="{{ project.responsible.pk }}" selected>{{ project.responsible.username }}</option>
+                  {% for u in users %}
+                    {% if project.responsible.pk != u.pk %}
+                      <option value="{{ u.pk }}">{{ u.username }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              {% else %}
+                <a href="#">{{ project.responsible.username }}</a>
+              {% endif %}
+            {% else %}
+              {% if request.user.is_staff %}
+                <select class="form-control" id="responsible">
+                  <option value="0" selected>Ответственный</option>
+                  {% for u in users %}
+                    <option value="{{ u.pk }}">{{ u.username }}</option>
+                  {% endfor %}
+                </select>
+              {% else %}
+                <span>Не указан</span>
+              {% endif %}
+            {% endif %}
           </li>
-          <li
-            class="list-group-item d-flex justify-content-between align-items-center"
-          >
-            <small class="text-muted">Сайт </small
-            ><a href="{{ project.site }}">Сайт проекта</a>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Сайт </small>
+            <a href="{{ project.site }}">Сайт проекта</a>
           </li>
         </ul>
         <h3>Рейтинг проекта</h3>
@@ -72,12 +120,28 @@
 {% endblock content %}
 
 {% block js %}
+<script>
+  var myModal = document.getElementById('myModal')
+  var myInput = document.getElementById('myInput')
+
+  myModal.addEventListener('shown.bs.modal', function () {
+  myInput.focus()
+})
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
   {% if request.user.is_staff %}
     <script>
-    var url = "{% url 'change_criteria' %}";
+    $('#responsible').change(function () {
+      const changeExpert = "{% url 'add_responsible' %}"
+      $.ajax({
+        data: {user: {{ request.user.pk }}, project: {{ project.pk }}, responsible: $(this).val()},
+        url: changeExpert,
+        success: function(response){}
+      });
+    });
+    const url = "{% url 'change_criteria' %}";
     $('#science').click(function () {
-        var field = "science";
+        const field = "science";
         $(this).toggleClass("checked")
         $.ajax({
             data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
@@ -89,7 +153,7 @@
         });
     });
     $('#interesting').click(function () {
-        var field = "interesting";
+        const field = "interesting";
         $(this).toggleClass("checked")
         $.ajax({
             data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
@@ -101,7 +165,7 @@
         });
     });
     $('#difficult').click(function () {
-        var field = "difficult";
+        const field = "difficult";
         $(this).toggleClass("checked")
         $.ajax({
             data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
@@ -113,7 +177,7 @@
         });
     });
     $('#unclear').click(function () {
-        var field = "unclear";
+        const field = "unclear";
         $(this).toggleClass("checked")
         $.ajax({
             data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
@@ -125,7 +189,7 @@
         });
     });
     $('#repeat').click(function () {
-        var field = "repeat";
+        const field = "repeat";
         $(this).toggleClass("checked")
         $.ajax({
             data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},

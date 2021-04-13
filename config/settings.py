@@ -102,7 +102,7 @@ SIMPLE_JWT = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-ru"
 
 TIME_ZONE = "UTC"
 
@@ -121,3 +121,5 @@ MEDIA_URL = "/media/"
 
 LOGIN_URL = "login_url"
 AUTH_USER_MODEL = "users.CustomUser"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
