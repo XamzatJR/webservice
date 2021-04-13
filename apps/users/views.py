@@ -37,19 +37,26 @@ class RegistrationView(CreateView):
 
     def get(self, request, *args: str, **kwargs):
         if code := request.GET.get("code"):
+            if InviteCode.get_or_none(code=code):
+                return super().get(request, *args, **kwargs)
+        return HttpResponseRedirect(reverse("login_url"))
+
+    def post(self, request, *args, **kwargs):
+        if code := request.GET.get("code"):
             if code_model := InviteCode.get_or_none(code=code):
                 code_model.delete()
-                return super().get(request, *args, **kwargs)
+                return super().post(request, *args, **kwargs)
         return HttpResponseRedirect(reverse("login_url"))
 
     def form_valid(self, form):
         user = form.save(commit=False)
-        user.is_active = False
+        user.is_active = True
         if user.is_expert is True:
+            user.is_active = False
             user.save()
             return HttpResponseRedirect(reverse_lazy("login_expert_url"))
         user.save()
-        return HttpResponseRedirect(reverse_lazy("login_expert_url"))
+        return HttpResponseRedirect(reverse_lazy("login_url"))
 
 
 class LogoutView(views.LogoutView):
