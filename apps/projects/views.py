@@ -127,7 +127,10 @@ def change_criteria(request):
 
 def add_responsible(request):
     if request.is_ajax():
-        # responsible = CustomUser.objects.get(pk=request.GET.get("responsible"))
+        user = CustomUser.objects.get(pk=request.GET.get("user"))
         project = Project.objects.get(pk=request.GET.get("project"))
-        project.responsible = request.GET.get("responsible")
-        project.save()
+        responsible = CustomUser.objects.get(pk=request.GET.get("responsible"))
+        if user.is_superuser:
+            project.responsible = responsible
+            project.save()
+        return JsonResponse({"code": 200})

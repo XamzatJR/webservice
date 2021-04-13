@@ -56,8 +56,6 @@
               {% endif %}
             </a>
           </li>
-        {% endif %}
-        {% if request.user.is_staff %}
           <li>
             <a href="{% url 'create_code' %}">
               <i class="fa fa-code" aria-hidden="true"></i> Создать ссылку
