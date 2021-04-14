@@ -10,7 +10,7 @@ from .views import (CriteriaViewSet, ProjectCreateView, ProjectDeleteView,
 
 router = DefaultRouter()
 router.register(r"api/projects", ProjectViewSet)
-router.register(r"criteria", CriteriaViewSet)
+router.register(r"api/criteria", CriteriaViewSet)
 
 urlpatterns = [
     path("", ProjectsOutputView.as_view(), name="index_url"),

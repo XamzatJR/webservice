@@ -5,6 +5,9 @@ from .models import Project, Criteria
 
 class ProjectSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(read_only=True, slug_field="username")
+    responsible = serializers.SlugRelatedField(read_only=True, slug_field="username")
+    photo = serializers.SerializerMethodField('get_photo_url')
+    cover = serializers.SerializerMethodField('get_cover_url')
 
     class Meta:
         model = Project
@@ -21,6 +24,18 @@ class ProjectSerializer(serializers.ModelSerializer):
             "photo",
             "cover",
         )
+
+    def get_photo_url(self, obj):
+        try:
+            return obj.photo.url
+        except Exception:
+            return ''
+
+    def get_cover_url(self, obj):
+        try:
+            return obj.cover.url or 'none'
+        except Exception:
+            return ''
 
 
 class CriteriaSerializer(serializers.ModelSerializer):
