@@ -34,6 +34,7 @@
                 </div>
                 <div class="modal-body">
                   <form action = '{{ project.get_delete_url }}' method="post">
+                    {% csrf_token %}
                     <p>Уверены, что хотите удалить «{{project.name}}‎»?</p>
                   </div>
                 <div class="modal-footer">
