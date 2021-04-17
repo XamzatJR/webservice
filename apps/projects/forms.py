@@ -13,6 +13,7 @@ class ProjectCreateForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
+
 class ProjectUpdateForm(forms.ModelForm):
     class Meta:
         model = Project

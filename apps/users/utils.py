@@ -11,8 +11,6 @@ class UserAuthenticatedMixin:
 
 
 class IsAdminMixin:
-    @method_decorator(
-        user_passes_test(lambda u: u.is_superuser, login_url="login_url")
-    )
+    @method_decorator(user_passes_test(lambda u: u.is_superuser, login_url="login_url"))
     def dispatch(self, *args, **kwargs):
         return super(IsAdminMixin, self).dispatch(*args, **kwargs)

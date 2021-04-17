@@ -120,4 +120,6 @@ def create_code(request):
     if request.is_ajax():
         code = "".join(choices(ascii_letters + digits, k=randint(50, 99)))
         InviteCode.objects.create(code=code).save()
-        return JsonResponse({"link": f"{request.META['HTTP_HOST']}/registration?code={code}"})
+        return JsonResponse(
+            {"link": f"{request.META['HTTP_HOST']}/registration?code={code}"}
+        )

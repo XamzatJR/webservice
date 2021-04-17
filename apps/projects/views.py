@@ -1,3 +1,5 @@
+import itertools
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
@@ -21,9 +23,13 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
 
     model = Project
     template_name = "projects/projects_output.html"
-    context_object_name = "project"
+    context_object_name = "projects"
 
     def get_context_data(self, **kwargs):
+        grouped = itertools.groupby(
+            self.object_list, lambda o: getattr(o, "created_at").strftime("%d.%m.%Y")
+        )
+        self.object_list = [(day, list(this_day)) for day, this_day in grouped]
         kwargs["users"] = CustomUser.objects.filter()
         return super().get_context_data(**kwargs)
 
@@ -33,7 +39,15 @@ class UserProjectsOutputView(LoginRequiredMixin, ListView):
 
     model = Project
     template_name = "projects/projects_output.html"
-    context_object_name = "project"
+    context_object_name = "projects"
+
+    def get_context_data(self, **kwargs):
+        grouped = itertools.groupby(
+            self.object_list, lambda o: getattr(o, "created_at").strftime("%d.%m.%Y")
+        )
+        self.object_list = [(day, list(this_day)) for day, this_day in grouped]
+        kwargs["users"] = CustomUser.objects.filter()
+        return super().get_context_data(**kwargs)
 
     def get_queryset(self):
         return Project.objects.filter(user=self.request.user)
