@@ -25,40 +25,44 @@
     </div>
   </div>
   <div class="row pt-5 m-auto">
-    {% for item in project %}
-      <div class="col-md-6 col-lg-4 pb-3">
-        <div
-          class="card card-custom bg-white border-white border-0"
-          style="height: 450px"
-        >
+    {% for date, project in projects %}
+      <h2>{{ date }}</h2>
+      {% for item in project %}
+        <div class="col-md-6 col-lg-4 pb-3">
           <div
-            class="card-custom-img"
-            style="{% if item.cover %}background-image: url(/media/{{item.cover}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
-          ></div>
-          <div class="card-custom-avatar">
-            <img
-              class="img-fluid"
-              src="{% if item.photo %}/media/{{item.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
-            />
-          </div>
-          <div class="card-body" style="overflow-y: auto">
-            <h4 class="card-title">{{ item.name }}</h4>
-            <small>от <a href="#">{{ item.user.username}}</a></small>
-            <p class="card-text">{{ item.note }}</p>
-          </div>
-          <div
-            class="card-footer"
-            style="background: inherit; border-color: inherit"
+            class="card card-custom bg-white border-white border-0"
+            style="height: 450px"
           >
-            <div class="d-flex justify-content-between mb-2">
-              <div class="p-2 flex-grow-1"><span class="fa fa-star checked"></span> {{ item.rating }}</div>
-              <div class="p-2"><a href="{% url 'project_detail_url' item.id %}" class="btn btn-outline-dark">Подробнее</a></div>
-              <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт проекта</a></div>
+            <div
+              class="card-custom-img"
+              style="{% if item.cover %}background-image: url(/media/{{item.cover}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
+            ></div>
+            <div class="card-custom-avatar">
+              <img
+                class="img-fluid"
+                src="{% if item.photo %}/media/{{item.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
+              />
+            </div>
+            <div class="card-body" style="overflow-y: auto">
+              <h4 class="card-title">{{ item.name }}</h4>
+              <small>от <a href="#">{{ item.user.username}}</a></small>
+              <p class="card-text">{{ item.note }}</p>
+            </div>
+            <div
+              class="card-footer"
+              style="background: inherit; border-color: inherit"
+            >
+              <div class="d-flex justify-content-between mb-2">
+                <div class="p-2 flex-grow-1"><span class="fa fa-star checked"></span> {{ item.rating }}</div>
+                <div class="p-2"><a href="{% url 'project_detail_url' item.id %}" class="btn btn-outline-dark">Подробнее</a></div>
+                <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт проекта</a></div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      {% endfor %}
     {% endfor %}
+
   </div>
 {% endblock content %}
 {% block js %}
