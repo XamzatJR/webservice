@@ -65,6 +65,7 @@
             {% if project.responsible %}
               {% if request.user.is_staff %}
                 <select class="form-control" id="responsible">
+                  <option value="0">------</option>
                   <option value="{{ project.responsible.pk }}" selected>{{ project.responsible.username }}</option>
                   {% for u in users %}
                     {% if project.responsible.pk != u.pk %}
