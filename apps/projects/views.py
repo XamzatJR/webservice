@@ -143,8 +143,11 @@ def add_responsible(request):
     if request.is_ajax():
         user = CustomUser.objects.get(pk=request.GET.get("user"))
         project = Project.objects.get(pk=request.GET.get("project"))
-        responsible = CustomUser.objects.get(pk=request.GET.get("responsible")) if request.GET.get(
-            "responsible") != "0" else None
+        responsible = (
+            CustomUser.objects.get(pk=request.GET.get("responsible"))
+            if request.GET.get("responsible") != "0"
+            else None
+        )
         if user.is_superuser:
             project.responsible = responsible
             project.save()
