@@ -28,68 +28,74 @@
     </title>
   </head>
   <body>
-    <div class="sidebar-container">
-      <div class="sidebar-logo">База проектов</div>
-      <ul class="sidebar-navigation">
-        <li class="header">Проекты</li>
-        <li>
-          <a href="{% url 'projects_list_url' %}">
-            <i class="fa fa-globe" aria-hidden="true"></i> Все проекты
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'user_projects_list_url' %}">
-            <i class="fa fa-home" aria-hidden="true"></i> Мои проекты
-          </a>
-        </li>
-        <li>
-          <a href="{% url 'project_create_url' %}">
-            <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
-          </a>
-        </li>
-        {% if request.user.is_staff %}
-          <li>
-            <a href="{% url 'experts' %}">
-              <i class="fa fa-flask" aria-hidden="true"></i> Заявки экспертов
-              {% if experts_len > 0 %}
-                <span class="badge bg-primary">{{ experts_len }}</span>
-              {% endif %}
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'create_code' %}">
-              <i class="fa fa-code" aria-hidden="true"></i> Создать ссылку
-            </a>
-          </li>
-        {% endif %}
-        <li class="header">Авторизация</li>
-        {% if request.user.is_authenticated %}
-          <li>
-            <a href="#">
-              <i class="fa fa-user" aria-hidden="true"></i> {{ request.user.username }}
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'logout_url' %}">
-              <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти
-            </a>
-          </li>
-        {% else %}
-          <li>
-            <a href="{% url 'login_url' %}">
-              <i class="fa fa-sign-in" aria-hidden="true"></i> Вход
-            </a>
-          </li>
-          <li>
-            <a href="{% url 'registration_url' %}">
-              <i class="fa fa-sign-in" aria-hidden="true"></i> Регистрация
-            </a>
-          </li>
-        {% endif %}
-      </ul>
-    </div>
-    <div class="container">
-    {% block content %}{% endblock content %}
+    <div class="row">
+      <div class="col-2">
+        <div class="sidebar-container">
+          <div class="sidebar-logo">База проектов</div>
+          <ul class="sidebar-navigation">
+            <li class="header">Проекты</li>
+            <li>
+              <a href="{% url 'projects_list_url' %}">
+                <i class="fa fa-globe" aria-hidden="true"></i> Все проекты
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'user_projects_list_url' %}">
+                <i class="fa fa-home" aria-hidden="true"></i> Мои проекты
+              </a>
+            </li>
+            <li>
+              <a href="{% url 'project_create_url' %}">
+                <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
+              </a>
+            </li>
+            {% if request.user.is_staff %}
+              <li>
+                <a href="{% url 'experts' %}">
+                  <i class="fa fa-flask" aria-hidden="true"></i> Заявки экспертов
+                  {% if experts_len > 0 %}
+                    <span class="badge bg-primary">{{ experts_len }}</span>
+                  {% endif %}
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'create_code' %}">
+                  <i class="fa fa-code" aria-hidden="true"></i> Создать ссылку
+                </a>
+              </li>
+            {% endif %}
+            <li class="header">Авторизация</li>
+            {% if request.user.is_authenticated %}
+              <li>
+                <a href="#">
+                  <i class="fa fa-user" aria-hidden="true"></i> {{ request.user.username }}
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'logout_url' %}">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти
+                </a>
+              </li>
+            {% else %}
+              <li>
+                <a href="{% url 'login_url' %}">
+                  <i class="fa fa-sign-in" aria-hidden="true"></i> Вход
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'registration_url' %}">
+                  <i class="fa fa-sign-in" aria-hidden="true"></i> Регистрация
+                </a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-10">
+        <div class="container">
+          {% block content %}{% endblock content %}
+        </div>
+      </div>
     </div>
     {% block js %}{% endblock js %}
   </body>
