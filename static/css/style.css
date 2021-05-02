@@ -119,3 +119,9 @@ section {
 .checked {
   color: orange;
 }
+
+@media (max-width: 768px) {
+  .menu {
+    width: 50%;
+  }
+}
