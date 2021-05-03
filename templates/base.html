@@ -28,75 +28,54 @@
     </title>
   </head>
   <body>
-    <div class="row">
-      <div class="col-2">
-        <div class="sidebar-container">
-          <div class="sidebar-logo">База проектов</div>
-          <ul class="sidebar-navigation">
-            <li class="header">Проекты</li>
-            <li>
-              <a href="{% url 'projects_list_url' %}">
-                <i class="fa fa-globe" aria-hidden="true"></i> Все проекты
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'user_projects_list_url' %}">
-                <i class="fa fa-home" aria-hidden="true"></i> Мои проекты
-              </a>
-            </li>
-            <li>
-              <a href="{% url 'project_create_url' %}">
-                <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
-              </a>
-            </li>
-            {% if request.user.is_staff %}
-              <li>
-                <a href="{% url 'experts' %}">
-                  <i class="fa fa-flask" aria-hidden="true"></i> Заявки экспертов
-                  {% if experts_len > 0 %}
-                    <span class="badge bg-primary">{{ experts_len }}</span>
-                  {% endif %}
-                </a>
-              </li>
-              <li>
-                <a href="{% url 'create_code' %}">
-                  <i class="fa fa-code" aria-hidden="true"></i> Создать ссылку
-                </a>
-              </li>
+    <div class="menu">
+      <a class="menu-btn"></a>
+      <nav class="menu-list">
+        <a href="{% url 'projects_list_url' %}">
+          <i class="fa fa-globe" aria-hidden="true"></i> Все проекты
+        </a>
+        <a href="{% url 'user_projects_list_url' %}">
+          <i class="fa fa-home" aria-hidden="true"></i> Мои проекты
+        </a>
+        <a href="{% url 'project_create_url' %}">
+          <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
+        </a>
+        {% if request.user.is_staff %}
+          <a href="{% url 'experts' %}">
+            <i class="fa fa-flask" aria-hidden="true"></i> Заявки экспертов
+            {% if experts_len > 0 %}
+              <span class="badge bg-primary">{{ experts_len }}</span>
             {% endif %}
-            <li class="header">Авторизация</li>
-            {% if request.user.is_authenticated %}
-              <li>
-                <a href="#">
-                  <i class="fa fa-user" aria-hidden="true"></i> {{ request.user.username }}
-                </a>
-              </li>
-              <li>
-                <a href="{% url 'logout_url' %}">
-                  <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти
-                </a>
-              </li>
-            {% else %}
-              <li>
-                <a href="{% url 'login_url' %}">
-                  <i class="fa fa-sign-in" aria-hidden="true"></i> Вход
-                </a>
-              </li>
-              <li>
-                <a href="{% url 'registration_url' %}">
-                  <i class="fa fa-sign-in" aria-hidden="true"></i> Регистрация
-                </a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
-      </div>
-      <div class="col-10">
-        <div class="container">
-          {% block content %}{% endblock content %}
-        </div>
+          </a>
+          <a href="{% url 'create_code' %}">
+            <i class="fa fa-code" aria-hidden="true"></i> Создать ссылку
+          </a>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+          <a href="#">
+            <i class="fa fa-user" aria-hidden="true"></i> {{ request.user.username }}
+          </a>
+          <a href="{% url 'logout_url' %}">
+            <i class="fa fa-sign-out" aria-hidden="true"></i> Выйти
+          </a>
+        {% else %}
+          <a href="{% url 'login_url' %}">
+            <i class="fa fa-sign-in" aria-hidden="true"></i> Вход
+          </a>
+          <a href="{% url 'registration_url' %}">
+            <i class="fa fa-sign-in" aria-hidden="true"></i> Регистрация
+          </a>
+        {% endif %}
+      </nav>
+    </div>
+    <div class="wrapper">
+      <div class="container">
+        {% block content %}{% endblock content %}
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{% static 'js/sidebar.js' %}"></script>
     {% block js %}{% endblock js %}
   </body>
 </html>
