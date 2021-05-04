@@ -36,7 +36,7 @@ section {
   display: flex;
   justify-content: space-around;
   align-items: left;
-  height: 30%;
+  height: 50%;
   flex-direction: column;
 }
 
