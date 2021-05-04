@@ -55,6 +55,11 @@ section {
   position: absolute;
   right: -35px;
   top: 10px;
+  text-align: center;
+}
+
+.menu-btn i {
+  color: antiquewhite;
 }
 
 .container {
