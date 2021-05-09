@@ -36,7 +36,7 @@ function getQuery() {
     const responsible = $("#responsible").val();
     axios.get(url, { params: { search: name, user: user, responsible: responsible } })
         .then(function (response) {
-            $(".row.pt-5.m-auto").html("")
+            $(".row.pt-5").html("")
             response.data.forEach(el => {
                 const html = _.template(template)({
                     hexcolor: el.hex_color,
@@ -45,9 +45,9 @@ function getQuery() {
                     name: el.name,
                     user: el.user,
                     note: el.note,
-                    rating: el.rating
+                    rating: el.rating,
                 })
-                $(".row.pt-5.m-auto").html($(".row.pt-5.m-auto").html() + html)
+                $(".row.pt-5").html($(".row.pt-5").html() + html)
             });
         })
         .catch(function (error) {
