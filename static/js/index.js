@@ -1,15 +1,22 @@
+const coverTemplate = `<div class="card-custom-img"
+style="background-image: url(<%-cover%>)"
+></div>`
+const coverHexTemplate = `<div class="card-custom-img"
+style="background-color: <%-hexcolor%>"
+></div>`
+const logoTemplate = `<img class="img-fluid" src="<%-photo%>"/>`
+const logoDefaultTemplate = `<img class="img-fluid"
+src="http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg"
+/>`
 const template = `
 <div class="col-md-6 col-lg-4 pb-3">
 <div
   class="card card-custom bg-white border-white border-0"
   style="height: 450px"
 >
-  <div class="card-custom-img" style="background-color: <%-hexcolor%>;"></div>
+  <%=cover%>
   <div class="card-custom-avatar">
-    <img
-      class="img-fluid"
-      src="http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg"
-    />
+    <%=photo%>
   </div>
   <div class="card-body" style="overflow-y: auto">
     <h4 class="card-title"><%-name%></h4>
@@ -31,35 +38,48 @@ const template = `
 
 const url = "/api/projects";
 function getQuery() {
-    const name = $("#name").val();
-    const user = $("#user").val();
-    const responsible = $("#responsible").val();
-    axios.get(url, { params: { search: name, user: user, responsible: responsible } })
-        .then(function (response) {
-            $(".row.pt-5.m-auto").html("")
-            response.data.forEach(el => {
-                const html = _.template(template)({
-                    hexcolor: el.hex_color,
-                    pk: el.pk,
-                    site: el.site,
-                    name: el.name,
-                    user: el.user,
-                    note: el.note,
-                    rating: el.rating
-                })
-                $(".row.pt-5.m-auto").html($(".row.pt-5.m-auto").html() + html)
-            });
+  const name = $("#name").val();
+  const user = $("#user").val();
+  const responsible = $("#responsible").val();
+  axios.get(url, { params: { search: name, user: user, responsible: responsible } })
+    .then(function (response) {
+      $(".row.pt-5").html("")
+      response.data.forEach(el => {
+        if (el.cover) {
+          el.cover = _.template(coverTemplate)({cover: el.cover})
+        } else {
+          el.cover = _.template(coverHexTemplate)({hexcolor: el.hex_color})
+        }
+        if (el.photo) {
+          el.photo = _.template(logoTemplate)({
+            photo: el.photo
+          })
+        } else {
+          el.photo = logoDefaultTemplate
+        }
+        const html = _.template(template)({
+          cover: el.cover,
+          photo: el.photo,
+          pk: el.pk,
+          site: el.site,
+          name: el.name,
+          user: el.user,
+          note: el.note,
+          rating: el.rating,
         })
-        .catch(function (error) {
-            console.log(error);
-        })
+        $(".row.pt-5").html($(".row.pt-5").html() + html)
+      });
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
 }
 $('#name').keyup(function () {
-    getQuery()
+  getQuery()
 });
 $('#user').change(function () {
-    getQuery()
+  getQuery()
 });
 $('#responsible').change(function () {
-    getQuery()
+  getQuery()
 });
