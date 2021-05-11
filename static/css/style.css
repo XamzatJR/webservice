@@ -18,7 +18,7 @@ section {
   left: 0;
   top: 0;
   z-index: 99;
-  width: 30%;
+  width: 10%;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -36,7 +36,7 @@ section {
   display: flex;
   justify-content: space-around;
   align-items: left;
-  height: 30%;
+  height: 50%;
   flex-direction: column;
 }
 
