@@ -4,15 +4,17 @@ from string import ascii_letters, digits
 from django.contrib.auth import views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.urls.base import reverse
 from django.views.generic import CreateView, View, ListView
+from django.views.generic.edit import UpdateView
 
 from .forms import CustomUserLoginForm, CustomUserRegistrationForm
 from .models import InviteCode
 from .serializer import CustomUser
 from .utils import IsAdminMixin, UserAuthenticatedMixin
+from .forms import UserChangeForm
 
 # class UserCreate(generics.CreateAPIView):
 #     queryset = CustomUser.objects.all()
@@ -123,3 +125,13 @@ def create_code(request):
         return JsonResponse(
             {"link": f"{request.META['HTTP_HOST']}/registration?code={code}"}
         )
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    """ профиль """
+
+    model = CustomUser
+    template_name = "users/photo_update.html"
+    form_class = UserChangeForm
+
+    def get_success_url(self):
+        return reverse_lazy("photo_update_url", kwargs={"pk": self.object.pk})

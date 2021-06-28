@@ -23,9 +23,6 @@ def random_hex() -> str:
 class Project(models.Model):
     user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     name = CharField(_("Название проекта"), max_length=150, db_index=True)
-    photo = models.ImageField(
-        _("Фото"), upload_to="project_photos/", null=True, blank=True
-    )
     cover = models.ImageField(
         _("Обложка"), upload_to="project_photos/", null=True, blank=True
     )

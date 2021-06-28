@@ -4,16 +4,10 @@ from django.contrib.auth import forms as user_forms
 from .models import CustomUser
 
 
-class CustomUserCreationForm(user_forms.UserCreationForm):
+class UserChangeForm(user_forms.UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = "__all__"
-
-
-class CustomUserChangeForm(user_forms.UserChangeForm):
-    class Meta:
-        model = CustomUser
-        fields = "__all__"
+        fields = ("photo",)
 
 
 class CustomUserLoginForm(user_forms.AuthenticationForm, forms.ModelForm):
