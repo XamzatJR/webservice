@@ -32,4 +32,9 @@ urlpatterns = [
         views.PasswordResetCompleteView.as_view(),
         name="password_reset_complete_url",
     ),
+    path(
+        "photo_update/<int:pk>",
+        views.UserUpdateView.as_view(),
+        name="photo_update_url",
+    ),
 ]

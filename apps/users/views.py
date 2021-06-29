@@ -8,11 +8,13 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.urls.base import reverse
 from django.views.generic import CreateView, View, ListView
+from django.views.generic.edit import UpdateView
 
 from .forms import CustomUserLoginForm, CustomUserRegistrationForm
 from .models import InviteCode
 from .serializer import CustomUser
 from .utils import IsAdminMixin, UserAuthenticatedMixin
+from .forms import UserChangeForm
 
 # class UserCreate(generics.CreateAPIView):
 #     queryset = CustomUser.objects.all()
@@ -114,6 +116,17 @@ class CreateInviteCode(IsAdminMixin, ListView):
     model = InviteCode
     template_name = "users/createcode.html"
     context_object_name = "codes"
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    """ профиль """
+
+    model = CustomUser
+    template_name = "users/photo_update.html"
+    form_class = UserChangeForm
+
+    def get_success_url(self):
+        return reverse_lazy("photo_update_url", kwargs={"pk": self.object.pk})
 
 
 def create_code(request):
