@@ -34,7 +34,7 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_photo_url(self, obj):
         try:
-            return obj.photo.url
+            return obj.user.photo.url
         except Exception:
             return ""
 
