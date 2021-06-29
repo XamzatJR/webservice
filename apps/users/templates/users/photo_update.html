@@ -1,0 +1,31 @@
+{% extends 'base_users.html' %}
+
+
+{% block title %}
+	Редактировать фото | {{ request.user}}
+{% endblock %}
+
+{% block content %}
+<div class="box mt-4">
+	<img class="mb-4" style="margin: 0 auto; display: block;" src="/media/{{user.photo}}">
+</div>
+
+<form actions="{{user.get_update_url}}" method='post' enctype="multipart/form-data" class="pt-5" style="text-align: center;">
+	{% csrf_token %}
+
+	{% for field in form %}
+	<div class='form-group'>
+		{% if field.errors%}
+		<div class='alert alert-danger'>
+			{{field.errors}}
+
+
+		</div>
+		{% endif %}
+		{{field.label}}
+		{{ field }}
+	</div>
+	{% endfor %}
+	<button type="submit" class="btn mt-3" style="background-color: rgb(170, 170, 255);">Изменить</button>
+</form>
+{% endblock %}
