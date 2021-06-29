@@ -4,7 +4,7 @@ from string import ascii_letters, digits
 from django.contrib.auth import views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.urls.base import reverse
 from django.views.generic import CreateView, View, ListView
@@ -118,14 +118,6 @@ class CreateInviteCode(IsAdminMixin, ListView):
     context_object_name = "codes"
 
 
-def create_code(request):
-    if request.is_ajax():
-        code = "".join(choices(ascii_letters + digits, k=randint(50, 99)))
-        InviteCode.objects.create(code=code).save()
-        return JsonResponse(
-            {"link": f"{request.META['HTTP_HOST']}/registration?code={code}"}
-        )
-
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     """ профиль """
 
@@ -135,3 +127,12 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("photo_update_url", kwargs={"pk": self.object.pk})
+
+
+def create_code(request):
+    if request.is_ajax():
+        code = "".join(choices(ascii_letters + digits, k=randint(50, 99)))
+        InviteCode.objects.create(code=code).save()
+        return JsonResponse(
+            {"link": f"{request.META['HTTP_HOST']}/registration?code={code}"}
+        )

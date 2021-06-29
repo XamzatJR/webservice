@@ -6,11 +6,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="box">
-	<img class="mb-4" src="/media/{{user.photo}}">
+<div class="box mt-4">
+	<img class="mb-4" style="margin: 0 auto; display: block;" src="/media/{{user.photo}}">
 </div>
 
-<form actions="{{user.get_update_url}}" method='post' enctype="multipart/form-data" class="pt-5">
+<form actions="{{user.get_update_url}}" method='post' enctype="multipart/form-data" class="pt-5" style="text-align: center;">
 	{% csrf_token %}
 
 	{% for field in form %}
@@ -26,6 +26,6 @@
 		{{ field }}
 	</div>
 	{% endfor %}
-	<button type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Изменить</button>
+	<button type="submit" class="btn mt-3" style="background-color: rgb(170, 170, 255);">Изменить</button>
 </form>
 {% endblock %}

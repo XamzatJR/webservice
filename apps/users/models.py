@@ -6,6 +6,7 @@ from django.db.models import ImageField
 from .managers import CustomUserManager
 from django.shortcuts import reverse
 
+
 class CustomUser(AbstractUser):
     email = EmailField(
         ("E-mail"),

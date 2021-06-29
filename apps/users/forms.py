@@ -4,7 +4,7 @@ from django.contrib.auth import forms as user_forms
 from .models import CustomUser
 
 
-class UserChangeForm(user_forms.UserChangeForm):
+class UserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ("photo",)
