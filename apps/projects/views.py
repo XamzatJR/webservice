@@ -110,7 +110,7 @@ class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ["user", "responsible"]
+    filterset_fields = ["user", "responsible", "date"]
     search_fields = ["name"]
 
 
