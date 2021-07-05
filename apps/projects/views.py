@@ -24,12 +24,9 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
     context_object_name = "projects"
+    paginate_by = 30
 
     def get_context_data(self, **kwargs):
-        grouped = itertools.groupby(
-            self.object_list, lambda o: getattr(o, "created_at").strftime("%d.%m.%Y")
-        )
-        self.object_list = [(day, list(this_day)) for day, this_day in grouped]
         kwargs["users"] = CustomUser.objects.filter()
         return super().get_context_data(**kwargs)
 
@@ -40,12 +37,9 @@ class UserProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
     context_object_name = "projects"
+    paginate_by = 30
 
     def get_context_data(self, **kwargs):
-        grouped = itertools.groupby(
-            self.object_list, lambda o: getattr(o, "created_at").strftime("%d.%m.%Y")
-        )
-        self.object_list = [(day, list(this_day)) for day, this_day in grouped]
         kwargs["users"] = CustomUser.objects.filter()
         return super().get_context_data(**kwargs)
 
