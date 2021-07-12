@@ -36,6 +36,8 @@ const template = `
 </div>
 </div>`;
 
+const projectDates = [];
+
 const url = "/api/projects";
 function getQuery(date = null) {
   const name = $("#name").val();
@@ -95,10 +97,32 @@ $("#responsible").change(function () {
   getQuery();
 });
 
-const datepicker = new Datepicker("#datepicker", {
-  onRender: (function () {
-  })(),
-  onChange: (function () {
-    getQuery($("#datepicker").get());
-  })()
+$(document).ready(async function () {
+  const urlP = "/api/project-dates";
+  await axios.get(urlP).then((res) => {
+    res.data.dates.forEach((element) => {
+      projectDates.push(element);
+    });
+  });
+
+  $("#datepicker").datepicker({
+    onRenderCell: function (date, cellType) {
+      const year = String(date.getFullYear());
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const currentDate = year + "-" + month + "-" + day;
+      if (projectDates.indexOf(currentDate) != -1) {
+        return {
+          html: `<span style="color: #4EB5E6;">${date.getDate()}</span>`,
+        };
+      }
+    },
+    onSelect: function onSelect(fd, date) {
+      const year = String(date.getFullYear());
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const currentDate = year + "-" + month + "-" + day;
+      getQuery(currentDate)
+    },
+  });
 });
