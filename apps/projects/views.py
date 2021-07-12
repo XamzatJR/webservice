@@ -25,7 +25,7 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
     context_object_name = "projects"
-    paginate_by = 30
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
         kwargs["users"] = CustomUser.objects.filter()
@@ -38,7 +38,7 @@ class UserProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
     context_object_name = "projects"
-    paginate_by = 30
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
         kwargs["users"] = CustomUser.objects.filter()
