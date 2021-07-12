@@ -95,4 +95,10 @@ $("#responsible").change(function () {
   getQuery();
 });
 
-var datepicker = new Datepicker('#datepicker');
+const datepicker = new Datepicker("#datepicker", {
+  onRender: (function () {
+  })(),
+  onChange: (function () {
+    getQuery($("#datepicker").get());
+  })()
+});

@@ -12,6 +12,7 @@ from .views import (
     ProjectUpdateView,
     ProjectViewSet,
     UserProjectsOutputView,
+    ProjectsDatesView,
     add_responsible,
     change_criteria,
 )
@@ -51,5 +52,6 @@ urlpatterns = [
     ),
     path("change_criteria/", change_criteria, name="change_criteria"),
     path("add_responsible/", add_responsible, name="add_responsible"),
+    path("api/project-dates/", ProjectsDatesView.as_view()),
     re_path("^", include(router.urls)),
 ]

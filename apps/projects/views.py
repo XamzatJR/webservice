@@ -9,6 +9,7 @@ from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from apps.users.models import CustomUser
@@ -131,6 +132,12 @@ def change_criteria(request):
             return JsonResponse(
                 {"count": project.__dict__[field], "rating": project.rating}
             )
+
+
+class ProjectsDatesView(APIView):
+    def get(self, *args, **kwargs):
+        dates = {project.date for project in Project.objects.all()}
+        return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
 
 
 def add_responsible(request):
