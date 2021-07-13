@@ -1,0 +1,16 @@
+{% extends 'base_projects.html' %}
+
+
+{% block title %}
+    Добавление НИОКР проекта
+{% endblock title %}
+
+
+{% block content %}
+<form class="pt-5" method="post" enctype="multipart/form-data">
+    <h1>Добавить НИОКР проект</h1>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Добавить проект</button>
+</form>
+{% endblock content %}
