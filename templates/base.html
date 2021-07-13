@@ -45,7 +45,13 @@
         <a href="{% url 'user_projects_list_url' %}">
           <i class="fa fa-home" aria-hidden="true"></i> Мои проекты
         </a>
-        <a href="{% url 'project_create_url' %}">
+        <a href="{% url 'niokr_projects_list_url' %}">
+          <i class="fa fa-briefcase" aria-hidden="true"></i> Все НИОКР
+        </a>
+        <a href="{% url 'user_niokr_projects_list_url' %}">
+            <i class="fa fa-home" aria-hidden="true"></i>Мои НИОКР
+        </a>
+        <a href="#" data-bs-toggle="modal" id="delete" data-bs-target="#exampleModal">
           <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
         </a>
         {% if request.user.is_staff %}
@@ -78,6 +84,22 @@
     </div>
     <div class="wrapper">
       <div class="container">
+    <div class="modal fade" style="text-align: center" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Что создаем?</h5>
+          </div>
+          <div class="modal-body">
+            <a type="button" href="{% url 'project_create_url' %}" class="btn btn-primary">Проект</a>
+            <a type="button" href="{% url 'niokr_project_create_url' %}" class="btn btn-success">НИОКР</a>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
         {% block content %}
 
         {% endblock content %}
@@ -86,6 +108,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{% static 'js/sidebar.js' %}"></script>
+    <script>
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
+
+        myModal.addEventListener('shown.bs.modal', function () {
+        myInput.focus()
+      })
+    </script>
+    <script>
+      $('#delete').click(() => {
+        $(".modal-backdrop.fade.show").remove()
+      })
+    </script>
     {% block js %}{% endblock js %}
   </body>
 </html>

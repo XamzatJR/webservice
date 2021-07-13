@@ -1,0 +1,168 @@
+{% extends 'base_projects.html' %}
+{% load static %}
+
+{% block title %}
+    {{ project.name }}
+{% endblock title %}
+
+{% block content %}
+<div class="card card-custom bg-white border-white border-0">
+  <div class="card-custom-img" style="{% if niokr_projects.cover %}background-image: url(/media/{{niokr_projects.cover}}){% else %}background-color: {{ niokr_projects.hex_color }}{% endif %}"></div>
+  <div class="card-custom-avatar">
+    <img
+      class="img-fluid"
+      src="{% if niokr_projects.photo %}/media/{{niokr_projects.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
+      alt="Avatar"
+    />
+  </div>
+  <div class="card-body" style="overflow-y: auto">
+    <h2 class="card-title">{{ niokr_projects.theme }}</h2>
+    <small>{{ niokr_projects.annotation }}</small><br />
+    <div class="d-flex bd-highlight">
+      <div class="p-2 w-75">
+        <p class="card-text">{{ project.description }}</p>
+        <div class="p-2 w-100 bd-highlight" > 
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Удалить
+          </button>
+          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel"> Удаление «{{niokr_projects.theme}}‎» </h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                  <form action = '{{ niokr_projects.get_delete_url }}' method="post">
+                    {% csrf_token %}
+                    <p>Уверены, что хотите удалить «{{niokr_projects.theme}}‎»?</p>
+                  </div>
+                <div class="modal-footer">
+                  <button type="submit" name = 'button' class="btn btn-danger"> Да </button>
+                  <a  class="btn btn-primary" data-bs-dismiss="modal"> Нет </a>
+                </div>
+              </form>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+      <div class="p-2 w-25 bd-highlight">
+        <h3>Информация о НИОКР</h3>
+        <ul class="list-group mb-4">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+            <small class="text-muted">Автор </small>
+            <a href="#">{{ niokr_projects.user.username }}</a>
+          </li>
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center"
+          >
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <small class="text-muted">Сайт </small>
+            <a href="{{ niokr_projects.site }}">Сайт НИОКР</a>
+          </li>
+        </ul>
+        <h3>Рейтинг проекта</h3>
+        <ul class="list-group mb-4">
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Наука</small><span id="science" class="fa fa-star {% if niokr_criteria.science %}checked{% endif %}"></span><span id="science-t">{{ niokr_projects.science }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Интересный</small><span id="interesting" class="fa fa-star {% if niokr_criteria.interesting %}checked{% endif %}"></span><span id="interesting-t">{{ niokr_projects.interesting }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Сложный</small><span id="difficult" class="fa fa-star {% if niokr_criteria.difficult %}checked{% endif %}"></span><span id="difficult-t">{{ niokr_projects.difficult }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Непонятный</small><span id="unclear" class="fa fa-star {% if niokr_criteria.unclear %}checked{% endif %}"></span><span id="unclear-t">{{ niokr_projects.unclear }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Повтор</small><span id="repeat" class="fa fa-star {% if niokr_criteria.repeat %}checked{% endif %}"></span><span id="repeat-t">{{ niokr_projects.repeat }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Рейтинг</small><span class="fa fa-star checked"></span><span id="rating-t">{{ project.rating }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+  {% if request.user.is_staff %}
+    <script>
+    $('#responsible').change(function () {
+      const changeExpert = "{% url 'add_responsible' %}"
+      $.ajax({
+        data: {user: {{ request.user.pk }}, project: {{ project.pk }}, responsible: $(this).val()},
+        url: changeExpert,
+        success: function(response){}
+      });
+    });
+    const url = "{% url 'change_criteria' %}";
+    $('#science').click(function () {
+        const field = "science";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function(response){
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#interesting').click(function () {
+        const field = "interesting";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function(response){
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#difficult').click(function () {
+        const field = "difficult";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#unclear').click(function () {
+        const field = "unclear";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    $('#repeat').click(function () {
+        const field = "repeat";
+        $(this).toggleClass("checked")
+        $.ajax({
+            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            url: url,
+            success: function (response) {
+              $(`#${field}-t`).text(response.count)
+              $(`#rating-t`).text(response.rating)
+            }
+        });
+    });
+    </script>
+  {% endif %}
+{% endblock js %}

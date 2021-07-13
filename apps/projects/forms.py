@@ -47,6 +47,7 @@ class NiokrProjectCreateForm(forms.ModelForm):
         model = NiokrProject
         fields = (
             "theme",
+            "site",
             "data_project_start",
             "base_organisation",
             "science_novelty",

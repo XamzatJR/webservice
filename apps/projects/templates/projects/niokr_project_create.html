@@ -8,7 +8,7 @@
 
 {% block content %}
 <form class="pt-5" method="post" enctype="multipart/form-data">
-    <h1>Добавить НИОКР проект</h1>
+    <h1>Добавить НИОКР</h1>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Добавить проект</button>
