@@ -14,25 +14,20 @@ from .views import (
     UserProjectsOutputView,
     add_responsible,
     change_criteria,
-    NiokrCriteriaViewSet,
     NiokrProjectCreateView,
     NiokrProjectDeleteView,
     NiokrProjectDetailView,
     NiokrProjectsOutputView,
     NiokrProjectUpdateView,
-    NiokrProjectViewSet,
     UserNiokrProjectsOutputView,
     NiokrProjectsDatesView,
     ProjectsDatesView,
-    add_niokr_responsible,
     change_niokr_criteria,
 )
 
 router = DefaultRouter()
 router.register(r"api/projects", ProjectViewSet)
 router.register(r"api/criteria", CriteriaViewSet)
-router.register(r"api/niokr_projects", NiokrProjectViewSet)
-router.register(r"api/niokt_criteria", NiokrCriteriaViewSet)
 
 urlpatterns = [
     path("", ProjectsOutputView.as_view(), name="index_url"),
@@ -103,7 +98,6 @@ urlpatterns = [
         name="niokr_project_output_pk_url",
     ),
     path("change_niokr_criteria/", change_niokr_criteria, name="change_niokr_criteria"),
-    path("add_niokr_responsible/", add_niokr_responsible, name="add_niokr_responsible"),
     path("api/niokr_project-dates/", NiokrProjectsDatesView.as_view()),
     re_path("^", include(router.urls)),
 ]

@@ -83,6 +83,3 @@ $('#user').change(function () {
 $('#responsible').change(function () {
   getQuery()
 });
-$('#niokr_responsible').change(function () {
-  getQuery()
-});

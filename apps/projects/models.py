@@ -130,15 +130,6 @@ class NiokrProject(models.Model):
         _("Обложка"), upload_to="project_photos/", null=True, blank=True
     )
     annotation = TextField(_("Аннотация к проекту (до 2000 символов)"), max_length=2000)
-    niokr_responsible = ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=CASCADE,
-        related_name="niokr_responsible",
-        verbose_name=_("Ответственный"),
-        db_index=True,
-        blank=True,
-        null=True,
-    )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
     date = DateField(_("Дата создания"), auto_now_add=True, null=True)
     hex_color = CharField(_("Hex цвет"), max_length=20, blank=True, default="")

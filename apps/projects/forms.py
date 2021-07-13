@@ -86,17 +86,6 @@ class NiokrProjectUpdateForm(forms.ModelForm):
             self.fields[field].widget.attrs["class"] = "form-control"
 
 
-class NiokrProjectAddResponsibleForm(forms.ModelForm):
-    class Meta:
-        model = NiokrProject
-        fields = ("niokr_responsible",)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields[field].widget.attrs["class"] = "form-control"
-
-
 class NiokrCriteriaForm(forms.ModelForm):
     class Meta:
         model = NiokrCriteria

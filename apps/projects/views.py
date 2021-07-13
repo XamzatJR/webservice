@@ -168,7 +168,7 @@ def add_responsible(request):
 
 
 class NiokrProjectsOutputView(LoginRequiredMixin, ListView):
-    """cписок всех НИОКР проектов"""
+    """cписок всех НИОКР"""
 
     model = NiokrProject
     template_name = "projects/niokr_projects_output.html"
@@ -181,7 +181,7 @@ class NiokrProjectsOutputView(LoginRequiredMixin, ListView):
 
 
 class UserNiokrProjectsOutputView(LoginRequiredMixin, ListView):
-    """cписок своих  НИОКР проектов"""
+    """cписок своих  НИОКР"""
 
     model = NiokrProject
     template_name = "projects/niokr_projects_output.html"
@@ -197,7 +197,7 @@ class UserNiokrProjectsOutputView(LoginRequiredMixin, ListView):
 
 
 class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
-    """создание НИОКР проекта"""
+    """создание НИОКР"""
 
     model = NiokrProject
     template_name = "projects/niokr_project_create.html"
@@ -212,7 +212,7 @@ class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
 
 
 class NiokrProjectDeleteView(DeleteView, LoginRequiredMixin):
-    """удаление НИОКР проекта"""
+    """удаление НИОКР"""
 
     model = NiokrProject
     success_url = reverse_lazy("niokr_projects_list_url")
@@ -220,7 +220,7 @@ class NiokrProjectDeleteView(DeleteView, LoginRequiredMixin):
 
 
 class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
-    """редактирование НИОКР проекта"""
+    """редактирование НИОКР"""
 
     model = NiokrProject
     form_class = forms.NiokrProjectUpdateForm
@@ -229,7 +229,7 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
-    """обзор НИОКР проекта"""
+    """обзор НИОКР"""
 
     model = NiokrProject
     template_name = "projects/niokr_project_detail.html"
@@ -288,18 +288,3 @@ class NiokrProjectsDatesView(APIView):
     def get(self, *args, **kwargs):
         dates = {niokr_project.date for niokr_project in NiokrProject.objects.all()}
         return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
-
-
-def add_niokr_responsible(request):
-    if request.is_ajax():
-        user = CustomUser.objects.get(pk=request.GET.get("user"))
-        niokr_project = NiokrProject.objects.get(pk=request.GET.get("niokr_project"))
-        niokr_responsible = (
-            CustomUser.objects.get(pk=request.GET.get("niokr_responsible"))
-            if request.GET.get("niokr_responsible") != "0"
-            else None
-        )
-        if user.is_superuser:
-            niokr_project.niokr_responsible = niokr_responsible
-            niokr_project.save()
-        return JsonResponse({"code": 200})
