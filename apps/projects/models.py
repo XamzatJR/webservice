@@ -124,8 +124,8 @@ class NiokrProject(models.Model):
         max_length=150,
         db_index=True,
     )
-    grants = BooleanField(_("Наличие грантов"), default=False)
-    patents = BooleanField(_("Наличие патента"), default=False)
+    grants = CharField(_("Наличие грантов"), blank=True, null=True, max_length=2000)
+    patents = CharField(_("Наличие патента"), blank=True, null=True, max_length=2000)
     cover = models.ImageField(
         _("Обложка"), upload_to="niokr_project_photos/", null=True, blank=True
     )

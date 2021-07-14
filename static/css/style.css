@@ -131,3 +131,7 @@ section {
     width: 50%;
   }
 }
+
+.disabled {
+  display: none;
+}

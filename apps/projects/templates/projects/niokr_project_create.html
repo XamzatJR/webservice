@@ -10,7 +10,37 @@
 <form class="pt-5" method="post" enctype="multipart/form-data">
     <h1>Добавить НИОКР</h1>
     {% csrf_token %}
-    {{ form.as_p }}
+    <p class="card-text"><h6>Тема НИОКР:</h6> {{ form.theme }}</p>
+    <p class="card-text"><h6>Базовая организация:</h6> {{ form.base_organisation }}</p>
+    <p class="card-text"> <h6>Дата начала исследований:</h6> {{ form.data_project_start }}</p>
+    <p><h6>Сайт:</h6> {{ form.site }}</p>
+    <p class="card-text"> <h6>Научная новизна:</h6> {{ form.science_novelty }}</p>
+    <p class="card-text"> <h6>Коммерческий результат:</h6> {{ form.commercial_result }}</p>
+    <p><input type="checkbox" id="deleteClassGrant"> Отметьте, если есть гранты</p>
+    <div id="grants" class="disabled" > <h6>Перечислите все гранты через запятую:</h6> {{ form.grants }}</div>
+    <input type="checkbox" id="deleteClassPatent"> Отметьте, если есть патенты
+    <div id="patents" class="disabled" > <h6>Перечислите все патенты через запятую:</h6> {{ form.patents }}</div>
+    <p class="card-text"> <h6>Оборудование, необходимое для реализации проекта:</h6> {{ form.equipment }}</p>
+    <p class="card-text"> <h6>Аннотация к НИОКР:</h6> {{ form.annotation }}</p>
     <button type="submit" class="btn mt-3" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Добавить проект</button>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    $('#deleteClassGrant').click(function(){
+        if ($(this).is(':checked')){
+            $('#grants').show();
+        } else {
+            $('#grants').hide();
+        }
+    });    
+    $('#deleteClassPatent').click(function(){
+        if ($(this).is(':checked')){
+            $('#patents').show();
+        } else {
+            $('#patents').hide();
+        }
+    });    
+
+</script>   
 {% endblock content %}
