@@ -11,18 +11,22 @@
   <div class="card-custom-avatar">
     <img
       class="img-fluid"
-      src="{% if niokr_projects.photo %}/media/{{niokr_projects.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
+      src="/media/{{ niokr_projects.user.photo}}"
       alt="Avatar"
     />
   </div>
   <div class="card-body" style="overflow-y: auto">
     <h2 class="card-title">{{ niokr_projects.theme }}</h2>
-    <small>{{ niokr_projects.annotation }}</small><br />
     <div class="d-flex bd-highlight">
       <div class="p-2 w-75">
-        <p class="card-text">{{ project.description }}</p>
+        <p class="card-text"> <h6>Базовая организация:</h6> {{ niokr_projects.base_organisation }}</p>
+        <p class="card-text"> <h6>Дата начала исследований:</h6> {{ niokr_projects.data_project_start }}</p>
+        <p class="card-text"> <h6>Научная новизна:</h6> {{ niokr_projects.science_novelty }}</p>
+        <p class="card-text"> <h6>Коммерческий результат:</h6> {{ niokr_projects.commercial_result }}</p>
+        <p class="card-text"> <h6>Оборудование, необходимое для реализации проекта:</h6> {{ niokr_projects.equipment }}</p>
+        <p class="card-text"> <h6>Аннотация к НИОКР:</h6> {{ niokr_projects.annotation }}</p>
         <div class="p-2 w-100 bd-highlight" > 
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+          <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Удалить
           </button>
           <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -45,6 +49,7 @@
               </div>
             </div>
           </div>
+          <a class="btn btn-primary" href="{% url 'niokr_project_update_url' niokr_projects.pk %}">Изменить</a>
       </div>
     </div>
       <div class="p-2 w-25 bd-highlight">
@@ -56,9 +61,6 @@
             <small class="text-muted">Автор </small>
             <a href="#">{{ niokr_projects.user.username }}</a>
           </li>
-          <li
-            class="list-group-item d-flex justify-content-between align-items-center"
-          >
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <small class="text-muted">Сайт </small>
             <a href="{{ niokr_projects.site }}">Сайт НИОКР</a>
@@ -94,20 +96,12 @@
 {% block js %}
   {% if request.user.is_staff %}
     <script>
-    $('#responsible').change(function () {
-      const changeExpert = "{% url 'add_responsible' %}"
-      $.ajax({
-        data: {user: {{ request.user.pk }}, project: {{ project.pk }}, responsible: $(this).val()},
-        url: changeExpert,
-        success: function(response){}
-      });
-    });
-    const url = "{% url 'change_criteria' %}";
+    const url = "{% url 'change_niokr_criteria' %}";
     $('#science').click(function () {
         const field = "science";
         $(this).toggleClass("checked")
         $.ajax({
-            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            data: {field: field, user: {{ request.user.pk }}, niokr_projects: {{ niokr_projects.pk }}},
             url: url,
             success: function(response){
               $(`#${field}-t`).text(response.count)
@@ -119,7 +113,7 @@
         const field = "interesting";
         $(this).toggleClass("checked")
         $.ajax({
-            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            data: {field: field, user: {{ request.user.pk }}, niokr_projects: {{ niokr_projects.pk }}},
             url: url,
             success: function(response){
               $(`#${field}-t`).text(response.count)
@@ -131,7 +125,7 @@
         const field = "difficult";
         $(this).toggleClass("checked")
         $.ajax({
-            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            data: {field: field, user: {{ request.user.pk }}, niokr_projects: {{ niokr_projects.pk }}},
             url: url,
             success: function (response) {
               $(`#${field}-t`).text(response.count)
@@ -143,7 +137,7 @@
         const field = "unclear";
         $(this).toggleClass("checked")
         $.ajax({
-            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            data: {field: field, user: {{ request.user.pk }}, niokr_projects: {{ niokr_projects.pk }}},
             url: url,
             success: function (response) {
               $(`#${field}-t`).text(response.count)
@@ -155,7 +149,7 @@
         const field = "repeat";
         $(this).toggleClass("checked")
         $.ajax({
-            data: {field: field, user: {{ request.user.pk }}, project: {{ project.pk }}},
+            data: {field: field, user: {{ request.user.pk }}, niokr_projects: {{ niokr_projects.pk }}},
             url: url,
             success: function (response) {
               $(`#${field}-t`).text(response.count)

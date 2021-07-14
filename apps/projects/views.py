@@ -20,8 +20,6 @@ from .models import Criteria, Project, NiokrProject, NiokrCriteria
 from .serializer import (
     CriteriaSerializer,
     ProjectSerializer,
-    NiokrProjectSerializer,
-    NiokrCriteriaSerializer,
 )
 
 
@@ -234,6 +232,7 @@ class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
     model = NiokrProject
     template_name = "projects/niokr_project_detail.html"
     success_url = reverse_lazy("niokr_project_detail_url")
+    context_object_name = "niokr_projects"
 
     def get_context_data(self, **kwargs):
         if self.request.user.is_expert:
@@ -252,35 +251,21 @@ class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
         return super().get_queryset()
 
 
-# API NIOKR Controllers
-
-
-class NiokrProjectViewSet(ModelViewSet):
-    queryset = NiokrProject.objects.all()
-    serializer_class = NiokrProjectSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ["user", "responsible", "date"]
-    search_fields = ["theme"]
-
-
-class NiokrCriteriaViewSet(ModelViewSet):
-    queryset = NiokrCriteria.objects.all()
-    serializer_class = NiokrCriteriaSerializer
-
-
 def change_niokr_criteria(request):
     if request.is_ajax():
         field = request.GET.get("field")
         user = CustomUser.objects.get(pk=request.GET.get("user"))
         if user.is_expert:
             niokr_criteria = NiokrCriteria.objects.get(
-                app=request.GET.get("niokr_project"), expert=user
+                app=request.GET.get("niokr_projects"), expert=user
             )
             niokr_criteria.__dict__[field] = not niokr_criteria.__dict__[field]
             niokr_criteria.save(update_fields=[field])
-            project = NiokrProject.objects.get(pk=request.GET.get("niokr_project"))
+            niokr_project = NiokrProject.objects.get(
+                pk=request.GET.get("niokr_projects")
+            )
             return JsonResponse(
-                {"count": project.__dict__[field], "rating": project.rating}
+                {"count": niokr_project.__dict__[field], "rating": niokr_project.rating}
             )
 
 

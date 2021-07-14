@@ -11,7 +11,7 @@
   <div class="card-custom-avatar">
     <img
       class="img-fluid"
-      src="{% if project.photo %}/media/{{project.photo}}{% else %}http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg{% endif %}"
+      src="/media/{{ project.user.photo}}"
       alt="Avatar"
     />
   </div>

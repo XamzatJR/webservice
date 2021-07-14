@@ -127,7 +127,7 @@ class NiokrProject(models.Model):
     grants = BooleanField(_("Наличие грантов"), default=False)
     patents = BooleanField(_("Наличие патента"), default=False)
     cover = models.ImageField(
-        _("Обложка"), upload_to="project_photos/", null=True, blank=True
+        _("Обложка"), upload_to="niokr_project_photos/", null=True, blank=True
     )
     annotation = TextField(_("Аннотация к проекту (до 2000 символов)"), max_length=2000)
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
