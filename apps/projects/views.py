@@ -11,12 +11,17 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+
 
 from apps.users.models import CustomUser
 
 from . import forms
-from .models import Criteria, Project
-from .serializer import CriteriaSerializer, ProjectSerializer
+from .models import Criteria, Project, NiokrProject, NiokrCriteria
+from .serializer import (
+    CriteriaSerializer,
+    ProjectSerializer,
+)
 
 
 class ProjectsOutputView(LoginRequiredMixin, ListView):
@@ -33,7 +38,7 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
 
 
 class UserProjectsOutputView(LoginRequiredMixin, ListView):
-    """cписок своих проектов """
+    """cписок своих проектов"""
 
     model = Project
     template_name = "projects/projects_output.html"
@@ -64,7 +69,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
 
 class ProjectDeleteView(DeleteView, LoginRequiredMixin):
-    """ удаление проекта """
+    """удаление проекта"""
 
     model = Project
     success_url = reverse_lazy("projects_list_url")
@@ -120,6 +125,12 @@ class CriteriaViewSet(ModelViewSet):
     serializer_class = CriteriaSerializer
 
 
+class ProjectsDatesView(APIView):
+    def get(self, *args, **kwargs):
+        dates = {project.date for project in Project.objects.all()}
+        return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
+
+
 def change_criteria(request):
     if request.is_ajax():
         field = request.GET.get("field")
@@ -153,3 +164,113 @@ def add_responsible(request):
             project.responsible = responsible
             project.save()
         return JsonResponse({"code": 200})
+
+
+class NiokrProjectsOutputView(LoginRequiredMixin, ListView):
+    """cписок всех НИОКР"""
+
+    model = NiokrProject
+    template_name = "projects/niokr_projects_output.html"
+    context_object_name = "niokr_projects"
+    paginate_by = 30
+
+    def get_context_data(self, **kwargs):
+        kwargs["users"] = CustomUser.objects.filter()
+        return super().get_context_data(**kwargs)
+
+
+class UserNiokrProjectsOutputView(LoginRequiredMixin, ListView):
+    """cписок своих  НИОКР"""
+
+    model = NiokrProject
+    template_name = "projects/niokr_projects_output.html"
+    context_object_name = "niokr_projects"
+    paginate_by = 30
+
+    def get_context_data(self, **kwargs):
+        kwargs["users"] = CustomUser.objects.filter()
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return NiokrProject.objects.filter(user=self.request.user)
+
+
+class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
+    """создание НИОКР"""
+
+    model = NiokrProject
+    template_name = "projects/niokr_project_create.html"
+    form_class = forms.NiokrProjectCreateForm
+    success_url = reverse_lazy("niokr_projects_list_url")
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+
+class NiokrProjectDeleteView(DeleteView, LoginRequiredMixin):
+    """удаление НИОКР"""
+
+    model = NiokrProject
+    success_url = reverse_lazy("niokr_projects_list_url")
+    template_name = "projects/niokr_project_delete.html"
+
+
+class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
+    """редактирование НИОКР"""
+
+    model = NiokrProject
+    form_class = forms.NiokrProjectUpdateForm
+    template_name = "projects/niokr_project_update.html"
+    success_url = reverse_lazy("niokr_projects_list_url")
+
+
+class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
+    """обзор НИОКР"""
+
+    model = NiokrProject
+    template_name = "projects/niokr_project_detail.html"
+    success_url = reverse_lazy("niokr_project_detail_url")
+    context_object_name = "niokr_projects"
+
+    def get_context_data(self, **kwargs):
+        if self.request.user.is_expert:
+            niokr_criteria = NiokrCriteria.objects.get_or_create(
+                app=kwargs["object"], expert=self.request.user
+            )
+        try:
+            kwargs["niokr_criteria"] = niokr_criteria[0]
+        except UnboundLocalError:
+            forms.NiokrCriteriaForm
+        kwargs["users"] = CustomUser.objects.filter()
+
+        return super().get_context_data(**kwargs)
+
+    def get_queryset(self):
+        return super().get_queryset()
+
+
+def change_niokr_criteria(request):
+    if request.is_ajax():
+        field = request.GET.get("field")
+        user = CustomUser.objects.get(pk=request.GET.get("user"))
+        if user.is_expert:
+            niokr_criteria = NiokrCriteria.objects.get(
+                app=request.GET.get("niokr_projects"), expert=user
+            )
+            niokr_criteria.__dict__[field] = not niokr_criteria.__dict__[field]
+            niokr_criteria.save(update_fields=[field])
+            niokr_project = NiokrProject.objects.get(
+                pk=request.GET.get("niokr_projects")
+            )
+            return JsonResponse(
+                {"count": niokr_project.__dict__[field], "rating": niokr_project.rating}
+            )
+
+
+class NiokrProjectsDatesView(APIView):
+    def get(self, *args, **kwargs):
+        dates = {niokr_project.date for niokr_project in NiokrProject.objects.all()}
+        return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})

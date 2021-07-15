@@ -119,7 +119,7 @@ class CreateInviteCode(IsAdminMixin, ListView):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-    """ профиль """
+    """профиль"""
 
     model = CustomUser
     template_name = "users/photo_update.html"

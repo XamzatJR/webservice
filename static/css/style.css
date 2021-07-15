@@ -148,3 +148,7 @@ section {
 }
 
 #date_range_multiple{ width: 350px; }
+
+.disabled {
+  display: none;
+}

@@ -126,3 +126,6 @@ $(document).ready(async function () {
     },
   });
 });
+$('#responsible').change(function () {
+  getQuery()
+});

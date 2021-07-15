@@ -1,0 +1,87 @@
+{% extends 'base_projects.html' %}
+{% load static %}
+
+{% block title %}
+  Все НИОКР
+{% endblock title %}
+
+
+{% block content %}
+  <div class="filter pt-5">
+    <div class="input-group mb-3">
+      <input type="text" id="name" class="form-control" placeholder="Название проекта" aria-label="Название проекта">
+      <select class="form-select" id="user">
+        <option value="" selected>Выберите пользователя</option>
+        {% for u in users %}
+          <option value="{{ u.pk }}">{{ u.username }}</option>
+        {% endfor %}
+      </select>
+      <select class="form-select" id="responsible">
+        <option value="" selected>Выберите ответственного</option>
+        {% for u in users %}
+          <option value="{{ u.pk }}">{{ u.username }}</option>
+        {% endfor %}
+      </select>
+      <input type="text" id="datepicker" class="form-control" placeholder="Выберите дату" aria-label="Выберите дату">
+    </div>
+  </div>
+  <div class="row pt-5">
+      <h2 class="text-center">{{ date }}</h2>
+      {% for item in niokr_projects %}
+        <div class="col-md-6 col-lg-4 pb-3">
+          <div
+            class="card card-custom bg-white border-white border-0"
+            style="height: 450px"
+          >
+            <div
+              class="card-custom-img"
+              style="{% if item.cover %}background-image: url(/media/{{item.cover}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
+            ></div>
+            <div class="card-custom-avatar">
+              <img
+                class="img-fluid"
+                src="/media/{{ item.user.photo}}"
+              />
+            </div>
+            <div class="card-body" style="overflow-y: auto">
+              <h4 class="card-title">{{ item.name }}</h4>
+              <small>от <a href="#">{{ item.user.username}}</a></small>
+              <p class="card-text">{{ item.annotation }}</p>
+            </div>
+            <div
+              class="card-footer"
+              style="background: inherit; border-color: inherit"
+            >
+              <div class="d-flex justify-content-between mb-2">
+                <div class="p-2 flex-grow-1"><span class="fa fa-star checked"></span> {{ item.rating }}</div>
+                <div class="p-2"><a href="{% url 'niokr_project_detail_url' item.id %}" class="btn btn-outline-dark">Подробнее</a></div>
+                <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт проекта</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <hr/>
+
+
+    <nav>
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">Первая страница</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+        {% endif %}
+        <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+{% endblock content %}
+{% block js %}
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="{% static 'js/datepicker.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/datepicker.material.css' %}">
+  <script src="{% static 'js/index.js' %}"></script>
+{% endblock js %}
