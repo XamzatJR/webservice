@@ -57,6 +57,8 @@ class NiokrProjectCreateForm(forms.ModelForm):
             "patents",
             "cover",
             "annotation",
+            "responsible",
+            "team"
         )
 
     def __init__(self, *args, **kwargs):
@@ -80,6 +82,8 @@ class NiokrProjectUpdateForm(forms.ModelForm):
             "patents",
             "cover",
             "annotation",
+            "responsible",
+            "team"
         )
 
     def __init__(self, *args, **kwargs):

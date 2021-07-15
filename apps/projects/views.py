@@ -1,5 +1,3 @@
-import itertools
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
@@ -11,17 +9,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
-
 
 from apps.users.models import CustomUser
 
 from . import forms
-from .models import Criteria, Project, NiokrProject, NiokrCriteria
-from .serializer import (
-    CriteriaSerializer,
-    ProjectSerializer,
-)
+from .models import Criteria, NiokrCriteria, NiokrProject, Project
+from .serializer import CriteriaSerializer, ProjectSerializer
 
 
 class ProjectsOutputView(LoginRequiredMixin, ListView):
@@ -143,12 +136,6 @@ def change_criteria(request):
             return JsonResponse(
                 {"count": project.__dict__[field], "rating": project.rating}
             )
-
-
-class ProjectsDatesView(APIView):
-    def get(self, *args, **kwargs):
-        dates = {project.date for project in Project.objects.all()}
-        return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
 
 
 def add_responsible(request):
