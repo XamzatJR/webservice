@@ -4,6 +4,7 @@ from django.db.models.deletion import CASCADE
 from django.db.models.fields import (
     BooleanField,
     CharField,
+    DateField,
     DateTimeField,
     DateField,
     TextField,
@@ -40,6 +41,7 @@ class Project(models.Model):
         null=True,
     )
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
+    date = DateField(_("Дата создания"), auto_now_add=True, null=True)
     hex_color = CharField(_("Hex цвет"), max_length=20, blank=True, default="")
     science = IntegerField(_("Наука"), default=0)
     interesting = IntegerField(_("Интересный"), default=0)

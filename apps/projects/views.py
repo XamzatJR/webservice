@@ -9,6 +9,7 @@ from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 
@@ -29,12 +30,9 @@ class ProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
     context_object_name = "projects"
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
-        grouped = itertools.groupby(
-            self.object_list, lambda o: getattr(o, "created_at").strftime("%d.%m.%Y")
-        )
-        self.object_list = [(day, list(this_day)) for day, this_day in grouped]
         kwargs["users"] = CustomUser.objects.filter()
         return super().get_context_data(**kwargs)
 
@@ -45,12 +43,9 @@ class UserProjectsOutputView(LoginRequiredMixin, ListView):
     model = Project
     template_name = "projects/projects_output.html"
     context_object_name = "projects"
+    paginate_by = 15
 
     def get_context_data(self, **kwargs):
-        grouped = itertools.groupby(
-            self.object_list, lambda o: getattr(o, "created_at").strftime("%d.%m.%Y")
-        )
-        self.object_list = [(day, list(this_day)) for day, this_day in grouped]
         kwargs["users"] = CustomUser.objects.filter()
         return super().get_context_data(**kwargs)
 
@@ -121,7 +116,7 @@ class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ["user", "responsible"]
+    filterset_fields = ["user", "responsible", "date"]
     search_fields = ["name"]
 
 
@@ -148,6 +143,12 @@ def change_criteria(request):
             return JsonResponse(
                 {"count": project.__dict__[field], "rating": project.rating}
             )
+
+
+class ProjectsDatesView(APIView):
+    def get(self, *args, **kwargs):
+        dates = {project.date for project in Project.objects.all()}
+        return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
 
 
 def add_responsible(request):

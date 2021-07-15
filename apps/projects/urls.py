@@ -12,6 +12,7 @@ from .views import (
     ProjectUpdateView,
     ProjectViewSet,
     UserProjectsOutputView,
+    ProjectsDatesView,
     add_responsible,
     change_criteria,
     NiokrProjectCreateView,

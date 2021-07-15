@@ -1,13 +1,13 @@
 const coverTemplate = `<div class="card-custom-img"
 style="background-image: url(<%-cover%>)"
-></div>`
+></div>`;
 const coverHexTemplate = `<div class="card-custom-img"
 style="background-color: <%-hexcolor%>"
-></div>`
-const logoTemplate = `<img class="img-fluid" src="<%-photo%>"/>`
+></div>`;
+const logoTemplate = `<img class="img-fluid" src="<%-photo%>"/>`;
 const logoDefaultTemplate = `<img class="img-fluid"
 src="http://res.cloudinary.com/d3/image/upload/c_pad,g_center,h_200,q_auto:eco,w_200/bootstrap-logo_u3c8dx.jpg"
-/>`
+/>`;
 const template = `
 <div class="col-md-6 col-lg-4 pb-3">
 <div
@@ -34,28 +34,38 @@ const template = `
     </div>
   </div>
 </div>
-</div>`
+</div>`;
+
+const projectDates = [];
 
 const url = "/api/projects";
-function getQuery() {
+function getQuery(date = null) {
   const name = $("#name").val();
   const user = $("#user").val();
   const responsible = $("#responsible").val();
-  axios.get(url, { params: { search: name, user: user, responsible: responsible } })
+  axios
+    .get(url, {
+      params: {
+        search: name,
+        user: user,
+        responsible: responsible,
+        date: date,
+      },
+    })
     .then(function (response) {
-      $(".row.pt-5").html("")
-      response.data.forEach(el => {
+      $(".row.pt-5").html("");
+      response.data.forEach((el) => {
         if (el.cover) {
-          el.cover = _.template(coverTemplate)({cover: el.cover})
+          el.cover = _.template(coverTemplate)({ cover: el.cover });
         } else {
-          el.cover = _.template(coverHexTemplate)({hexcolor: el.hex_color})
+          el.cover = _.template(coverHexTemplate)({ hexcolor: el.hex_color });
         }
         if (el.photo) {
           el.photo = _.template(logoTemplate)({
-            photo: el.photo
-          })
+            photo: el.photo,
+          });
         } else {
-          el.photo = logoDefaultTemplate
+          el.photo = logoDefaultTemplate;
         }
         const html = _.template(template)({
           cover: el.cover,
@@ -66,19 +76,55 @@ function getQuery() {
           user: el.user,
           note: el.note,
           rating: el.rating,
-        })
-        $(".row.pt-5").html($(".row.pt-5").html() + html)
+        });
+        $(".row.pt-5").html($(".row.pt-5").html() + html);
       });
     })
     .catch(function (error) {
       console.log(error);
-    })
+    });
 }
-$('#name').keyup(function () {
-  getQuery()
+
+$("#name").keyup(function () {
+  getQuery();
 });
-$('#user').change(function () {
-  getQuery()
+
+$("#user").change(function () {
+  getQuery();
+});
+
+$("#responsible").change(function () {
+  getQuery();
+});
+
+$(document).ready(async function () {
+  const urlP = "/api/project-dates";
+  await axios.get(urlP).then((res) => {
+    res.data.dates.forEach((element) => {
+      projectDates.push(element);
+    });
+  });
+
+  $("#datepicker").datepicker({
+    onRenderCell: function (date, cellType) {
+      const year = String(date.getFullYear());
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const currentDate = year + "-" + month + "-" + day;
+      if (projectDates.indexOf(currentDate) != -1) {
+        return {
+          html: `<span style="color: #4EB5E6;">${date.getDate()}</span>`,
+        };
+      }
+    },
+    onSelect: function onSelect(fd, date) {
+      const year = String(date.getFullYear());
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      const currentDate = year + "-" + month + "-" + day;
+      getQuery(currentDate)
+    },
+  });
 });
 $('#responsible').change(function () {
   getQuery()

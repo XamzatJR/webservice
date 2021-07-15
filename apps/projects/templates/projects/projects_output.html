@@ -1,5 +1,6 @@
 {% extends 'base_projects.html' %}
 {% load static %}
+{% load customtags %}
 
 {% block title %}
   Все проекты
@@ -22,10 +23,11 @@
           <option value="{{ u.pk }}">{{ u.username }}</option>
         {% endfor %}
       </select>
+      <input type="text" id="datepicker" class="form-control" placeholder="Выберите дату" aria-label="Выберите дату">
     </div>
   </div>
   <div class="row pt-5">
-    {% for date, project in projects %}
+    {% for date, project in projects|group_by_date %}
       <h2 class="text-center">{{ date }}</h2>
       {% for item in project %}
         <div class="col-md-6 col-lg-4 pb-3">
@@ -64,9 +66,24 @@
       <hr/>
     {% endfor %}
 
+    <nav>
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1">Первая страница</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+        {% endif %}
+        <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+        {% if page_obj.has_next %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a></li>
+        {% endif %}
+      </ul>
+    </nav>
   </div>
 {% endblock content %}
 {% block js %}
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script src="{% static 'js/datepicker.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/datepicker.min.css' %}">
   <script src="{% static 'js/index.js' %}"></script>
 {% endblock js %}
