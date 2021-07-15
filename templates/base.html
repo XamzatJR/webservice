@@ -46,7 +46,7 @@
         <a href="{% url 'user_niokr_projects_list_url' %}">
             <i class="fa fa-home" aria-hidden="true"></i>Мои НИОКР
         </a>
-        <a href="#" data-bs-toggle="modal" id="delete" data-bs-target="#exampleModal">
+        <a href="#" data-bs-toggle="modal" id="projectsModal" data-bs-target="#exampleModal">
           <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
         </a>
         {% if request.user.is_staff %}
@@ -105,7 +105,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{% static 'js/sidebar.js' %}"></script>
     <script>
-      $('#delete').click(() => {
+      $('#projectsModal').click(() => {
         $('.menu').toggleClass('menu_active');
         $('.container').toggleClass('content_active');
         $(".modal-backdrop.fade.show").remove()
