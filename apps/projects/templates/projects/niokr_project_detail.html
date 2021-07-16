@@ -32,7 +32,17 @@
           <p class="card-text"><h6>Ученые степени:</h6>{{ niokr_projects.responsible.academic_degrees }}</p>
           <p class="card-text"><h6>Ученые звания:</h6>{{ niokr_projects.responsible.academic_titles }}</p>
         </div>
-        <p class="card-text"> <h6>Команда:</h6> {{ niokr_projects.team.all }}</p>
+        <p class="card-text"> <h6>Команда:</h6> 
+          
+    
+        {% for teammate in niokr_projects.team.all %}
+          
+          {{teammate}}
+        
+        {% endfor %}
+        
+        
+        </p>
         <div class="p-2 w-100 bd-highlight" > 
           <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Удалить
