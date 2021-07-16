@@ -13,7 +13,7 @@ from rest_framework.viewsets import ModelViewSet
 from apps.users.models import CustomUser
 
 from . import forms
-from .models import Criteria, NiokrCriteria, NiokrProject, Project
+from .models import Criteria, NiokrCriteria, NiokrProject, NiokrUser, Project
 from .serializer import CriteriaSerializer, ProjectSerializer
 
 
@@ -211,7 +211,9 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = NiokrProject
     form_class = forms.NiokrProjectUpdateForm
     template_name = "projects/niokr_project_update.html"
-    success_url = reverse_lazy("niokr_projects_list_url")
+
+    def get_success_url(self):
+        return reverse_lazy("niokr_project_detail_url", kwargs={"pk": self.object.pk})
 
 
 class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
@@ -261,3 +263,34 @@ class NiokrProjectsDatesView(APIView):
     def get(self, *args, **kwargs):
         dates = {niokr_project.date for niokr_project in NiokrProject.objects.all()}
         return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
+
+
+class NiokrUserCreateView(LoginRequiredMixin, CreateView):
+    """создание научного руководителя"""
+
+    model = NiokrUser
+    template_name = "projects/niokr_user_create.html"
+    form_class = forms.NiokrUserCreate
+    success_url = "niokr_project_create_url"
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+
+class NiokrTeam(LoginRequiredMixin, CreateView):
+    """"Добавление членов команды"""
+    model = NiokrUser
+    template_name = "projects/niokr_team_create.html"
+    form_class = forms.NiokrUserCreate
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("niokr_team_create_url")

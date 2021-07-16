@@ -1,6 +1,8 @@
 from django import forms
+from django.db import models
+from django.db.models import fields
 
-from .models import Criteria, Project, NiokrProject, NiokrCriteria
+from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria
 
 
 class ProjectCreateForm(forms.ModelForm):
@@ -58,7 +60,7 @@ class NiokrProjectCreateForm(forms.ModelForm):
             "cover",
             "annotation",
             "responsible",
-            "team"
+            "team",
         )
 
     def __init__(self, *args, **kwargs):
@@ -83,7 +85,7 @@ class NiokrProjectUpdateForm(forms.ModelForm):
             "cover",
             "annotation",
             "responsible",
-            "team"
+            "team",
         )
 
     def __init__(self, *args, **kwargs):
@@ -96,3 +98,16 @@ class NiokrCriteriaForm(forms.ModelForm):
     class Meta:
         model = NiokrCriteria
         fields = ("science", "interesting", "difficult", "unclear", "repeat")
+
+
+class NiokrUserCreate(forms.ModelForm):
+    class Meta:
+        model = NiokrUser
+        fields = (
+            "fullname",
+            "phone",
+            "email",
+            "academic_degrees",
+            "academic_titles",
+            "photo",
+        )

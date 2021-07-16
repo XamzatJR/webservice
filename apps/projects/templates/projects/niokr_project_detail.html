@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    {{ project.name }}
+    {{ niokr_projects.theme }}
 {% endblock title %}
 
 {% block content %}
@@ -19,12 +19,20 @@
     <h2 class="card-title">{{ niokr_projects.theme }}</h2>
     <div class="d-flex bd-highlight">
       <div class="p-2 w-75">
-        <p class="card-text"> <h6>Базовая организация:</h6> {{ niokr_projects.base_organisation }}</p>
-        <p class="card-text"> <h6>Дата начала исследований:</h6> {{ niokr_projects.data_project_start }}</p>
-        <p class="card-text"> <h6>Научная новизна:</h6> {{ niokr_projects.science_novelty }}</p>
-        <p class="card-text"> <h6>Коммерческий результат:</h6> {{ niokr_projects.commercial_result }}</p>
-        <p class="card-text"> <h6>Оборудование, необходимое для реализации проекта:</h6> {{ niokr_projects.equipment }}</p>
-        <p class="card-text"> <h6>Аннотация к НИОКР:</h6> {{ niokr_projects.annotation }}</p>
+        <p class="card-text"><h6>Базовая организация:</h6> {{ niokr_projects.base_organisation }}</p>
+        <p class="card-text"><h6>Дата начала исследований:</h6> {{ niokr_projects.data_project_start }}</p>
+        <p class="card-text"><h6>Научная новизна:</h6> {{ niokr_projects.science_novelty }}</p>
+        <p class="card-text"><h6>Коммерческий результат:</h6> {{ niokr_projects.commercial_result }}</p>
+        <p class="card-text"><h6>Оборудование, необходимое для реализации проекта:</h6> {{ niokr_projects.equipment }}</p>
+        <p class="card-text"><h6>Аннотация к НИОКР:</h6> {{ niokr_projects.annotation }}</p>
+        <div style="border: solid;">
+          <p class="card-text"><h6>Научный руководитель:</h6> {{ niokr_projects.responsible }}</p>
+          <p class="card-text"><h6>Номер телефона:</h6>{{ niokr_projects.responsible.phone }}</p>
+          <p class="card-text"><h6>Email:</h6>{{ niokr_projects.responsible.email }}</p>
+          <p class="card-text"><h6>Ученые степени:</h6>{{ niokr_projects.responsible.academic_degrees }}</p>
+          <p class="card-text"><h6>Ученые звания:</h6>{{ niokr_projects.responsible.academic_titles }}</p>
+        </div>
+        <p class="card-text"> <h6>Команда:</h6> {{ niokr_projects.team.all }}</p>
         <div class="p-2 w-100 bd-highlight" > 
           <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Удалить

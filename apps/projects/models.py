@@ -112,9 +112,12 @@ class NiokrUser(models.Model):
     fullname = CharField(_("Фио"), max_length=255)
     phone = CharField(_("Номер телефона"), max_length=255)
     email = EmailField(_("Email"))
-    academic_degrees = TextField(_("Ученые звания"))
+    academic_degrees = TextField(_("Ученые степени"))
     academic_titles = TextField(_("Ученые звания"))
     photo = ImageField("Фото", null=True, blank=True)
+
+    def __str__(self):
+        return self.fullname
 
 
 class NiokrProject(models.Model):
@@ -159,7 +162,7 @@ class NiokrProject(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.name
+        return self.theme
 
     def save(
         self, force_insert=None, force_update=None, using=None, update_fields=None
