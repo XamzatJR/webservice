@@ -109,11 +109,13 @@ class Criteria(models.Model):
 
 
 class NiokrUser(models.Model):
+    user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     fullname = CharField(_("Фио"), max_length=255)
     phone = CharField(_("Номер телефона"), max_length=255)
     email = EmailField(_("Email"))
-    academic_degrees = TextField(_("Ученые степени"))
-    academic_titles = TextField(_("Ученые звания"))
+    academic_degrees = TextField(_("Ученые степени"), null=True, blank=True)
+    academic_titles = TextField(_("Ученые звания"), null=True, blank=True)
+    is_responsible = BooleanField(_("Ответственный"), default=False)
     photo = ImageField("Фото", null=True, blank=True)
 
     def __str__(self):

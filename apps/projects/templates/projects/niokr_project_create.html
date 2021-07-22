@@ -7,12 +7,12 @@
 
 
 {% block content %}
-<form class="pt-5" method="post" enctype="multipart/form-data">
+<form class="pt-5" method="post" style="width: 70%; margin: 0 auto;" enctype="multipart/form-data">
     <h1>Добавить НИОКР</h1>
     {% csrf_token %}
     <p class="card-text"><h6>Тема НИОКР:</h6> {{ form.theme }}</p>
     <p class="card-text"><h6>Базовая организация:</h6> {{ form.base_organisation }}</p>
-    <p class="card-text"> <h6>Дата начала исследований:</h6> {{ form.data_project_start }}</p>
+    <p class="card-text"> <h6>Дата начала исследований:</h6> <input type="date" name="data_project_start" class="form-control" required="" id="id_data_project_start"></p>
     <p><h6>Сайт:</h6> {{ form.site }}</p>
     <p class="card-text"> <h6>Научная новизна:</h6> {{ form.science_novelty }}</p>
     <p class="card-text"> <h6>Коммерческий результат:</h6> {{ form.commercial_result }}</p>

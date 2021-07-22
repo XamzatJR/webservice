@@ -196,6 +196,11 @@ class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
+    def get_form_kwargs(self):
+        data = super().get_form_kwargs()
+        data["user"] = self.request.user
+        return data
+
 
 class NiokrProjectDeleteView(DeleteView, LoginRequiredMixin):
     """удаление НИОКР"""
@@ -214,6 +219,11 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("niokr_project_detail_url", kwargs={"pk": self.object.pk})
+
+    def get_form_kwargs(self):
+        data = super().get_form_kwargs()
+        data["user"] = self.request.user
+        return data
 
 
 class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
@@ -271,26 +281,10 @@ class NiokrUserCreateView(LoginRequiredMixin, CreateView):
     model = NiokrUser
     template_name = "projects/niokr_user_create.html"
     form_class = forms.NiokrUserCreate
-    success_url = "niokr_project_create_url"
+    success_url = reverse_lazy("niokr_user_create_url")
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
-
-
-class NiokrTeam(LoginRequiredMixin, CreateView):
-    """"Добавление членов команды"""
-    model = NiokrUser
-    template_name = "projects/niokr_team_create.html"
-    form_class = forms.NiokrUserCreate
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy("niokr_team_create_url")

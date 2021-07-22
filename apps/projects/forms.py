@@ -1,6 +1,5 @@
 from django import forms
-from django.db import models
-from django.db.models import fields
+from django.forms.fields import DateField
 
 from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria
 
@@ -62,9 +61,21 @@ class NiokrProjectCreateForm(forms.ModelForm):
             "responsible",
             "team",
         )
+        widgets = {
+            "data_project_start": forms.DateInput(
+                format=("%d-%m-%Y"),
+                attrs={"placeholder": "Выберите дату"},
+            )
+        }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["responsible"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=True
+        )
+        self.fields["team"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=False
+        )
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
@@ -88,8 +99,14 @@ class NiokrProjectUpdateForm(forms.ModelForm):
             "team",
         )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["responsible"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=True
+        )
+        self.fields["team"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=False
+        )
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
@@ -109,5 +126,13 @@ class NiokrUserCreate(forms.ModelForm):
             "email",
             "academic_degrees",
             "academic_titles",
+            "is_responsible",
             "photo",
         )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            if field == "is_responsible":
+                continue
+            self.fields[field].widget.attrs["class"] = "form-control"
