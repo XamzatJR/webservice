@@ -1,5 +1,3 @@
-import itertools
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
@@ -11,17 +9,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
-
 
 from apps.users.models import CustomUser
 
 from . import forms
-from .models import Criteria, Project, NiokrProject, NiokrCriteria
-from .serializer import (
-    CriteriaSerializer,
-    ProjectSerializer,
-)
+from .models import Criteria, NiokrCriteria, NiokrProject, NiokrUser, Project
+from .serializer import CriteriaSerializer, ProjectSerializer
 
 
 class ProjectsOutputView(LoginRequiredMixin, ListView):
@@ -145,12 +138,6 @@ def change_criteria(request):
             )
 
 
-class ProjectsDatesView(APIView):
-    def get(self, *args, **kwargs):
-        dates = {project.date for project in Project.objects.all()}
-        return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
-
-
 def add_responsible(request):
     if request.is_ajax():
         user = CustomUser.objects.get(pk=request.GET.get("user"))
@@ -209,6 +196,11 @@ class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         return super().form_valid(form)
 
+    def get_form_kwargs(self):
+        data = super().get_form_kwargs()
+        data["user"] = self.request.user
+        return data
+
 
 class NiokrProjectDeleteView(DeleteView, LoginRequiredMixin):
     """удаление НИОКР"""
@@ -224,7 +216,14 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = NiokrProject
     form_class = forms.NiokrProjectUpdateForm
     template_name = "projects/niokr_project_update.html"
-    success_url = reverse_lazy("niokr_projects_list_url")
+
+    def get_success_url(self):
+        return reverse_lazy("niokr_project_detail_url", kwargs={"pk": self.object.pk})
+
+    def get_form_kwargs(self):
+        data = super().get_form_kwargs()
+        data["user"] = self.request.user
+        return data
 
 
 class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
@@ -274,3 +273,18 @@ class NiokrProjectsDatesView(APIView):
     def get(self, *args, **kwargs):
         dates = {niokr_project.date for niokr_project in NiokrProject.objects.all()}
         return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
+
+
+class NiokrUserCreateView(LoginRequiredMixin, CreateView):
+    """создание научного руководителя"""
+
+    model = NiokrUser
+    template_name = "projects/niokr_user_create.html"
+    form_class = forms.NiokrUserCreate
+    success_url = reverse_lazy("niokr_user_create_url")
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)

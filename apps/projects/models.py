@@ -1,3 +1,5 @@
+from random import randint
+
 from django.conf import settings
 from django.db import models
 from django.db.models.deletion import CASCADE
@@ -6,16 +8,15 @@ from django.db.models.fields import (
     CharField,
     DateField,
     DateTimeField,
-    DateField,
+    EmailField,
+    IntegerField,
     TextField,
     URLField,
-    IntegerField,
 )
+from django.db.models.fields.files import ImageField
+from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.shortcuts import reverse
-from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
-
-from random import randint
 
 
 def random_hex() -> str:
@@ -107,6 +108,20 @@ class Criteria(models.Model):
         )
 
 
+class NiokrUser(models.Model):
+    user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
+    fullname = CharField(_("Фио"), max_length=255)
+    phone = CharField(_("Номер телефона"), max_length=255)
+    email = EmailField(_("Email"))
+    academic_degrees = TextField(_("Ученые степени"), null=True, blank=True)
+    academic_titles = TextField(_("Ученые звания"), null=True, blank=True)
+    is_responsible = BooleanField(_("Ответственный"), default=False)
+    photo = ImageField("Фото", null=True, blank=True)
+
+    def __str__(self):
+        return self.fullname
+
+
 class NiokrProject(models.Model):
     user = ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE, db_index=True)
     theme = CharField(_("Тема НИОКР"), max_length=150, db_index=True)
@@ -132,6 +147,9 @@ class NiokrProject(models.Model):
         _("Обложка"), upload_to="niokr_project_photos/", null=True, blank=True
     )
     annotation = TextField(_("Аннотация к проекту (до 2000 символов)"), max_length=2000)
+    responsible = ForeignKey(NiokrUser, on_delete=CASCADE, related_name="responsible")
+    team = ManyToManyField(NiokrUser)
+
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
     date = DateField(_("Дата создания"), auto_now_add=True, null=True)
     hex_color = CharField(_("Hex цвет"), max_length=20, blank=True, default="")
@@ -146,7 +164,7 @@ class NiokrProject(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.name
+        return self.theme
 
     def save(
         self, force_insert=None, force_update=None, using=None, update_fields=None

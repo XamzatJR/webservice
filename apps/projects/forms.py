@@ -1,6 +1,7 @@
 from django import forms
+from django.forms.fields import DateField
 
-from .models import Criteria, Project, NiokrProject, NiokrCriteria
+from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria
 
 
 class ProjectCreateForm(forms.ModelForm):
@@ -57,10 +58,24 @@ class NiokrProjectCreateForm(forms.ModelForm):
             "patents",
             "cover",
             "annotation",
+            "responsible",
+            "team",
         )
+        widgets = {
+            "data_project_start": forms.DateInput(
+                format=("%d-%m-%Y"),
+                attrs={"placeholder": "Выберите дату"},
+            )
+        }
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["responsible"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=True
+        )
+        self.fields["team"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=False
+        )
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
@@ -80,10 +95,18 @@ class NiokrProjectUpdateForm(forms.ModelForm):
             "patents",
             "cover",
             "annotation",
+            "responsible",
+            "team",
         )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["responsible"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=True
+        )
+        self.fields["team"].queryset = NiokrUser.objects.filter(
+            user=user, is_responsible=False
+        )
         for field in self.fields:
             self.fields[field].widget.attrs["class"] = "form-control"
 
@@ -92,3 +115,24 @@ class NiokrCriteriaForm(forms.ModelForm):
     class Meta:
         model = NiokrCriteria
         fields = ("science", "interesting", "difficult", "unclear", "repeat")
+
+
+class NiokrUserCreate(forms.ModelForm):
+    class Meta:
+        model = NiokrUser
+        fields = (
+            "fullname",
+            "phone",
+            "email",
+            "academic_degrees",
+            "academic_titles",
+            "is_responsible",
+            "photo",
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            if field == "is_responsible":
+                continue
+            self.fields[field].widget.attrs["class"] = "form-control"

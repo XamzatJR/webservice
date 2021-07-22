@@ -44,9 +44,9 @@
           <i class="fa fa-briefcase" aria-hidden="true"></i> Все НИОКР
         </a>
         <a href="{% url 'user_niokr_projects_list_url' %}">
-            <i class="fa fa-home" aria-hidden="true"></i>Мои НИОКР
+            <i class="fa fa-home" aria-hidden="true"></i> Мои НИОКР
         </a>
-        <a href="#" data-bs-toggle="modal" id="delete" data-bs-target="#exampleModal">
+        <a href="#" data-bs-toggle="modal" id="projectsModal" data-bs-target="#exampleModal">
           <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
         </a>
         {% if request.user.is_staff %}
@@ -79,22 +79,22 @@
     </div>
     <div class="wrapper">
       <div class="container">
-    <div class="modal fade" style="text-align: center" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Что создаем?</h5>
-          </div>
-          <div class="modal-body">
-            <a type="button" href="{% url 'project_create_url' %}" class="btn btn-primary">Проект</a>
-            <a type="button" href="{% url 'niokr_project_create_url' %}" class="btn btn-success">НИОКР</a>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+        <div class="modal fade modal-dialog-centered disabled" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Что создаем?</h5>
+              </div>
+              <div class="modal-body">
+                <a type="button" href="{% url 'project_create_url' %}" class="btn btn-primary">Проект</a>
+                <a type="button" href="{% url 'niokr_user_create_url' %}" class="btn btn-success">НИОКР</a>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
         {% block content %}
 
         {% endblock content %}
@@ -105,7 +105,9 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{% static 'js/sidebar.js' %}"></script>
     <script>
-      $('#delete').click(() => {
+      $('#projectsModal').click(() => {
+        $('.menu').toggleClass('menu_active');
+        $('.container').toggleClass('content_active');
         $(".modal-backdrop.fade.show").remove()
       })
     </script>

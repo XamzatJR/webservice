@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    {{ project.name }}
+    {{ niokr_projects.theme }}
 {% endblock title %}
 
 {% block content %}
@@ -11,7 +11,7 @@
   <div class="card-custom-avatar">
     <img
       class="img-fluid"
-      src="/media/{{ niokr_projects.user.photo}}"
+      src="/media/{{ niokr_projects.responsible.photo}}"
       alt="Avatar"
     />
   </div>
@@ -19,12 +19,64 @@
     <h2 class="card-title">{{ niokr_projects.theme }}</h2>
     <div class="d-flex bd-highlight">
       <div class="p-2 w-75">
-        <p class="card-text"> <h6>Базовая организация:</h6> {{ niokr_projects.base_organisation }}</p>
-        <p class="card-text"> <h6>Дата начала исследований:</h6> {{ niokr_projects.data_project_start }}</p>
-        <p class="card-text"> <h6>Научная новизна:</h6> {{ niokr_projects.science_novelty }}</p>
-        <p class="card-text"> <h6>Коммерческий результат:</h6> {{ niokr_projects.commercial_result }}</p>
-        <p class="card-text"> <h6>Оборудование, необходимое для реализации проекта:</h6> {{ niokr_projects.equipment }}</p>
-        <p class="card-text"> <h6>Аннотация к НИОКР:</h6> {{ niokr_projects.annotation }}</p>
+        <p>
+          <h5>Базовая организация: </h5><p>{{ niokr_projects.base_organisation }}</p>
+        </p>
+        <p>
+          <h5>Дата начала исследований: </h5><p>{{ niokr_projects.data_project_start }}</p>
+        </p>
+        <p>
+          <h5>Научная новизна: </h5><p>{{ niokr_projects.science_novelty }}</p>
+        </p>
+        <p>
+          <h5>Коммерческий результат: </h5><p>{{ niokr_projects.commercial_result }}</p>
+        </p>
+        <p>
+          <h5>Оборудование, необходимое для реализации проекта: </h5><p>{{ niokr_projects.equipment }}</p>
+        </p>
+        <p>
+          <h5>Аннотация к НИОКР: </h5><p>{{ niokr_projects.annotation }}</p>
+        </p>
+        <h2>Научный руководитель</h2>
+        <ul class="list-group mb-4">
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Руководитель</small>
+            <span>{{ niokr_projects.responsible }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Номер телефона</small>
+            <span>{{ niokr_projects.responsible.phone }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Email</small>
+            <span>{{ niokr_projects.responsible.email }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Ученые степени</small>
+            <span>{{ niokr_projects.responsible.academic_degrees }}</span>
+          </li>
+          <li class="list-group-item d-flex align-items-center">
+            <small class="text-muted flex-grow-1">Ученые звания</small>
+            <span>{{ niokr_projects.responsible.academic_titles }}</span>
+          </li>
+        </ul>
+        <h2>Команда</h2>
+        {% for teammate in niokr_projects.team.all %}
+          <ul class="list-group mb-4">
+            <li class="list-group-item d-flex align-items-center">
+              <small class="text-muted flex-grow-1">Пользователь</small>
+              <span>{{ teammate }}</span>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+              <small class="text-muted flex-grow-1">Номер телефона</small>
+              <span>{{ teammate.phone }}</span>
+            </li>
+            <li class="list-group-item d-flex align-items-center">
+              <small class="text-muted flex-grow-1">Email</small>
+              <span>{{ teammate.email }}</span>
+            </li>
+          </ul>        
+        {% endfor %}
         <div class="p-2 w-100 bd-highlight" > 
           <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Удалить
