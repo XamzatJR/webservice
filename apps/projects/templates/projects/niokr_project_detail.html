@@ -11,7 +11,7 @@
   <div class="card-custom-avatar">
     <img
       class="img-fluid"
-      src="/media/{{ niokr_projects.responsible.photo}}"
+      src="/media/{{ niokr_projects.user.photo}}"
       alt="Avatar"
     />
   </div>
@@ -209,6 +209,9 @@
             }
         });
     });
+    $('#delete').click(() => {
+      $(".modal-backdrop.fade.show").remove()
+    })
     </script>
   {% endif %}
 {% endblock js %}

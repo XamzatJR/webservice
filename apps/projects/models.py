@@ -115,7 +115,7 @@ class NiokrUser(models.Model):
     email = EmailField(_("Email"))
     academic_degrees = TextField(_("Ученые степени"), null=True, blank=True)
     academic_titles = TextField(_("Ученые звания"), null=True, blank=True)
-    is_responsible = BooleanField(_("Ответственный"), default=False)
+    is_responsible = BooleanField(_("Научный руководитель"), default=False)
     photo = ImageField("Фото", null=True, blank=True)
 
     def __str__(self):

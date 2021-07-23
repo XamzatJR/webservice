@@ -8,7 +8,7 @@
 
 {% block content %}
 <form class="pt-5" style="width: 50%; margin: 0 auto;" method="post" enctype="multipart/form-data">
-    <h1>Добавить  научного руководителя </h1>
+    <h1>Добавить участников команды </h1>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn mt-3" style="background-color: rgb(170, 170, 255);">Сохранить</button>
