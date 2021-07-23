@@ -44,6 +44,7 @@
               />
             </div>
             <div class="card-body" style="overflow-y: auto">
+              <div class = "tag" style="{% if item.tag == 'Софт Проект' %}background-color: #0dde1b{% else %}background-color: #fff200{% endif %}"></div>
               <h4 class="card-title">{{ item.theme }}</h4>
               <small>от <a href="#">{{ item.user.username}}</a></small>
               <p class="card-text">{{ item.annotation }}</p>
@@ -55,7 +56,7 @@
               <div class="d-flex justify-content-between mb-2">
                 <div class="p-2 flex-grow-1"><span class="fa fa-star checked"></span> {{ item.rating }}</div>
                 <div class="p-2"><a href="{% url 'niokr_project_detail_url' item.id %}" class="btn btn-outline-dark">Подробнее</a></div>
-                <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт проекта</a></div>
+                <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт НИОКР</a></div>
               </div>
             </div>
           </div>

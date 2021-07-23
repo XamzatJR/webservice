@@ -141,6 +141,11 @@ class NiokrProject(models.Model):
         max_length=150,
         db_index=True,
     )
+    tags = [
+        ("Софт Проект", "Софт Проект"),
+        ("Программно-аппаратный комплекс", "Программно-аппаратный комплекс"),
+    ]
+    tag = TextField(_("Тип НИОКР"), choices=tags, null=True, blank=True)
     grants = CharField(_("Наличие грантов"), blank=True, null=True, max_length=2000)
     patents = CharField(_("Наличие патента"), blank=True, null=True, max_length=2000)
     cover = models.ImageField(
