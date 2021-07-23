@@ -11,7 +11,7 @@
     <h1>Добавить участников команды </h1>
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn mt-3" style="background-color: rgb(170, 170, 255);">Сохранить</button>
-    <a href="{% url 'niokr_project_create_url' %}" class="btn mt-3" style="background-color: rgb(170, 170, 255);">Пропустить</a>
+    <button type="submit" class="btn mt-3 mb-5" style="background-color: rgb(170, 170, 255);">Сохранить</button>
+    <a href="{% url 'niokr_project_create_url' %}" class="btn mt-3 mb-5" style="background-color: rgb(170, 170, 255);">Пропустить</a>
 </form>
 {% endblock content %}
