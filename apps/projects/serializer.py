@@ -61,8 +61,6 @@ class CriteriaSerializer(serializers.ModelSerializer):
 
 class NiokrProjectSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    responsible = serializers.SlugRelatedField(read_only=True, slug_field="username")
-    photo = serializers.SerializerMethodField("get_photo_url")
     cover = serializers.SerializerMethodField("get_cover_url")
 
     class Meta:
@@ -71,7 +69,6 @@ class NiokrProjectSerializer(serializers.ModelSerializer):
             "pk",
             "user",
             "theme",
-            "photo",
             "data_project_start",
             "base_organisation",
             "science_novelty",
@@ -79,9 +76,9 @@ class NiokrProjectSerializer(serializers.ModelSerializer):
             "equipment",
             "grants",
             "patents",
+            "tag",
             "cover",
             "annotation",
-            "niokr_responsible",
             "created_at",
             "hex_color",
             "rating",

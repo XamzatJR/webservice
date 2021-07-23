@@ -14,7 +14,12 @@ from apps.users.models import CustomUser
 
 from . import forms
 from .models import Criteria, NiokrCriteria, NiokrProject, NiokrUser, Project
-from .serializer import CriteriaSerializer, ProjectSerializer
+from .serializer import (
+    CriteriaSerializer,
+    NiokrProjectSerializer,
+    ProjectSerializer,
+    NiokrCriteriaSerializer,
+)
 
 
 class ProjectsOutputView(LoginRequiredMixin, ListView):
@@ -116,6 +121,19 @@ class ProjectViewSet(ModelViewSet):
 class CriteriaViewSet(ModelViewSet):
     queryset = Criteria.objects.all()
     serializer_class = CriteriaSerializer
+
+
+class NIOKRViewSet(ModelViewSet):
+    queryset = NiokrProject.objects.all()
+    serializer_class = NiokrProjectSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ["user", "date"]
+    search_fields = ["theme"]
+
+
+class NIOKRCriteriaViewSet(ModelViewSet):
+    queryset = NiokrCriteria.objects.all()
+    serializer_class = NiokrCriteriaSerializer
 
 
 class ProjectsDatesView(APIView):
@@ -272,7 +290,7 @@ def change_niokr_criteria(request):
 class NiokrProjectsDatesView(APIView):
     def get(self, *args, **kwargs):
         dates = {niokr_project.date for niokr_project in NiokrProject.objects.all()}
-        return JsonResponse({"dates": [date.strftime("%Y-%m-%d") for date in dates]})
+        return JsonResponse({"dates": [niokr_date.strftime("%Y-%m-%d") for niokr_date in dates]})
 
 
 class NiokrUserCreateView(LoginRequiredMixin, CreateView):
