@@ -7,7 +7,7 @@ from .models import CustomUser
 class UserChangeForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ("photo",)
+        fields = ("photo", "url")
 
 
 class CustomUserLoginForm(user_forms.AuthenticationForm, forms.ModelForm):

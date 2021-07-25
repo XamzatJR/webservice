@@ -34,7 +34,7 @@
             <div class="card-custom-avatar">
               <img
                 class="img-fluid"
-                src="/media/{{ item.user.photo }}"
+                src="{%if item.user.url%}{{item.user.url}}{% else %}/media/{{item.user.photo}}{% endif %}"
               />
             </div>
             <div class="card-body" style="overflow-y: auto">
