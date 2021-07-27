@@ -19,7 +19,6 @@ const template = `
     <%=photo%>
   </div>
   <div class="card-body" style="overflow-y: auto">
-    <div class = "tag" style="{% if item.tag == 'Софт Проект' %}background-color: #0dde1b{% else %}background-color: #fff200{% endif %}"></div>
     <h4 class="card-title"><%-theme%></h4>
     <small>от <a href="#"><%-user%></h4></a></small>
     <p class="card-text"><%-annotation%></p>
@@ -43,14 +42,12 @@ const url = "/api/niokr";
 function getQuery(date = null) {
   const theme = $("#theme").val();
   const user = $("#user").val();
-  const tag = $("#tag").val();
   axios
     .get(url, {
       params: {
         search: theme,
         user: user,
         date: date,
-        tag: tag
       },
     })
     .then(function (response) {
@@ -91,10 +88,6 @@ $("#theme").keyup(function () {
 });
 
 $("#user").change(function () {
-  getQuery();
-});
-
-$("#tag").change(function () {
   getQuery();
 });
 

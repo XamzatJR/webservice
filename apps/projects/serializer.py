@@ -78,7 +78,6 @@ class NiokrProjectSerializer(serializers.ModelSerializer):
             "grants",
             "responsible",
             "patents",
-            "tag",
             "cover",
             "annotation",
             "created_at",
