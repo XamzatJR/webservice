@@ -17,6 +17,11 @@
     />
   </div>
   <div class="card-body" style="overflow-y: auto">
+    {% if project.tag == "Софт Проект" %}
+      <div class="tag" style="background-color: #0dde1b"></div>
+    {% elif project.tag == "Программно-аппаратный комплекс" %}
+      <div class="tag" style="background-color: #fff200"></div>
+    {% endif %}
     <h2 class="card-title">{{ project.name }}</h2>
     <small>{{ project.note }}</small><br />
     <div class="d-flex bd-highlight">

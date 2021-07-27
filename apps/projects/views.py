@@ -83,7 +83,9 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
     form_class = forms.ProjectUpdateForm
     template_name = "projects/project_update.html"
-    success_url = reverse_lazy("projects_list_url")
+
+    def get_success_url(self):
+        return reverse_lazy("project_detail_url", kwargs={"pk": self.object.pk})
 
     def form_valid(self, form):
         self.object = form.save(commit=False)
@@ -126,7 +128,7 @@ class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ["user", "responsible", "date"]
+    filterset_fields = ["user", "responsible", "date", "tag"]
     search_fields = ["name"]
 
 
@@ -314,7 +316,9 @@ def change_niokr_criteria(request):
 class NiokrProjectsDatesView(APIView):
     def get(self, *args, **kwargs):
         dates = {niokr_project.date for niokr_project in NiokrProject.objects.all()}
-        return JsonResponse({"dates": [niokr_date.strftime("%Y-%m-%d") for niokr_date in dates]})
+        return JsonResponse(
+            {"dates": [niokr_date.strftime("%Y-%m-%d") for niokr_date in dates]}
+        )
 
 
 class NiokrUserCreateView(LoginRequiredMixin, CreateView):

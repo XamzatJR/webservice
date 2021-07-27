@@ -43,6 +43,7 @@ function getQuery(date = null) {
   const name = $("#name").val();
   const user = $("#user").val();
   const responsible = $("#responsible").val();
+  const tag = $("#tag").val();
   axios
     .get(url, {
       params: {
@@ -50,6 +51,7 @@ function getQuery(date = null) {
         user: user,
         responsible: responsible,
         date: date,
+        tag: tag,
       },
     })
     .then(function (response) {
@@ -94,6 +96,10 @@ $("#user").change(function () {
 });
 
 $("#responsible").change(function () {
+  getQuery();
+});
+
+$("#tag").change(function () {
   getQuery();
 });
 

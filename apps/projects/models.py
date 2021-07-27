@@ -32,6 +32,11 @@ class Project(models.Model):
     site = URLField(_("Ссылка на сайт проекта"), max_length=200)
     description = TextField(_("Описание продукта/сервиса"))
     note = CharField(_("Примечание к проекту"), max_length=150)
+    tags = [
+        ("Софт Проект", "Софт Проект"),
+        ("Программно-аппаратный комплекс", "Программно-аппаратный комплекс"),
+    ]
+    tag = TextField(_("Тип проекта"), choices=tags, null=True, blank=True)
     responsible = ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=CASCADE,

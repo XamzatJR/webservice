@@ -7,7 +7,7 @@ from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria
 class ProjectCreateForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ("name", "site", "description", "note", "cover")
+        fields = ("name", "site", "description", "tag", "note", "cover")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,7 +18,7 @@ class ProjectCreateForm(forms.ModelForm):
 class ProjectUpdateForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ("name", "cover", "site", "description", "note")
+        fields = ("name", "cover", "site", "tag", "description", "note")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

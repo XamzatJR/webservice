@@ -20,6 +20,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             "site",
             "description",
             "note",
+            "tag",
             "responsible",
             "created_at",
             "hex_color",
