@@ -37,7 +37,7 @@
           >
             <div
               class="card-custom-img"
-              style="{% if item.cover %}background-image: url(/media/{{item.cover}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
+              style="{% if item.cover %}background-image: url({{item.cover|get_image}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
             ></div>
             <div class="card-custom-avatar">
               <img
@@ -65,6 +65,7 @@
       {% endfor %}
       <hr/>
     {% endfor %}
+  </div>
 
     <nav>
       <ul class="pagination justify-content-center">

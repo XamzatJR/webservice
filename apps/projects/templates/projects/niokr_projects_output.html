@@ -1,4 +1,6 @@
 {% extends 'base_projects.html' %}
+{% load customtags %}
+
 {% load static %}
 
 {% block title %}
@@ -20,8 +22,9 @@
     </div>
   </div>
   <div class="row pt-5">
+    {% for date, project in projects|group_by_date %}
       <h2 class="text-center">{{ date }}</h2>
-      {% for item in niokr_projects %}
+      {% for item in project %}
         <div class="col-md-6 col-lg-4 pb-3">
           <div
             class="card card-custom bg-white border-white border-0"
@@ -29,7 +32,7 @@
           >
             <div
               class="card-custom-img"
-              style="{% if item.cover %}background-image: url(/media/{{item.cover}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
+              style="{% if item.cover %}background-image: url({{item.cover|get_image}}){% else %}background-color: {{ item.hex_color }}{% endif %}"
             ></div>
             <div class="card-custom-avatar">
               <img
@@ -38,7 +41,6 @@
               />
             </div>
             <div class="card-body" style="overflow-y: auto">
-              <div class = "tag" style="{% if item.tag == 'Софт Проект' %}background-color: #0dde1b{% else %}background-color: #fff200{% endif %}"></div>
               <h4 class="card-title">{{ item.theme }}</h4>
               <small>от <a href="#">{{ item.user.username}}</a></small>
               <p class="card-text">{{ item.annotation }}</p>
@@ -49,15 +51,16 @@
             >
               <div class="d-flex justify-content-between mb-2">
                 <div class="p-2 flex-grow-1"><span class="fa fa-star checked"></span> {{ item.rating }}</div>
-                <div class="p-2"><a href="{% url 'niokr_project_detail_url' item.id %}" class="btn btn-outline-dark">Подробнее</a></div>
-                <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт НИОКР</a></div>
+                <div class="p-2"><a href="{% url 'project_detail_url' item.id %}" class="btn btn-outline-dark">Подробнее</a></div>
+                <div class="p-2"><a href="{{ item.site }}" target="_blank" class="btn btn-outline-dark ">Сайт проекта</a></div>
               </div>
             </div>
           </div>
         </div>
       {% endfor %}
       <hr/>
-
+    {% endfor %}
+  </div>
 
     <nav>
       <ul class="pagination justify-content-center">

@@ -176,7 +176,7 @@ class NiokrProjectsOutputView(LoginRequiredMixin, ListView):
 
     model = NiokrProject
     template_name = "projects/niokr_projects_output.html"
-    context_object_name = "niokr_projects"
+    context_object_name = "projects"
     paginate_by = 30
 
     def get_context_data(self, **kwargs):
@@ -189,7 +189,7 @@ class UserNiokrProjectsOutputView(LoginRequiredMixin, ListView):
 
     model = NiokrProject
     template_name = "projects/niokr_projects_output.html"
-    context_object_name = "niokr_projects"
+    context_object_name = "projects"
     paginate_by = 30
 
     def get_context_data(self, **kwargs):
@@ -211,6 +211,9 @@ class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
+        photo = self.request.POST.get("cover", None)
+        if photo is not None and isinstance(photo, str):
+            self.object.cover = photo
         self.object.save()
         return super().form_valid(form)
 

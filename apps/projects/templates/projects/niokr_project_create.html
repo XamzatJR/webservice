@@ -24,6 +24,7 @@
     <p class="card-text"> <h6>Аннотация к НИОКР:</h6> {{ form.annotation }}</p>
     <p class="card-text"> <h6>Тэг НИОКР:</h6>  {{ form.tag }}</p>
     <p class="card-text"> <h6>Обложка:</h6>  {{ form.cover }}</p>
+    <p>Загрузить через ссылку <input type="checkbox" id="checkbox"></p>
     <p class="card-text"> <h6>Выберите научного руководителя:</h6>  {{ form.responsible }}</p>
     <p class="card-text"> <h6>Выберите членов команды:</h6>  {{ form.team }}</p>
     <button type="submit" class="btn mt-3 mb-5" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Добавить</button>
@@ -31,6 +32,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+
+    $('#checkbox').click(function(){
+        if ($(this).is(':checked')){
+            $('#id_cover').replaceWith('<input type="text" name="cover" class="form-control" id="id_cover">')
+        } else {
+            $('#id_cover').replaceWith('<input type="file" name="cover" accept="image/*" class="form-control" id="id_cover">')
+        }
+    });
+
     $('#deleteClassGrant').click(function(){
         if ($(this).is(':checked')){
             $('#grants').show();

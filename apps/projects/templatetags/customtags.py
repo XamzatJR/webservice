@@ -10,3 +10,11 @@ def group_by_date(value):
         value, lambda o: getattr(o, "created_at").strftime("%d.%m.%Y")
     )
     return [(day, list(this_day)) for day, this_day in grouped]
+
+
+@register.filter(name="get_image")
+def get_image(value):
+    value = str(value)
+    if value.startswith("http"):
+        return value
+    return "/media/" + value
