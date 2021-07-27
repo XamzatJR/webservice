@@ -139,7 +139,7 @@ class NIOKRViewSet(ModelViewSet):
     queryset = NiokrProject.objects.all()
     serializer_class = NiokrProjectSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ["user", "date"]
+    filterset_fields = ["user", "date", "tag"]
     search_fields = ["theme"]
 
 

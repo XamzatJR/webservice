@@ -43,12 +43,14 @@ const url = "/api/niokr";
 function getQuery(date = null) {
   const theme = $("#theme").val();
   const user = $("#user").val();
+  const tag = $("#tag").val();
   axios
     .get(url, {
       params: {
         search: theme,
         user: user,
         date: date,
+        tag: tag
       },
     })
     .then(function (response) {
@@ -89,6 +91,10 @@ $("#theme").keyup(function () {
 });
 
 $("#user").change(function () {
+  getQuery();
+});
+
+$("#tag").change(function () {
   getQuery();
 });
 
