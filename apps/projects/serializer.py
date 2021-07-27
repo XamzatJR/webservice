@@ -62,6 +62,7 @@ class CriteriaSerializer(serializers.ModelSerializer):
 class NiokrProjectSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(read_only=True, slug_field="username")
     cover = serializers.SerializerMethodField("get_cover_url")
+    responsible = serializers.SerializerMethodField("get_responsible_photo_url")
 
     class Meta:
         model = NiokrProject
@@ -75,6 +76,7 @@ class NiokrProjectSerializer(serializers.ModelSerializer):
             "commercial_result",
             "equipment",
             "grants",
+            "responsible",
             "patents",
             "tag",
             "cover",
@@ -93,6 +95,12 @@ class NiokrProjectSerializer(serializers.ModelSerializer):
     def get_photo_url(self, obj):
         try:
             return obj.user.photo.url
+        except Exception:
+            return ""
+
+    def get_responsible_photo_url(self, obj):
+        try:
+            return obj.responsible.photo.url or "none"
         except Exception:
             return ""
 

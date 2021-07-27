@@ -59,9 +59,9 @@ function getQuery(date = null) {
         } else {
           el.cover = _.template(coverHexTemplate)({ hexcolor: el.hex_color });
         }
-        if (el.photo) {
+        if (el.responsible) {
             el.photo = _.template(logoTemplate)({
-              photo: el.photo,
+              photo: el.responsible,
             });
         } else {
             el.photo = logoDefaultTemplate;
