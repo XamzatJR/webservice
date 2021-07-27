@@ -1,5 +1,6 @@
 {% extends 'base_projects.html' %}
 {% load static %}
+{% load customtags %}
 
 {% block title %}
     {{ project.name }}
@@ -7,7 +8,7 @@
 
 {% block content %}
 <div class="card card-custom bg-white border-white border-0">
-  <div class="card-custom-img" style="{% if project.cover %}background-image: url(/media/{{project.cover}}){% else %}background-color: {{ project.hex_color }}{% endif %}"></div>
+  <div class="card-custom-img" style="{% if project.cover %}background-image: url({{project.cover|get_image}}){% else %}background-color: {{ project.hex_color }}{% endif %}"></div>
   <div class="card-custom-avatar">
     <img
       class="img-fluid"
