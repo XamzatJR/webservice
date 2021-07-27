@@ -41,7 +41,11 @@
               />
             </div>
             <div class="card-body" style="overflow-y: auto">
-              <div class = "tag" style="{% if item.tag == 'Софт Проект' %}background-color: #0dde1b{% else %}background-color: #fff200{% endif %}"></div>
+              {% if item.tag == "Софт Проект" %}
+                <div class="tag" style="background-color: #0dde1b"></div>
+              {% elif item.tag == "Программно-аппаратный комплекс" %}
+                <div class="tag" style="background-color: #fff200"></div>
+              {% endif %}
               <h4 class="card-title">{{ item.theme }}</h4>
               <small>от <a href="#">{{ item.user.username}}</a></small>
               <p class="card-text">{{ item.annotation }}</p>
