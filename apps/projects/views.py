@@ -62,6 +62,9 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
+        photo = self.request.POST.get("cover", None)
+        if photo is not None and isinstance(photo, str):
+            self.object.cover = photo
         self.object.save()
         return super().form_valid(form)
 
@@ -81,6 +84,15 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     form_class = forms.ProjectUpdateForm
     template_name = "projects/project_update.html"
     success_url = reverse_lazy("projects_list_url")
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        photo = self.request.POST.get("cover", None)
+        if photo is not None and isinstance(photo, str):
+            self.object.cover = photo
+        self.object.save()
+        return super().form_valid(form)
 
 
 class ProjectDetailView(LoginRequiredMixin, DetailView):
@@ -245,6 +257,15 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
         data = super().get_form_kwargs()
         data["user"] = self.request.user
         return data
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        photo = self.request.POST.get("cover", None)
+        if photo is not None and isinstance(photo, str):
+            self.object.cover = photo
+        self.object.save()
+        return super().form_valid(form)
 
 
 class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
