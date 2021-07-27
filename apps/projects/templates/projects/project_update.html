@@ -9,19 +9,23 @@
 <form actions="{{project.get_update_url}}" method='post' enctype="multipart/form-data" class="pt-5">
 	{% csrf_token %}
 
-	{% for field in form %}
-	<div class='form-group'>
-		{% if field.errors%}
-		<div class='alert alert-danger'>
-			{{field.errors}}
-
-
-		</div>
-		{% endif %}
-		{{field.label}}
-		{{ field }}
-	</div>
-	{% endfor %}
-	<button type="submit" class="btn mt-3 mb-5" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Изменить</button>
+    <p class="card-text"><h6>Название проекта:</h6> {{ form.name }}</p>
+    <p><h6>Сайт:</h6> {{ form.site }}</p>
+    <p class="card-text"> <h6>Описание продукта/сервиса:</h6> {{ form.description }}</p>
+    <p class="card-text"> <h6>Примечания к проекту:</h6> {{ form.note }}</p>
+    <p class="card-text"> <h6>Обложка:</h6>  {{ form.cover }}</p>
+    <p>Загрузить через ссылку <input type="checkbox" id="checkbox"></p>
+    <button type="submit" class="btn mt-3 mb-5" style="position: relative; left: 50%; transform: translate(-50%, 0); background-color: rgb(170, 170, 255);">Изменить</button>
 </form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    $('#checkbox').click(function(){
+        if ($(this).is(':checked')){
+            $('#id_cover').replaceWith('<input type="text" name="cover" class="form-control" id="id_cover">')
+        } else {
+            $('#id_cover').replaceWith('<input type="file" name="cover" accept="image/*" class="form-control" id="id_cover">')
+        }
+    }); 
+</script>   
 {% endblock %}
