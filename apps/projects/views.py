@@ -91,7 +91,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         photo = self.request.POST.get("cover", None)
-        if photo is not None and isinstance(photo, str):
+        if photo != "" and isinstance(photo, str):
             self.object.cover = photo
         self.object.save()
         return super().form_valid(form)
@@ -274,7 +274,7 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         photo = self.request.POST.get("cover", None)
-        if photo is not None and isinstance(photo, str):
+        if photo != "" and isinstance(photo, str):
             self.object.cover = photo
         self.object.save()
         return super().form_valid(form)

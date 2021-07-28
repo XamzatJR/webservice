@@ -12,14 +12,14 @@
     {% csrf_token %}
     <p class="card-text"><h6>Тема НИОКР:</h6> {{ form.theme }}</p>
     <p class="card-text"><h6>Базовая организация:</h6>
-        <input type="text" name="base_organisation" maxlength="150" class="form-control" required="" id="id_base_organisation" list="base_organisationList" autocomplete="off">
+        <input type="text" name="base_organisation" maxlength="150" class="form-control" required="" id="id_base_organisation" list="base_organisationList" autocomplete="off" value="{{form.instance.base_organisation}}">
         <datalist id="base_organisationList">
             {% for org in base_org %}
                 <option value="{{org}}">
             {% endfor %}
         </datalist>
     </p>
-    <p class="card-text"> <h6>Дата начала исследований:</h6> <input type="date" name="data_project_start" class="form-control" required="" id="id_data_project_start"></p>
+    <p class="card-text"> <h6>Дата начала исследований:</h6> <input type="date" name="data_project_start" class="form-control" required="" id="id_data_project_start" value="{{ form.instance.date|date:'Y-m-d' }}"></p>
     <p><h6>Сайт:</h6> {{ form.site }}</p>
     <p class="card-text"> <h6>Научная новизна:</h6> {{ form.science_novelty }}</p>
     <p class="card-text"> <h6>Коммерческий результат:</h6> {{ form.commercial_result }}</p>

@@ -1,5 +1,4 @@
 from django import forms
-from django.forms.fields import DateField
 
 from .models import Criteria, NiokrUser, Project, NiokrProject, NiokrCriteria
 
