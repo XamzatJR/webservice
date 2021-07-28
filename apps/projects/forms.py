@@ -62,8 +62,7 @@ class NiokrProjectCreateForm(forms.ModelForm):
         )
         widgets = {
             "data_project_start": forms.DateInput(
-                format=("%d-%m-%Y"),
-                attrs={"placeholder": "Выберите дату"},
+                format=("%d-%m-%Y"), attrs={"placeholder": "Выберите дату"},
             )
         }
 
@@ -126,6 +125,7 @@ class NiokrUserCreate(forms.ModelForm):
             "academic_degrees",
             "academic_titles",
             "is_responsible",
+            "ec_id",
             "photo",
         )
 

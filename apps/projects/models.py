@@ -121,6 +121,9 @@ class NiokrUser(models.Model):
     academic_degrees = TextField(_("Ученые степени"), null=True, blank=True)
     academic_titles = TextField(_("Ученые звания"), null=True, blank=True)
     is_responsible = BooleanField(_("Научный руководитель"), default=False)
+    ec_id = IntegerField(
+        _("ID пользователя в системе эффективного контракта"), blank=True, null=True
+    )
     photo = ImageField("Фото", null=True, blank=True)
 
     def __str__(self):
@@ -153,7 +156,7 @@ class NiokrProject(models.Model):
     )
     annotation = TextField(_("Аннотация к проекту (до 2000 символов)"), max_length=2000)
     responsible = ForeignKey(NiokrUser, on_delete=CASCADE, related_name="responsible")
-    team = ManyToManyField(NiokrUser)
+    team = ManyToManyField(NiokrUser, blank=True)
 
     created_at = DateTimeField(_("Время создания"), auto_now_add=True)
     date = DateField(_("Дата создания"), auto_now_add=True, null=True)

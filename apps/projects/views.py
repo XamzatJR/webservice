@@ -9,6 +9,9 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
+import requests
+import json
+from datetime import datetime
 
 from apps.users.models import CustomUser
 
@@ -349,3 +352,27 @@ class NiokrUserCreateView(LoginRequiredMixin, CreateView):
 class NiokrUserView(LoginRequiredMixin, DetailView):
     model = NiokrUser
     template_name = "niokr_projects/niokr_user.html"
+
+    class EffectiveContractItem:
+        def __init__(self, **kwargs) -> None:
+            self.perfomance_indicator = " ".join(
+                kwargs["perfomance_indicator"].split()[1:]
+            )
+            self.confirmation_document = (
+                None
+                if kwargs["confirmation_document"] is None
+                else "http://backend-isu.gstou.ru" + kwargs["confirmation_document"]
+            )
+            self.source_url = kwargs["source_url"]
+            self.date = datetime.strptime(kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f").date()
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        if self.object.ec_id is not None:
+            r = requests.get(
+                "http://backend-isu.gstou.ru/api/articles/%d/" % (self.object.ec_id)
+            )
+            r = json.loads(r.text)
+            context["ec"] = [self.EffectiveContractItem(**i) for i in r]
+        return self.render_to_response(context)
