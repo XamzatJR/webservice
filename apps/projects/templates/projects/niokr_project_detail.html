@@ -79,8 +79,9 @@
             </li>
           </ul>        
         {% endfor %}
-        <p class="card-text" > Фото: </p>
-        <img class="img-fluid" src="{{niokr_projects.cover|get_image}}"></img>
+        {% if niokr_projects.cover %}
+          <img class="img-fluid" src="{{niokr_projects.cover|get_image}}"></img>
+        {% endif %}
         <div class="p-2 w-100 bd-highlight" > 
           <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
             Удалить

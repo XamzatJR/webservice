@@ -27,8 +27,9 @@
     <div class="d-flex bd-highlight">
       <div class="p-2 w-75">
         <p class="card-text">{{ project.description }}</p>
-        <p class="card-text"> Фото: </p>
-        <img class="img-fluid" src="{{project.cover|get_image}}"></img>
+        {% if project.cover %}
+          <img class="img-fluid" src="{{project.cover|get_image}}"></img>
+        {% endif %}
 
         <div class="p-2 w-100 bd-highlight" > 
           <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="delete">
