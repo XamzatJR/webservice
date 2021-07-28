@@ -222,6 +222,11 @@ class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
     form_class = forms.NiokrProjectCreateForm
     success_url = reverse_lazy("niokr_projects_list_url")
 
+    def get_context_data(self, **kwargs):
+        org = [*NiokrProject.objects.all().values_list("base_organisation", flat=True)]
+        kwargs["base_org"] = set(org)
+        return super().get_context_data(**kwargs)
+
     def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
@@ -254,6 +259,11 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy("niokr_project_detail_url", kwargs={"pk": self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        org = [*NiokrProject.objects.all().values_list("base_organisation", flat=True)]
+        kwargs["base_org"] = set(org)
+        return super().get_context_data(**kwargs)
 
     def get_form_kwargs(self):
         data = super().get_form_kwargs()
