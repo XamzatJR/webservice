@@ -67,7 +67,7 @@
           <ul class="list-group mb-4">
             <li class="list-group-item d-flex align-items-center">
               <small class="text-muted flex-grow-1">Пользователь</small>
-              <span>{{ teammate }}</span>
+              <span><a href="{% url 'niokr_user_url' teammate.pk %}">{{ teammate }}</a></span>
             </li>
             <li class="list-group-item d-flex align-items-center">
               <small class="text-muted flex-grow-1">Номер телефона</small>
@@ -80,7 +80,8 @@
           </ul>        
         {% endfor %}
         {% if niokr_projects.cover %}
-          <img class="img-fluid" src="{{niokr_projects.cover|get_image}}"></img>
+          <h3>Визуальное описание</h3>
+          <a href="{{niokr_projects.cover|get_image}}" data-lightbox="image-1" data-title=""><img class="img-fluid" src="{{niokr_projects.cover|get_image}}"></img></a>
         {% endif %}
         <div class="p-2 w-100 bd-highlight" > 
           <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -151,6 +152,9 @@
 {% endblock content %}
 
 {% block js %}
+  <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
+  <script src="{% static 'js/lightbox.min.js' %}"></script>
+
   {% if request.user.is_staff %}
     <script>
     const url = "{% url 'change_niokr_criteria' %}";

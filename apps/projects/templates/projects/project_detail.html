@@ -28,7 +28,8 @@
       <div class="p-2 w-75">
         <p class="card-text">{{ project.description }}</p>
         {% if project.cover %}
-          <img class="img-fluid" src="{{project.cover|get_image}}"></img>
+          <h3>Визуальное описание</h3>
+          <a href="{{project.cover|get_image}}" data-lightbox="image-1" data-title=""><img class="img-fluid" src="{{project.cover|get_image}}"></img></a>
         {% endif %}
 
         <div class="p-2 w-100 bd-highlight" > 
@@ -132,6 +133,9 @@
 {% endblock content %}
 
 {% block js %}
+  <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
+  <script src="{% static 'js/lightbox.min.js' %}"></script>
+
   {% if request.user.is_staff %}
     <script>
     $('#responsible').change(function () {
