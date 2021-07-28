@@ -116,35 +116,36 @@
         </div>
       </div>
     </div>
-
-    <div class="col-md-12">
-      <div class="card mb-3">
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-responsive table-borderless">
-              <thead>
-                <tr class="bg-light">
-                  <th scope="col" width="50%">Информация</th>
-                  <th scope="col" width="20%">Подтверждающий документ</th>
-                  <th scope="col" width="20%">Ссылка</th>
-                  <th scope="col" width="10%">Дата</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for i in ec %}
-                  <tr>
-                    <td>{{ i.perfomance_indicator }}</td>
-                    <td>{% if i.confirmation_document %}<a href="{{ i.confirmation_document }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Открыть</a>{% else %}Нет{% endif %}</td>
-                    <td>{% if i.source_url %}<a href="{{ i.source_url }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Открыть</a>{% else %}Нет{% endif %}</td>
-                    <td>{{ i.date }}</td>
+    {% if object.ec_id %}
+      <div class="col-md-12">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-responsive table-borderless">
+                <thead>
+                  <tr class="bg-light">
+                    <th scope="col" width="50%">Информация</th>
+                    <th scope="col" width="20%">Подтверждающий документ</th>
+                    <th scope="col" width="20%">Ссылка</th>
+                    <th scope="col" width="10%">Дата</th>
                   </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {% for i in ec %}
+                    <tr>
+                      <td>{{ i.perfomance_indicator }}</td>
+                      <td>{% if i.confirmation_document %}<a href="{{ i.confirmation_document }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Открыть</a>{% else %}Нет{% endif %}</td>
+                      <td>{% if i.source_url %}<a href="{{ i.source_url }}" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Открыть</a>{% else %}Нет{% endif %}</td>
+                      <td>{{ i.date }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 
   </div>
