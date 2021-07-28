@@ -34,25 +34,27 @@
     <div class="menu">
       <a class="menu-btn"><i class="fa fa-bars" style="vertical-align: middle;"></i></a>
       <nav class="menu-list">
-        <a href="#" style="font-size:200%;">ВИТРИНА TRL</a>
+        <a href="#" style="font-size:200%; margin-top: -5em; padding-bottom: 4em;">ВИТРИНА TRL</a>
         <a href="{% url 'projects_list_url' %}">
           <i class="fa fa-globe" aria-hidden="true"></i> Все проекты
         </a>
         <a href="{% url 'user_projects_list_url' %}">
           <i class="fa fa-home" aria-hidden="true"></i> Мои проекты
         </a>
+        <a href="{% url 'project_create_url' %}">
+          <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
+        </a>
+        <hr style="margin: 0%;">
         <a href="{% url 'niokr_projects_list_url' %}">
           <i class="fa fa-briefcase" aria-hidden="true"></i> Все НИОКР
         </a>
         <a href="{% url 'user_niokr_projects_list_url' %}">
             <i class="fa fa-home" aria-hidden="true"></i> Мои НИОКР
         </a>
-        <a href="{% url 'project_create_url' %}">
-          <i class="fa fa-plus" aria-hidden="true"></i> Добавить проект
-        </a>
         <a href="{% url 'niokr_user_create_url' %}">
           <i class="fa fa-plus-square" aria-hidden="true"></i> Добавить НИОКР
         </a>
+        <hr style="margin: 0%;">
         {% if request.user.is_staff %}
           <a href="{% url 'experts' %}">
             <i class="fa fa-flask" aria-hidden="true"></i> Заявки экспертов
