@@ -189,7 +189,7 @@ class NiokrProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок всех НИОКР"""
 
     model = NiokrProject
-    template_name = "projects/niokr_projects_output.html"
+    template_name = "niokr_projects/niokr_projects_output.html"
     context_object_name = "projects"
     paginate_by = 30
 
@@ -202,7 +202,7 @@ class UserNiokrProjectsOutputView(LoginRequiredMixin, ListView):
     """cписок своих  НИОКР"""
 
     model = NiokrProject
-    template_name = "projects/niokr_projects_output.html"
+    template_name = "niokr_projects/niokr_projects_output.html"
     context_object_name = "projects"
     paginate_by = 30
 
@@ -218,7 +218,7 @@ class NiokrProjectCreateView(LoginRequiredMixin, CreateView):
     """создание НИОКР"""
 
     model = NiokrProject
-    template_name = "projects/niokr_project_create.html"
+    template_name = "niokr_projects/niokr_project_create.html"
     form_class = forms.NiokrProjectCreateForm
     success_url = reverse_lazy("niokr_projects_list_url")
 
@@ -247,7 +247,7 @@ class NiokrProjectDeleteView(DeleteView, LoginRequiredMixin):
 
     model = NiokrProject
     success_url = reverse_lazy("niokr_projects_list_url")
-    template_name = "projects/niokr_project_delete.html"
+    template_name = "niokr_projects/niokr_project_delete.html"
 
 
 class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
@@ -255,7 +255,7 @@ class NiokrProjectUpdateView(LoginRequiredMixin, UpdateView):
 
     model = NiokrProject
     form_class = forms.NiokrProjectUpdateForm
-    template_name = "projects/niokr_project_update.html"
+    template_name = "niokr_projects/niokr_project_update.html"
 
     def get_success_url(self):
         return reverse_lazy("niokr_project_detail_url", kwargs={"pk": self.object.pk})
@@ -284,7 +284,7 @@ class NiokrProjectDetailView(LoginRequiredMixin, DetailView):
     """обзор НИОКР"""
 
     model = NiokrProject
-    template_name = "projects/niokr_project_detail.html"
+    template_name = "niokr_projects/niokr_project_detail.html"
     success_url = reverse_lazy("niokr_project_detail_url")
     context_object_name = "niokr_projects"
 
@@ -335,7 +335,7 @@ class NiokrUserCreateView(LoginRequiredMixin, CreateView):
     """создание научного руководителя"""
 
     model = NiokrUser
-    template_name = "projects/niokr_user_create.html"
+    template_name = "niokr_projects/niokr_user_create.html"
     form_class = forms.NiokrUserCreate
     success_url = reverse_lazy("niokr_user_create_url")
 
@@ -344,3 +344,8 @@ class NiokrUserCreateView(LoginRequiredMixin, CreateView):
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+
+class NiokrUserView(LoginRequiredMixin, DetailView):
+    model = NiokrUser
+    template_name = "niokr_projects/niokr_user.html"

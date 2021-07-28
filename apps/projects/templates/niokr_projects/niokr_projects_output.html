@@ -37,12 +37,12 @@
             <div class="card-custom-avatar">
               <img
                 class="img-fluid"
-                src="{%if item.user.url%}{{item.user.url}}{% else %}/media/{{item.user.photo}}{% endif %}"
+                src="{%if item.user.url%}{{item.user.url}}{% else %}/media/{{item.responsible.photo}}{% endif %}"
               />
             </div>
             <div class="card-body" style="overflow-y: auto">
               <h4 class="card-title">{{ item.theme }}</h4>
-              <small>от <a href="#">{{ item.user.username}}</a></small>
+              <small>от <a href="#">{{ item.user.username }}</a></small>
               <p class="card-text">{{ item.annotation }}</p>
             </div>
             <div

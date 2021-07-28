@@ -14,7 +14,7 @@
       class="img-fluid"
 
       src="{%if niokr_projects.user.url%}{{niokr_projects.user.url}}{% else %}/media/{{niokr_projects.user.photo}}{% endif %}"
-      alt="Avatar"
+      alt="photo"
     />
   </div>
   <div class="card-body" style="overflow-y: auto">
@@ -43,7 +43,7 @@
         <ul class="list-group mb-4">
           <li class="list-group-item d-flex align-items-center">
             <small class="text-muted flex-grow-1">Руководитель</small>
-            <span>{{ niokr_projects.responsible }}</span>
+            <span><a href="{% url 'niokr_user_url' niokr_projects.responsible.pk %}">{{ niokr_projects.responsible }}</a></span>
           </li>
           <li class="list-group-item d-flex align-items-center">
             <small class="text-muted flex-grow-1">Номер телефона</small>

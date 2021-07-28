@@ -12,6 +12,7 @@ from .views import (
     NiokrProjectsOutputView,
     NiokrProjectUpdateView,
     NiokrUserCreateView,
+    NiokrUserView,
     ProjectCreateView,
     ProjectDeleteView,
     ProjectDetailView,
@@ -67,6 +68,11 @@ urlpatterns = [
     path("add_responsible/", add_responsible, name="add_responsible"),
     path("api/project-dates/", ProjectsDatesView.as_view()),
     path("niokr/", NiokrProjectsOutputView.as_view(), name="niokr_index_url"),
+    path(
+        "niokr_user/<int:pk>/",
+        NiokrUserView.as_view(),
+        name="niokr_user_url",
+    ),
     path(
         "niokr_projects/",
         NiokrProjectsOutputView.as_view(),
