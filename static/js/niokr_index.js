@@ -42,12 +42,14 @@ const url = "/api/niokr";
 function getQuery(date = null) {
   const theme = $("#theme").val();
   const user = $("#user").val();
+  const rating = $("#rating").val();
   axios
     .get(url, {
       params: {
         search: theme,
         user: user,
         date: date,
+        ordering: rating
       },
     })
     .then(function (response) {
@@ -91,6 +93,9 @@ $("#user").change(function () {
   getQuery();
 });
 
+$("#rating").change(function () {
+  getQuery();
+});
 
 $(document).ready(async function () {
   const urlP = "/api/niokr_project-dates";

@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 import requests
@@ -130,9 +130,10 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["user", "responsible", "date", "tag"]
     search_fields = ["name"]
+    ordering_fields = ["rating"]
 
 
 class CriteriaViewSet(ModelViewSet):
@@ -143,9 +144,10 @@ class CriteriaViewSet(ModelViewSet):
 class NIOKRViewSet(ModelViewSet):
     queryset = NiokrProject.objects.all()
     serializer_class = NiokrProjectSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ["user", "date"]
     search_fields = ["theme"]
+    ordering_fields = ["rating"]
 
 
 class NIOKRCriteriaViewSet(ModelViewSet):
