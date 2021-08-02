@@ -199,10 +199,10 @@ class NiokrProject(models.Model):
         )
 
     def get_delete_url(self):
-        return reverse("project_delete_url", kwargs={"pk": self.pk})
+        return reverse("niokr_project_delete_url", kwargs={"pk": self.pk})
 
     def get_update_url(self):
-        return reverse("project_update_url", kwargs={"pk": self.pk})
+        return reverse("niokr_project_update_url", kwargs={"pk": self.pk})
 
 
 class NiokrCriteria(models.Model):
