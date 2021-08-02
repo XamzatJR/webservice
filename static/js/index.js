@@ -44,6 +44,8 @@ function getQuery(date = null) {
   const user = $("#user").val();
   const responsible = $("#responsible").val();
   const tag = $("#tag").val();
+  const rating = $("#rating").val();
+
   axios
     .get(url, {
       params: {
@@ -52,6 +54,7 @@ function getQuery(date = null) {
         responsible: responsible,
         date: date,
         tag: tag,
+        ordering: rating
       },
     })
     .then(function (response) {
@@ -85,6 +88,7 @@ function getQuery(date = null) {
     .catch(function (error) {
       console.log(error);
     });
+    $(".pagination.justify-content-center").remove()
 }
 
 $("#name").keyup(function () {
@@ -100,6 +104,10 @@ $("#responsible").change(function () {
 });
 
 $("#tag").change(function () {
+  getQuery();
+});
+
+$("#rating").change(function () {
   getQuery();
 });
 
@@ -128,10 +136,7 @@ $(document).ready(async function () {
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const day = String(date.getDate()).padStart(2, "0");
       const currentDate = year + "-" + month + "-" + day;
-      getQuery(currentDate)
+      getQuery(currentDate);
     },
   });
-});
-$('#responsible').change(function () {
-  getQuery()
 });

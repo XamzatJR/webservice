@@ -62,7 +62,8 @@ class NiokrProjectCreateForm(forms.ModelForm):
         )
         widgets = {
             "data_project_start": forms.DateInput(
-                format=("%d-%m-%Y"), attrs={"placeholder": "Выберите дату"},
+                format=("%d-%m-%Y"),
+                attrs={"placeholder": "Выберите дату"},
             )
         }
 

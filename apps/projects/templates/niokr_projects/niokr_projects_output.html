@@ -18,6 +18,11 @@
           <option value="{{ u.pk }}">{{ u.username }}</option>
         {% endfor %}
       </select>
+      <select class="form-select" id="rating">
+        <option value="" selected>Рейтинг</option>
+        <option value="-rating">Убывание</option>
+        <option value="rating">Возрастание</option>
+      </select>
       <input type="text" id="datepicker" class="form-control" placeholder="Выберите дату" aria-label="Выберите дату">
     </div>
   </div>

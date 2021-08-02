@@ -23,12 +23,17 @@
           <option value="{{ u.pk }}">{{ u.username }}</option>
         {% endfor %}
       </select>
-      <input type="text" id="datepicker" class="form-control" placeholder="Выберите дату" aria-label="Выберите дату">
       <select class="form-select" id="tag">
         <option value="" selected>Выберите тег</option>
         <option value="Софт Проект">Софт Проект</option>
         <option value="Программно-аппаратный комплекс">Программно-аппаратный комплекс</option>
       </select>
+      <select class="form-select" id="rating">
+        <option value="" selected>Рейтинг</option>
+        <option value="-rating">Убывание</option>
+        <option value="rating">Возрастание</option>
+      </select>
+      <input type="text" id="datepicker" class="form-control" placeholder="Выберите дату" aria-label="Выберите дату">
     </div>
   </div>
   <div class="row pt-5">
