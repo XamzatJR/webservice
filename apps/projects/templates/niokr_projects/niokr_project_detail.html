@@ -147,6 +147,12 @@
         </ul>
       </div>
     </div>
+    {% if niokr_projects.previous %}
+      <a class="btn btn-primary" href="{% url 'niokr_project_detail_url' niokr_projects.previous.pk %}" style="float: right;">Предыдущий</a>
+    {% endif %}
+    {% if niokr_projects.next %}
+      <a class="btn btn-primary" href="{% url 'niokr_project_detail_url' niokr_projects.next.pk %}">Следующий</a>
+    {% endif %}
   </div>
 </div>
 {% endblock content %}

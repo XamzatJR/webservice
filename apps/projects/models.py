@@ -174,6 +174,12 @@ class NiokrProject(models.Model):
     repeat = IntegerField(_("Повтор"), default=0)
     rating = IntegerField(_("Рейтинг"), default=0)
 
+    def next(self):
+        return self.get_next_by_created_at()
+
+    def previous(self):
+        return self.get_previous_by_created_at()
+
     class Meta:
         ordering = ["-created_at"]
 
