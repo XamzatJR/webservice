@@ -84,9 +84,6 @@
           <a href="{{niokr_projects.cover|get_image}}" data-lightbox="image-1" data-title=""><img class="img-fluid" src="{{niokr_projects.cover|get_image}}"></img></a>
         {% endif %}
         <div class="p-2 w-100 bd-highlight" > 
-          <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Удалить
-          </button>
           <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -107,7 +104,6 @@
               </div>
             </div>
           </div>
-          <a class="btn btn-primary" href="{% url 'niokr_project_update_url' niokr_projects.pk %}">Изменить</a>
       </div>
     </div>
       <div class="p-2 w-25 bd-highlight">
@@ -124,7 +120,7 @@
             <a href="{{ niokr_projects.site }}">Сайт НИОКР</a>
           </li>
         </ul>
-        <h3>Рейтинг проекта</h3>
+        <h3>Рейтинг НИОКР</h3>
         <ul class="list-group mb-4">
           <li class="list-group-item d-flex align-items-center">
             <small class="text-muted flex-grow-1">Наука</small><span id="science" class="fa fa-star {% if niokr_criteria.science %}checked{% endif %}"></span><span id="science-t">{{ niokr_projects.science }}</span>
@@ -144,14 +140,19 @@
           <li class="list-group-item d-flex align-items-center">
             <small class="text-muted flex-grow-1">Рейтинг</small><span class="fa fa-star checked"></span><span id="rating-t">{{ project.rating }}</span>
           </li>
+          
         </ul>
+        <button type="button" class="btn btn-danger" id="delete" data-bs-toggle="modal" style="float:left;" data-bs-target="#staticBackdrop">
+          Удалить
+        </button>
+        <a class="btn btn-primary" href="{% url 'niokr_project_update_url' niokr_projects.pk %}" style="float: right;">Изменить</a>
       </div>
     </div>
     {% if niokr_projects.previous %}
-      <a class="btn btn-primary" href="{% url 'niokr_project_detail_url' niokr_projects.previous.pk %}" style="float: right;">Предыдущий</a>
+      <a class="btn btn-primary" href="{% url 'niokr_project_detail_url' niokr_projects.previous.pk %}" style="float: right; margin-top: 5%;">Предыдущий</a>
     {% endif %}
     {% if niokr_projects.next %}
-      <a class="btn btn-primary" href="{% url 'niokr_project_detail_url' niokr_projects.next.pk %}">Следующий</a>
+      <a class="btn btn-primary" href="{% url 'niokr_project_detail_url' niokr_projects.next.pk %}" style="margin-top: 5%;">Следующий</a>
     {% endif %}
   </div>
 </div>

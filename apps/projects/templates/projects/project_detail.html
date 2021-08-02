@@ -32,10 +32,7 @@
           <a href="{{project.cover|get_image}}" data-lightbox="image-1" data-title=""><img class="img-fluid" src="{{project.cover|get_image}}"></img></a>
         {% endif %}
 
-        <div class="p-2 w-100 bd-highlight" > 
-          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="delete">
-            Удалить
-          </button>
+        <div class="p-2 w-100 bd-highlight" >
           <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
@@ -56,7 +53,6 @@
               </div>
             </div>
           </div>
-        <a class="btn btn-primary" href="{% url 'project_update_url' project.pk %}">Изменить</a>
       </div>
     </div>
 
@@ -126,13 +122,17 @@
             <small class="text-muted flex-grow-1">Рейтинг</small><span class="fa fa-star checked"></span><span id="rating-t">{{ project.rating }}</span>
           </li>
         </ul>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="float: left;" id="delete">
+          Удалить
+        </button>
+        <a class="btn btn-primary" href="{% url 'project_update_url' project.pk %}" style="float: right;">Изменить</a>
       </div>
     </div>
     {% if project.previous %}
-      <a class="btn btn-primary" href="{% url 'project_detail_url' project.previous.pk %}" style="float: right;">Предыдущий</a>
+      <a class="btn btn-primary" href="{% url 'project_detail_url' project.previous.pk %}" style="float: right; margin-top: 5%;">Предыдущий</a>
     {% endif %}
     {% if project.next %}
-      <a class="btn btn-primary" href="{% url 'project_detail_url' project.next.pk %}">Следующий</a>
+      <a class="btn btn-primary" href="{% url 'project_detail_url' project.next.pk %}" style="margin-top: 5%;">Следующий</a>
     {% endif %}
   </div>
 </div>
