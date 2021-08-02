@@ -1,3 +1,7 @@
+import json
+from datetime import datetime
+
+import requests
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import JsonResponse
 from django.urls import reverse_lazy
@@ -6,12 +10,9 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-import requests
-import json
-from datetime import datetime
 
 from apps.users.models import CustomUser
 
@@ -19,9 +20,9 @@ from . import forms
 from .models import Criteria, NiokrCriteria, NiokrProject, NiokrUser, Project
 from .serializer import (
     CriteriaSerializer,
+    NiokrCriteriaSerializer,
     NiokrProjectSerializer,
     ProjectSerializer,
-    NiokrCriteriaSerializer,
 )
 
 
@@ -366,7 +367,9 @@ class NiokrUserView(LoginRequiredMixin, DetailView):
                 else "http://backend-isu.gstou.ru" + kwargs["confirmation_document"]
             )
             self.source_url = kwargs["source_url"]
-            self.date = datetime.strptime(kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f").date()
+            self.date = datetime.strptime(
+                kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f"
+            ).date()
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()

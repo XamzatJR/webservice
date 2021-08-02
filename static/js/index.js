@@ -88,6 +88,7 @@ function getQuery(date = null) {
     .catch(function (error) {
       console.log(error);
     });
+    $(".pagination.justify-content-center").remove()
 }
 
 $("#name").keyup(function () {
