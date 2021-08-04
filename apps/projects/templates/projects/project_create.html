@@ -7,7 +7,7 @@
 
 
 {% block content %}
-<form class="pt-5" method="post" enctype="multipart/form-data">
+<form class="pt-5 for-form" method="post" enctype="multipart/form-data">
     <h1>Добавить проект</h1>
     {% csrf_token %}
     <p class="card-text"><h6>Название проекта:</h6> {{ form.name }}</p>

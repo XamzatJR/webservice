@@ -128,12 +128,14 @@
         <a class="btn btn-primary" href="{% url 'project_update_url' project.pk %}" style="float: right;">Изменить</a>
       </div>
     </div>
+    <div class="d-flex justify-content-between mx-auto  " style="width: 300px">
     {% if project.previous %}
-      <a class="btn btn-primary" href="{% url 'project_detail_url' project.previous.pk %}" style="float: right; margin-top: 5%;">Предыдущий</a>
+      <a class="btn btn-primary" href="{% url 'project_detail_url' project.previous.pk %}" style="float: left; margin-top: 5%;">Предыдущий</a>
     {% endif %}
     {% if project.next %}
-      <a class="btn btn-primary" href="{% url 'project_detail_url' project.next.pk %}" style="margin-top: 5%;">Следующий</a>
+      <a class="btn btn-primary" href="{% url 'project_detail_url' project.next.pk %}" style="float: right;margin-top: 5%;">Следующий</a>
     {% endif %}
+    </div>
   </div>
 </div>
 {% endblock content %}

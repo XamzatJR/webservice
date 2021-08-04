@@ -7,7 +7,7 @@
 
 
 {% block content %}
-<form class="pt-5" style="width: 50%; margin: 0 auto;" method="post" enctype="multipart/form-data">
+<form class="pt-5 for-form" method="post" enctype="multipart/form-data">
     <h1>Добавить участников команды </h1>
     {% csrf_token %}
     {{ form.as_p }}
