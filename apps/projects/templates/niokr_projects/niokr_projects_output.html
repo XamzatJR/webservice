@@ -26,11 +26,11 @@
       <input type="text" id="datepicker" class="form-control" placeholder="Выберите дату" aria-label="Выберите дату">
     </div>
   </div>
-  <div class="row pt-5">
+  <div class="row pt-5 d-flex justify-content-center">
     {% for date, project in projects|group_by_date %}
       <h2 class="text-center">{{ date }}</h2>
       {% for item in project %}
-        <div class="col-md-6 col-lg-4 pb-3">
+        <div class="col-md-6 col-lg-4 pb-3 col-10">
           <div
             class="card card-custom bg-white border-white border-0"
             style="height: 450px"

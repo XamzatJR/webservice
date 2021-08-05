@@ -152,11 +152,6 @@ section {
   border-radius: 25px; 
   float: right;
 }
-.buttons {
-  width: 500px;
-  text-align: center;
-
-}
 #main-title {
   font-size:200%;
   margin-top: -5em;
@@ -166,30 +161,59 @@ section {
   width: 50%;
   margin: 0 auto;
 }
+.wth-1 {
+width: 75%;
+}
+.wth-2 {
+width: 25%;
+}
 @media (max-width: 1440px) {
   .menu {
     width: 23%;
   }
 }
+@media (max-width: 1200px) {
+  .wth-1 {
+    width: 70%;
+    }
+    .wth-2 {
+    width: 30%;
+    }
+}
 @media (max-width: 1024px) {
   .menu {
     width: 33.5%;
-  }
+  } 
 } 
 @media (max-width: 992px) {
+  .btn {
+    font-size: 15px;
+  }
   .menu {
     width: 30%;
   }
+  .for-form {
+    width: 60%;
+  }
+  .wth-1 {
+    width: 66%;
+    }
+    .wth-2 {
+    width: 35%;
+    }
 }
 @media (max-width: 768px) {
   .for-form {
-  width: 70%;
+  width: 65%;
   }
   .menu {
     width: 46%;
   }
-  .btn {
-    font-size: 15px;
+  .wth-1 {
+    width: 70%;
+  }
+  .wth-2 {
+    width: 30%;
   }
 }
 @media (max-width: 425px) {
@@ -198,5 +222,10 @@ section {
   }
   .menu {
     width: 78%;
+  }
+}
+@media (max-width: 320px) {
+  .justify-content-center {
+    justify-content: stretch!important;
   }
 }

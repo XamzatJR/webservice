@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-<form actions="{{project.get_update_url}}" method='post' enctype="multipart/form-data" class="pt-5">
+<form actions="{{project.get_update_url}}" method='post' enctype="multipart/form-data" class="pt-5 for-form">
 	{% csrf_token %}
 
     <p class="card-text"><h6>Название проекта:</h6> {{ form.name }}</p>
