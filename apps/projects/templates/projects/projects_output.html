@@ -9,36 +9,36 @@
 
 {% block content %}
   <div class="filter pt-5">
-    <div class="input-group mb-3 flex-nowrap">
-    <div class="d-flex">
-      <div class="d-flex">
-        <input type="text" id="name" class="form-control" placeholder="Название проекта" aria-label="Название проекта">
-        <select class="form-select" id="user">
-          <option value="" selected>Выберите пользователя</option>
-          {% for u in users %}
-            <option value="{{ u.pk }}">{{ u.username }}</option>
-          {% endfor %}
-        </select>
-        <select class="form-select" id="responsible">
-          <option value="" selected>Выберите ответственного</option>
-          {% for u in users %}
-            <option value="{{ u.pk }}">{{ u.username }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      <div class="d-flex">
-        <select class="form-select" id="tag">
-          <option value="" selected>Выберите тег</option>
-          <option value="Софт Проект">Софт Проект</option>
-          <option value="Программно-аппаратный комплекс">Программно-аппаратный комплекс</option>
-        </select>
-        <select class="form-select" id="rating">
-          <option value="" selected>Рейтинг</option>
-          <option value="-rating">Убывание</option>
-          <option value="rating">Возрастание</option>
-        </select>
-        <input type="text" id="datepicker" class="form-control" placeholder="Выберите дату" aria-label="Выберите дату">
-      </div>
+    <div class="input-group mb-3">
+      <div class="d-flex flex-md-row flex-column">
+        <div class="d-flex">
+          <input type="text" id="name" class="form-control" placeholder="Название проекта" aria-label="Название проекта">
+          <select class="form-select" id="user">
+            <option value="" selected>Выберите пользователя</option>
+            {% for u in users %}
+              <option value="{{ u.pk }}">{{ u.username }}</option>
+            {% endfor %}
+          </select>
+          <select class="form-select" id="responsible">
+            <option value="" selected>Выберите ответственного</option>
+            {% for u in users %}
+              <option value="{{ u.pk }}">{{ u.username }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="d-flex">
+          <select class="form-select" id="tag">
+            <option value="" selected>Выберите тег</option>
+            <option value="Софт Проект">Софт Проект</option>
+            <option value="Программно-аппаратный комплекс">Программно-аппаратный комплекс</option>
+          </select>
+          <select class="form-select" id="rating">
+            <option value="" selected>Рейтинг</option>
+            <option value="-rating">Убывание</option>
+            <option value="rating">Возрастание</option>
+          </select>
+          <input type="text" id="datepicker" class="order-md-0 order-first form-control" placeholder="Выберите дату" aria-label="Выберите дату">
+        </div>
       </div>
     </div>
   </div>
